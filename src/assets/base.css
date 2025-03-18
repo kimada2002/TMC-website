@@ -21,6 +21,13 @@
   /* Font families */
   --font-primary: 'Poppins', sans-serif;
   --font-secondary: 'Roboto', sans-serif;
+
+   /* Breakpoint values */
+   --breakpoint-sm: 640px; /* mobile */
+   --breakpoint-md: 768px; /* tablet */
+   --breakpoint-lg: 1024px; /* laptop */
+   --breakpoint-xl: 1280px; /* desktop */ 
+   --breakpoint-2xl: 1536px; /* large desktop */
 }
 
 /* Typography */
@@ -43,5 +50,5 @@ h1, h2, h3, h4, h5, h6 {
 .text-xl { font-size: 1.25rem; }
 .text-2xl { font-size: 1.5rem; }
 .text-3xl { font-size: 1.875rem; }
-.text-4xl { font-size: 2.25rem; }
+.text-4xl { font-size: 3rem; }
 
