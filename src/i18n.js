@@ -97,6 +97,9 @@ const messages = {
         mail_notification_title_fail: "Oops...",
         mail_notification_text_fail:
             "Failed to send message. Please try again.",
+
+        //footer
+        follow: "Follow Us",
     },
     vi: {
         //Navbar
@@ -193,8 +196,10 @@ const messages = {
         mail_notification_title_success: "Thành công!",
         mail_notification_text_success: "Lời nhắn của bạn đã được gửi!",
         mail_notification_title_fail: "Ôi...",
-        mail_notification_text_fail:
-            "Gửi lời nhắn thất bại. Hãy thử lại.",
+        mail_notification_text_fail: "Gửi lời nhắn thất bại. Hãy thử lại.",
+
+        //footer
+        follow: "Theo dõi",
     },
 };
 
