@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <NavigationBar />
     <HeroSection />
     <ImageGallery />
     <about-us />
@@ -11,6 +12,7 @@
 </template>
 
 <script setup>
+import NavigationBar from "./views/NavigationBar.vue";
 import HeroSection from "./views/HeroSection.vue";
 import ImageGallery from "./views/ImageGallery.vue";
 import AboutUs from "./views/AboutUs.vue";

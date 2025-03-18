@@ -1,48 +1,67 @@
 <template>
   <header id="header" class="hero-section">
-    <img
-      src="@/assets//images/herosection.png"
-      class="hero-background"
-      alt="Background image"
-    />
-    <NavigationBar />
+      <img
+        src="@/assets/images/herosection.png"
+        class="hero-background"
+        alt="Background image"
+      />
   </header>
 </template>
   
-  <script setup>
+<script setup>
 import NavigationBar from "./NavigationBar.vue";
 </script>
   
-  
-  <style scoped>
+<style scoped>
 .hero-section {
-  display: flex;
-  flex-direction: column;
   position: relative;
   width: 100%;
+  height: 90vh; 
+  min-height: 400px;
   max-width: 1366px;
-  height: 736px;
-  margin: auto;
-  padding: 6px 70px;
+  margin: 0 auto;
+  padding: 0;
   overflow: hidden;
-  align-items: start;
-  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
-  font-weight: 500;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
 
 .hero-background {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Giữ tỷ lệ ảnh và phủ toàn bộ vùng */
+  object-fit: cover;
   object-position: center;
 }
 
-@media (max-width: 1366px) {
+@media (max-width: 1024px) {
   .hero-section {
-    width: 97%;
-    padding: 6px 20px;
+    max-width: 100%;
+    padding: var(--spacing-4);
+    height: auto;
+    min-height: 60vh;
+  }
+
+}
+
+/* 🔽 Responsive: Mobile */
+@media (max-width: 768px) {
+  .hero-section {
+    max-width: 100%;
+    height: auto;
+    min-height: 40vh;
+  }
+}
+
+/* 🔽 Responsive: Mobile nhỏ */
+@media (max-width: 480px) {
+  .hero-section {
+    max-width: 100%;
+    height: auto;
+    min-height: 20vh;
   }
 }
 </style>
