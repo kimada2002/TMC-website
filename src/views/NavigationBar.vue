@@ -106,22 +106,20 @@ onUnmounted(() => {
   align-items: center;
   gap: 40px 100px;
   flex-wrap: wrap;
-  transition: all 0.3s ease-in-out;
-  margin-left: 60px;
+  margin-left: 95px;
 }
 
-/* Khi cuộn xuống: navbar dính vào trên */
 .fixed-navbar {
   position: fixed;
   top: 0;
   left: 20px;
   width: 100%;
-  max-width: 1137px; /* Đồng nhất với navigation-bar */
+  max-width: 1137px; 
   background: #fff;
   z-index: 1000;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  margin-left: 60px;
+  margin-left: 75px;
   border-radius: 10px;
 }
 
@@ -129,7 +127,6 @@ body {
   padding-top: 70px;
 }
 
-/* Logo Styles */
 .logo {
   aspect-ratio: 2.84;
   object-fit: contain;
@@ -142,16 +139,15 @@ body {
 }
 
 .desktop-logo {
-  display: block; /* Hiển thị trên desktop */
+  display: block; 
 }
 
 .mobile-logo {
-  display: none; /* Ẩn trên desktop */
+  display: none; 
   width: 80px;
   margin-bottom: 20px;
 }
 
-/* Navigation */
 .nav-container {
   align-self: stretch;
   display: flex;
@@ -163,6 +159,7 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   width: 777px;
+  z-index: 1000;
 }
 
 .navbar {
@@ -198,9 +195,8 @@ body {
   color: rgba(0, 0, 0, 1);
 }
 
-/* Hamburger Menu */
 .hamburger {
-  display: none; /* Ẩn trên desktop */
+  display: none; 
   flex-direction: column;
   justify-content: space-around;
   width: 30px;
@@ -218,37 +214,36 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Responsive Styles */
 @media (max-width: 991px) {
   .navigation-bar {
     justify-content: space-between;
     background-color: rgba(250, 250, 250, 0);
     width: 85%;
     padding: 10px 20px;
-    margin-left: 0;
+    margin-left: 10px;
   }
 
   .fixed-navbar {
     width: 85%;
     max-width: none;
-    margin-left: 0;
+    margin-left: -10px;
   }
 
   .hamburger {
-    display: flex; /* Hiển thị hamburger trên mobile */
+    display: flex; 
   }
 
   .desktop-logo {
-    display: none; /* Ẩn logo desktop trên mobile */
+    display: none; 
   }
 
   .mobile-logo {
-    display: block; /* Hiển thị logo mobile */
+    display: block;
     width: 80px;
   }
 
   .nav-container {
-    display: none; /* Ẩn menu trên mobile */
+    display: none;
     width: 80%;
     flex-direction: column;
     background: #fff;
@@ -265,7 +260,7 @@ body {
   }
 
   .nav-container.active {
-    display: flex; /* Hiển thị menu khi active */
+    display: flex;
     width: 95%;
   }
 
