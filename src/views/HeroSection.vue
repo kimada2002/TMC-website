@@ -8,10 +8,6 @@
   </header>
 </template>
   
-<script setup>
-import NavigationBar from "./NavigationBar.vue";
-</script>
-  
 <style scoped>
 .hero-section {
   position: relative;
