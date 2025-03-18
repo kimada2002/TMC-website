@@ -3,6 +3,6 @@
 </template>
   
   <script setup>
-import WorkflowSection from "../views/WorkflowSection.vue";
+import WorkflowSection from "@/views/WorkflowSection.vue";
 </script>
   

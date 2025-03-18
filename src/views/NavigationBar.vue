@@ -1,11 +1,28 @@
 <template>
   <nav ref="navbar" class="navigation-bar">
+    <!-- Logo Desktop -->
     <img
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/be294a4ad080f604daf35a7223e40e3902c72459922b9c181ef1d5c90bc242a8?placeholderIfAbsent=true&apiKey=cba9fc34d6e940d0843c734c0ba9fcc9"
-      class="logo"
-      alt="Logo"
+      src="@/assets//images/TMC-logo.png"
+      class="logo desktop-logo"
+      alt="Desktop Logo"
     />
-    <div class="nav-container">
+
+    <!-- Hamburger Icon -->
+    <button class="hamburger" @click="toggleMenu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Nav Container -->
+    <div class="nav-container" :class="{ active: isMenuOpen }">
+      <!-- Logo Mobile (Chỉ hiển thị khi menu mở) -->
+      <img
+        src="@/assets//images/TMC-logo.png"
+        class="logo mobile-logo"
+        alt="Mobile Logo"
+      />
+
       <div class="navbar">
         <div class="navbar-item">
           <button class="nav-button" @click="scrollToSection('header')">
@@ -33,16 +50,18 @@
           </button>
         </div>
       </div>
+
       <LanguageSelector />
     </div>
   </nav>
 </template>
-  
+
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import LanguageSelector from "../views/LanguageSelector.vue";
+import LanguageSelector from "@/views/LanguageSelector.vue";
 
 const navbar = ref(null);
+const isMenuOpen = ref(false);
 
 const handleScroll = () => {
   if (window.scrollY > 50) {
@@ -59,7 +78,12 @@ const scrollToSection = (id) => {
     const offsetTop =
       element.getBoundingClientRect().top + window.scrollY - navbarHeight;
     window.scrollTo({ top: offsetTop, behavior: "smooth" });
+    isMenuOpen.value = false; // Đóng menu sau khi nhấp vào nút
   }
+};
+
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value;
 };
 
 onMounted(() => {
@@ -71,8 +95,7 @@ onUnmounted(() => {
 });
 </script>
 
-  
-  <style scoped>
+<style scoped>
 /* Trạng thái bình thường */
 .navigation-bar {
   position: relative;
@@ -83,7 +106,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 40px 100px;
   flex-wrap: wrap;
-  transition: all 0.3s ease-in-out; /* Hiệu ứng mượt */
+  transition: all 0.3s ease-in-out;
   margin-left: 60px;
 }
 
@@ -91,8 +114,9 @@ onUnmounted(() => {
 .fixed-navbar {
   position: fixed;
   top: 0;
-  left: 30px;
+  left: 20px;
   width: 100%;
+  max-width: 1137px; /* Đồng nhất với navigation-bar */
   background: #fff;
   z-index: 1000;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
@@ -105,6 +129,7 @@ body {
   padding-top: 70px;
 }
 
+/* Logo Styles */
 .logo {
   aspect-ratio: 2.84;
   object-fit: contain;
@@ -116,6 +141,17 @@ body {
   flex-shrink: 0;
 }
 
+.desktop-logo {
+  display: block; /* Hiển thị trên desktop */
+}
+
+.mobile-logo {
+  display: none; /* Ẩn trên desktop */
+  width: 80px;
+  margin-bottom: 20px;
+}
+
+/* Navigation */
 .nav-container {
   align-self: stretch;
   display: flex;
@@ -150,8 +186,7 @@ body {
   text-align: center;
 }
 
-.nav-button,
-.nav-button-active {
+.nav-button {
   width: 100%;
   padding: 10px;
   background: none;
@@ -162,5 +197,90 @@ body {
   cursor: pointer;
   color: rgba(0, 0, 0, 1);
 }
+
+/* Hamburger Menu */
+.hamburger {
+  display: none; /* Ẩn trên desktop */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background: #000;
+  transition: all 0.3s ease;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+  .navigation-bar {
+    justify-content: space-between;
+    background-color: rgba(250, 250, 250, 0);
+    width: 85%;
+    padding: 10px 20px;
+    margin-left: 0;
+  }
+
+  .fixed-navbar {
+    width: 85%;
+    max-width: none;
+    margin-left: 0;
+  }
+
+  .hamburger {
+    display: flex; /* Hiển thị hamburger trên mobile */
+  }
+
+  .desktop-logo {
+    display: none; /* Ẩn logo desktop trên mobile */
+  }
+
+  .mobile-logo {
+    display: block; /* Hiển thị logo mobile */
+    width: 80px;
+  }
+
+  .nav-container {
+    display: none; /* Ẩn menu trên mobile */
+    width: 80%;
+    flex-direction: column;
+    background: #fff;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .navbar {
+    margin-top: -50px;
+  }
+
+  .nav-container.active {
+    display: flex; /* Hiển thị menu khi active */
+    width: 95%;
+  }
+
+  .navbar {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .navbar-item,
+  .about,
+  .service,
+  .work,
+  .contact {
+    width: 100%;
+    margin: 10px 0;
+  }
+}
 </style>
-  

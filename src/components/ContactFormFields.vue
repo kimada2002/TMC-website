@@ -1,7 +1,8 @@
 <template>
   <section class="form-section">
-    <form class="contact_info-form" @submit.prevent="submitForm">
-      <div class="name-row">
+    <form class="contact-form" @submit.prevent="submitForm">
+      <!-- Name Row -->
+      <div class="form-row">
         <div class="form-group">
           <input
             type="text"
@@ -21,7 +22,9 @@
           />
         </div>
       </div>
-      <div class="contact-row">
+
+      <!-- Contact Row -->
+      <div class="form-row">
         <div class="form-group">
           <input
             type="email"
@@ -41,14 +44,14 @@
           />
         </div>
       </div>
+
+      <!-- Subject Section -->
       <fieldset class="subject-section">
         <legend class="field-label">{{ $t("subjectTitle") }}</legend>
         <div class="radio-options">
           <label class="radio-label">
             <input
               type="radio"
-              id="design"
-              name="subject"
               value="design"
               v-model="formData.subject"
               class="radio-input"
@@ -59,8 +62,6 @@
           <label class="radio-label">
             <input
               type="radio"
-              id="production"
-              name="subject"
               value="production"
               v-model="formData.subject"
               class="radio-input"
@@ -70,6 +71,8 @@
           </label>
         </div>
       </fieldset>
+
+      <!-- Message Section -->
       <div class="message-section">
         <label for="message" class="field-label">{{ $t("message") }}</label>
         <textarea
@@ -80,10 +83,12 @@
           required
         ></textarea>
       </div>
+
+      <!-- Submit Button -->
       <button type="submit" class="submit-button">
         <span>{{ $t("contact_button") }}</span>
         <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/011c2a2381f1f9a864b116d36a52c0534d40a4bf8c327ce21f6773d65b0034d3?placeholderIfAbsent=true&apiKey=95c80afda8b5482fbb49e2c75fe75473"
+          src="../assets/images/Contact/touch-screen.png"
           class="send-icon"
           alt="Send icon"
         />
@@ -151,20 +156,20 @@ const resetForm = () => {
   flex: 1.5;
 }
 
-.contact_info-form {
+.contact-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
   margin-top: 30px;
 }
 
-.name-row {
+.form-row {
   display: flex;
   gap: 20px;
 }
 
 @media (max-width: 991px) {
-  .name-row {
+  .form-row {
     flex-direction: column;
   }
 }
@@ -173,7 +178,8 @@ const resetForm = () => {
   flex: 1;
 }
 
-.form-input {
+.form-input,
+.message-textarea {
   width: 100%;
   padding: 10px 0;
   border: none;
@@ -181,23 +187,6 @@ const resetForm = () => {
   font-size: 16px;
   outline: none;
   background: transparent;
-}
-
-@media (max-width: 640px) {
-  .form-input {
-    padding: 10px;
-  }
-}
-
-.contact-row {
-  display: flex;
-  gap: 20px;
-}
-
-@media (max-width: 991px) {
-  .contact-row {
-    flex-direction: column;
-  }
 }
 
 .subject-section {
@@ -235,8 +224,8 @@ const resetForm = () => {
 }
 
 .radio-input:checked + .radio-custom {
-  background-color: #4040ff; /* Màu nền khi được chọn */
-  border-color: #4040ff; /* Màu viền khi được chọn */
+  background-color: #4040ff;
+  border-color: #4040ff;
 }
 
 .radio-input:checked + .radio-custom::after {
@@ -244,7 +233,7 @@ const resetForm = () => {
   display: block;
   width: 10px;
   height: 10px;
-  background-color: white; /* Màu dấu tích */
+  background-color: white;
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -265,22 +254,6 @@ const resetForm = () => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.message-textarea {
-  width: 100%;
-  padding: 10px 0;
-  border: none;
-  border-bottom: 1px solid #888;
-  font-size: 16px;
-  outline: none;
-  background: transparent;
-}
-
-@media (max-width: 640px) {
-  .message-textarea {
-    padding: 10px;
-  }
 }
 
 .submit-button {

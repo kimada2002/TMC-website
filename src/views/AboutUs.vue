@@ -5,9 +5,7 @@
     <TrackAndStop />
 
     <div class="content-container">
-      <CompanyOverview />
-      <ResourcesSection />
-      <TechnologySection />
+      <AboutUsView />
     </div>
 
     <h2 class="clients-title">{{ $t("clients") }}<br /></h2>
@@ -19,10 +17,8 @@
 </template>
   
 <script setup>
-import TrackAndStop from "../components/TrackAndStop.vue";
-import CompanyOverview from "../components/CompanyOverView.vue";
-import ResourcesSection from "../components/ResourcesSection.vue";
-import TechnologySection from "../components/TechnologySection.vue";
+import TrackAndStop from "@/components/TrackAndStop.vue";
+import AboutUsView from "@/components/AboutUsView.vue";
 import ClientsSection from "./ClientsSection.vue";
 </script>
 

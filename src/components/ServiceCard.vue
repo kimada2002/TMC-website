@@ -1,10 +1,7 @@
 <template>
-  <article
-    class="service-card"
-    :style="{ minHeight: '350px', paddingBottom: paddingBottom }"
-  >
+  <article class="service-card" :style="{ paddingBottom }">
     <div class="service-content">
-      <img :src="imageUrl" class="service-image" alt="" />
+      <img :src="imageUrl" class="service-image" :alt="title" />
       <div class="service-details">
         <h3 class="service-title">{{ title }}</h3>
         <p class="service-description">{{ description }}</p>
@@ -12,8 +9,8 @@
     </div>
   </article>
 </template>
-  
-  <script setup>
+
+<script setup>
 defineProps({
   imageUrl: {
     type: String,
@@ -33,36 +30,27 @@ defineProps({
   },
 });
 </script>
-  
-  
-  <style scoped>
+
+<style scoped>
 .service-card {
   border-radius: 12px;
-  background-color: rgba(251, 255, 254, 1);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  position: relative;
+  background-color: #fbfffe;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-grow: 1;
-  padding: 24px 24px;
-  align-items: start;
+  padding: 24px;
+  align-items: flex-start;
   gap: 10px;
   overflow: hidden;
   font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
-  /* width: 300px; */
+  min-height: 350px;
   justify-content: center;
 }
 
-@media (max-width: 991px) {
-  .service-card {
-    margin-top: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-
 .service-content {
+  width: 100%;
+  max-width: 344px;
   min-width: 240px;
-  width: 344px;
 }
 
 .service-image {
@@ -76,26 +64,29 @@ defineProps({
 .service-details {
   display: flex;
   margin-top: 24px;
-  width: 100%;
   flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .service-title {
-  color: rgba(0, 0, 0, 1);
+  color: #000;
   font-size: 24px;
   font-weight: 600;
-  align-self: center;
   margin: 0;
 }
 
 .service-description {
-  color: rgba(16, 25, 53, 1);
+  color: #101935;
   font-size: 16px;
   font-weight: 300;
-  text-align: center;
   margin-top: 10px;
 }
+
+@media (max-width: 991px) {
+  .service-card {
+    margin-top: 40px;
+    padding: 24px 20px;
+  }
+}
 </style>
-  

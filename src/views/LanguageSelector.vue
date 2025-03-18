@@ -1,18 +1,13 @@
 <template>
   <div class="language-selector">
     <button
+      v-for="lang in languages"
+      :key="lang.code"
       class="lang-button"
-      :class="{ 'lang-button-active': $i18n.locale === 'vi' }"
-      @click="changeLanguage('vi')"
+      :class="{ 'lang-button-active': $i18n.locale === lang.code }"
+      @click="changeLanguage(lang.code)"
     >
-      VIE
-    </button>
-    <button
-      class="lang-button"
-      :class="{ 'lang-button-active': $i18n.locale === 'en' }"
-      @click="changeLanguage('en')"
-    >
-      ENG
+      {{ lang.label }}
     </button>
   </div>
 </template>
@@ -22,32 +17,37 @@ import { useI18n } from "vue-i18n";
 
 const { locale } = useI18n();
 
+// Supported languages
+const languages = [
+  { code: "vi", label: "VIE" },
+  { code: "en", label: "ENG" },
+];
+
+// Change language and save to localStorage
 const changeLanguage = (lang) => {
-  locale.value = lang; 
-  localStorage.setItem("lang", lang); 
+  locale.value = lang;
+  localStorage.setItem("lang", lang);
 };
 </script>
-
 
 <style scoped>
 .language-selector {
   position: absolute;
   top: 10px;
-  right: 0px;
+  right: 0;
   border-radius: 100px;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: #fff;
   display: flex;
   padding: 5px;
   gap: 0;
   font-size: 14px;
   text-align: center;
-  width: auto;
   overflow: hidden;
 }
 
 .lang-button {
   flex: 1;
-  color: rgba(0, 0, 0, 1);
+  color: #000;
   background: none;
   border: none;
   font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
@@ -59,8 +59,8 @@ const changeLanguage = (lang) => {
 }
 
 .lang-button-active {
-  background-color: rgba(60, 78, 243, 1);
-  color: rgba(255, 255, 255, 1);
+  background-color: #3c4ef3;
+  color: #fff;
   border-radius: 100px;
 }
 </style>

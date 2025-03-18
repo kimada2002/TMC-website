@@ -1,7 +1,7 @@
 <template>
   <header id="header" class="hero-section">
     <img
-      src="../assets//images/herosection.png"
+      src="@/assets//images/herosection.png"
       class="hero-background"
       alt="Background image"
     />
@@ -46,4 +46,3 @@ import NavigationBar from "./NavigationBar.vue";
   }
 }
 </style>
-  

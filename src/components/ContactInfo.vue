@@ -5,7 +5,7 @@
     <div class="contact-details">
       <div class="contact-item">
         <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/d0f717fb61a1ba7ddccc6138268be5d76601d88b26322690b2cb9bf7157dd942?placeholderIfAbsent=true&apiKey=95c80afda8b5482fbb49e2c75fe75473"
+          src="@/assets/images/Contact/viber.png"
           class="icon"
           alt="Phone icon"
         />
@@ -16,7 +16,7 @@
       </div>
       <div class="contact-item">
         <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/f33a12af71453b99485ac9031fecc220eb9409e1999afd1ffbb8eef1e6b8f8f2?placeholderIfAbsent=true&apiKey=95c80afda8b5482fbb49e2c75fe75473"
+          src="@/assets/images/Contact/email.png"
           class="icon"
           alt="Email icon"
         />
@@ -24,13 +24,11 @@
       </div>
       <div class="contact-item">
         <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/0a95236edbb272ad63891b22868a195f09637d663fca1420ca3cc4475295718e?placeholderIfAbsent=true&apiKey=95c80afda8b5482fbb49e2c75fe75473"
+          src="@/assets/images/Contact/location.png"
           class="icon address-icon"
           alt="Address icon"
         />
-        <span>
-          {{ $t("contactAdd") }}
-        </span>
+        <span>{{ $t("contactAdd") }}</span>
       </div>
       <div class="map-container">
         <a
@@ -39,7 +37,7 @@
           rel="noopener noreferrer"
         >
           <img
-            src="../assets/images/map.png"
+            src="@/assets/images/Contact/map.png"
             alt="Location map"
             class="map-image"
           />
@@ -58,24 +56,11 @@
   border-radius: 8px;
 }
 
-@media (max-width: 640px) {
-  .contact-info {
-    padding: 20px;
-  }
-}
-
 .contact-title {
   font-family: "Inter", sans-serif;
   font-size: 32px;
   font-weight: 600;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-
-@media (max-width: 640px) {
-  .contact-title {
-    font-size: 24px;
-  }
+  margin: 10px 0;
 }
 
 .contact-subtitle {
@@ -98,16 +83,16 @@
   font-family: "Inter", sans-serif;
 }
 
-.contact-icon {
-  font-size: 24px;
-  color: #fff;
+.icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
 }
 
 .phone-numbers {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  margin-top: -10px;
 }
 
 .map-container {
@@ -117,16 +102,28 @@
   overflow: hidden;
 }
 
-@media (max-width: 640px) {
-  .map-container {
-    height: 150px;
-  }
-}
-
 .map-image {
   width: 100%;
   height: 250px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 8px;
+}
+
+@media (max-width: 640px) {
+  .contact-info {
+    padding: 20px;
+  }
+
+  .contact-title {
+    font-size: 24px;
+  }
+
+  .map-container {
+    height: 150px;
+  }
+
+  .map-image {
+    height: 150px;
+  }
 }
 </style>

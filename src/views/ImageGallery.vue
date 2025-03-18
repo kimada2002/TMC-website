@@ -81,13 +81,13 @@ onMounted(fetchImages);
 
 .slider {
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 20px auto;
 }
 .slide-image {
   width: 100%;
   height: 175px;
-  object-fit: cover;
+  object-fit: fill;
   border-radius: 8px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -136,10 +136,9 @@ onMounted(fetchImages);
   right: 10px; 
 }
 
-/* Tùy chỉnh kiểu dáng */
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
-  color: white; /* Màu icon */
+  color: white; 
   background-color: rgba(0, 0, 0, 0.5); 
   border-radius: 10%;
   width: 50px;

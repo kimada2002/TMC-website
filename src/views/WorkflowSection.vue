@@ -11,66 +11,60 @@
     </p>
     <div class="workflow-items-container">
       <WorkflowItem
-        imageUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/46b2da90b20379c4ef4dd2ae320e6ed3df67a381aa09a2b3e07e52ebab5308b8?placeholderIfAbsent=true&apiKey=cba9fc34d6e940d0843c734c0ba9fcc9"
-        stepNumber="1"
-        :stepTitle="$t('step1Title')"
-        :stepDetails="[
-          $t('step1Details.detail1'),
-          $t('step1Details.detail2'),
-          $t('step1Details.detail3'),
-        ]"
-      />
-      <WorkflowItem
-        imageUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/bc109da810a41da576045e0901669d4eb2485b1fe961aca8d5ad5f8959829156?placeholderIfAbsent=true&apiKey=cba9fc34d6e940d0843c734c0ba9fcc9"
-        stepNumber="2"
-        :stepTitle="$t('step2Title')"
-        :stepDetails="[
-          $t('step2Details.detail1'),
-          $t('step2Details.detail2'),
-          $t('step2Details.detail3'),
-          $t('step2Details.detail4'),
-        ]"
-      />
-      <WorkflowItem
-        imageUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/471b36026868f7655fece867b3fea89aeeccb266b917a22d9b59fe1e061f0c95?placeholderIfAbsent=true&apiKey=cba9fc34d6e940d0843c734c0ba9fcc9"
-        stepNumber="3"
-        :stepTitle="$t('step3Title')"
-        :stepDetails="[
-          $t('step3Details.detail1'),
-          $t('step3Details.detail2'),
-          $t('step3Details.detail3'),
-        ]"
-      />
-      <WorkflowItem
-        imageUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/e96bd175c606ee19322dbcbcedd6c51c8807aa66df6dd4bc1915630ddd4421d0?placeholderIfAbsent=true&apiKey=cba9fc34d6e940d0843c734c0ba9fcc9"
-        stepNumber="4"
-        :stepTitle="$t('step4Title')"
-        :stepDetails="[
-          $t('step4Details.detail1'),
-          $t('step4Details.detail2'),
-          $t('step4Details.detail3'),
-          $t('step4Details.detail4'),
-        ]"
-      />
-      <WorkflowItem
-        imageUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/4c69b8856f5a72c25869a6693f7e7c98adbee85ae16eee29ca9f4a046db1ffd3?placeholderIfAbsent=true&apiKey=cba9fc34d6e940d0843c734c0ba9fcc9"
-        stepNumber="5"
-        :stepTitle="$t('step5Title')"
-        :stepDetails="[
-          $t('step5Details.detail1'),
-          $t('step5Details.detail2'),
-          $t('step5Details.detail3'),
-        ]"
+        v-for="(step, index) in steps"
+        :key="index"
+        :imageUrl="step.imageUrl"
+        :stepNumber="step.stepNumber"
+        :stepTitle="$t(step.stepTitle)"
+        :stepDetails="step.stepDetails.map(detail => $t(detail))"
       />
     </div>
   </section>
 </template>
 
 <script setup>
-import WorkflowItem from "../components/WorkflowItem.vue";
+import WorkflowItem from "@/components/WorkflowItem.vue";
+import Icon_1 from "@/assets/images/WorkFlow/icon1.png"
+import Icon_2 from "@/assets/images/WorkFlow/icon2.png"
+import Icon_3 from "@/assets/images/WorkFlow/icon3.png"
+import Icon_4 from "@/assets/images/WorkFlow/icon4.png"
+import Icon_5 from "@/assets/images/WorkFlow/icon5.png"
+
+const steps = [
+  {
+    imageUrl: Icon_1,
+    stepNumber: "1",
+    stepTitle: "step1Title",
+    stepDetails: ["step1Details.detail1", "step1Details.detail2", "step1Details.detail3"],
+  },
+  {
+    imageUrl: Icon_2,
+    stepNumber: "2",
+    stepTitle: "step2Title",
+    stepDetails: ["step2Details.detail1", "step2Details.detail2", "step2Details.detail3", "step2Details.detail4"],
+  },
+  {
+    imageUrl: Icon_3,
+    stepNumber: "3",
+    stepTitle: "step3Title",
+    stepDetails: ["step3Details.detail1", "step3Details.detail2", "step3Details.detail3"],
+  },
+  {
+    imageUrl: Icon_4,
+    stepNumber: "4",
+    stepTitle: "step4Title",
+    stepDetails: ["step4Details.detail1", "step4Details.detail2", "step4Details.detail3", "step4Details.detail4"],
+  },
+  {
+    imageUrl: Icon_5,
+    stepNumber: "5",
+    stepTitle: "step5Title",
+    stepDetails: ["step5Details.detail1", "step5Details.detail2", "step5Details.detail3"],
+  },
+];
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .workflow-section {
   display: flex;
   flex-direction: column;
@@ -147,4 +141,3 @@ import WorkflowItem from "../components/WorkflowItem.vue";
   }
 }
 </style>
-  
