@@ -105,19 +105,19 @@
 
 /* Specific Background Colors */
 .section.company-overview .section-content {
-  background-color: #F7E9E2;
+  background-color: #f7e9e2;
   height: 100%;
 }
 
 .section.resources .section-content {
-  background-color: #575E72;
+  background-color: #575e72;
   color: #fff;
   padding: 40px;
   height: 100%;
 }
 
 .section.technology .section-content {
-  background-color: #DBCBD8;
+  background-color: #dbcbd8;
   height: 100%;
 }
 
@@ -176,6 +176,17 @@
   .section-title,
   .section-description {
     margin-left: 0;
+  }
+
+  .section.resources {
+    flex-direction: column-reverse;
+  }
+  .section.resources .section-image {
+    max-width: 385px; 
+    width: 100%; 
+    height: auto; 
+    display: block;
+    margin: 0 auto;
   }
 }
 </style>
