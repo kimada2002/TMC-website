@@ -11,6 +11,11 @@
         :autoplay="{ delay: 3000, disableOnInteraction: false }"
         pagination
         navigation
+        :breakpoints="{
+          1024: { slidesPerView: 3, spaceBetween: 10 },
+          768: { slidesPerView: 2, spaceBetween: 10 },
+          480: { slidesPerView: 1, spaceBetween: 5 },
+        }"
         class="slider"
       >
         <swiper-slide v-for="(img, index) in images" :key="index">
@@ -64,26 +69,31 @@ onMounted(fetchImages);
 <style scoped>
 .gallery-container {
   width: 100%;
+  max-width: 100vw; /* Ngăn tràn ra ngoài màn hình */
   height: 250px;
   text-align: center;
-  background-image: url("../assets/images/image_bg.png");
+  background-image: url("@/assets/images/image_bg.png");
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden; /* Ẩn phần tràn ra ngoài */
+  box-sizing: border-box;
 }
 
 .blur-background {
   filter: blur(8px);
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 .slider {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1000px; /* Giới hạn chiều rộng tối đa */
   margin: 20px auto;
+  overflow: hidden; /* Ngăn tràn */
 }
+
 .slide-image {
   width: 100%;
   height: 175px;
@@ -107,7 +117,7 @@ onMounted(fetchImages);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
 .modal-content {
   position: relative;
@@ -127,19 +137,18 @@ onMounted(fetchImages);
   cursor: pointer;
 }
 
-
 :deep(.swiper-button-prev) {
-  left: 10px; 
+  left: 10px;
 }
 
 :deep(.swiper-button-next) {
-  right: 10px; 
+  right: 10px;
 }
 
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
-  color: white; 
-  background-color: rgba(0, 0, 0, 0.5); 
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10%;
   width: 50px;
   height: 50px;
@@ -151,12 +160,40 @@ onMounted(fetchImages);
 
 :deep(.swiper-button-next:hover),
 :deep(.swiper-button-prev:hover) {
-  background-color: rgba(0, 0, 0, 0.8); 
+  background-color: rgba(0, 0, 0, 0.8);
   transform: scale(1.1);
 }
 
 :deep(.swiper-button-next:after),
 :deep(.swiper-button-prev:after) {
-  font-size: 24px; 
+  font-size: 24px;
+}
+
+@media (max-width: 1024px) {
+  .slide-image {
+    max-width: 266px;
+    height: 175px;
+  }
+  :deep(.swiper-button-prev) {
+    left: 30px;
+  }
+
+  :deep(.swiper-button-next) {
+    right: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-image {
+    max-width: 266px;
+    height: 175px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-image {
+    max-width: 266px;
+    height: 175px;
+  }
 }
 </style>
