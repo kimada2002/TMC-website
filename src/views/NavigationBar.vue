@@ -50,7 +50,7 @@ const scrollToSection = (id) => {
     const navbarHeight = navbar.value.offsetHeight;
     const offsetTop = element.offsetTop - navbarHeight;
     window.scrollTo({ top: offsetTop, behavior: "smooth" });
-    isMenuOpen.value = false; // Đóng menu sau khi nhấp vào
+    isMenuOpen.value = false; 
   }
 };
 </script>
@@ -87,12 +87,12 @@ const scrollToSection = (id) => {
   margin-left: 15px;
 }
 
-/* Căn giữa nav-container trên desktop */
+
 .nav-container {
   display: flex;
   gap: 15px;
   justify-content: center;
-  flex-grow: 1; /* Chiếm hết phần còn lại để căn giữa */
+  flex-grow: 1;
 }
 
 .nav-button {
