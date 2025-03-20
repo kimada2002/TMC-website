@@ -8,7 +8,11 @@
           alt="Desktop Logo"
         />
       </div>
+    </div>
+
+    <div class="nav-right">
       <button class="menu-toggle" @click="toggleMenu">☰</button>
+      <LanguageSelector />
     </div>
 
     <div :class="['nav-container', { show: isMenuOpen }]">
@@ -28,11 +32,9 @@
         {{ $t("contact") }}
       </button>
     </div>
-
-    <LanguageSelector />
   </nav>
 </template>
-  
+
 <script setup>
 import { ref } from "vue";
 import LanguageSelector from "./LanguageSelector.vue";
@@ -50,7 +52,7 @@ const scrollToSection = (id) => {
     const navbarHeight = navbar.value.offsetHeight;
     const offsetTop = element.offsetTop - navbarHeight;
     window.scrollTo({ top: offsetTop, behavior: "smooth" });
-    isMenuOpen.value = false; 
+    isMenuOpen.value = false;
   }
 };
 </script>
@@ -78,15 +80,18 @@ const scrollToSection = (id) => {
   max-width: 108px;
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
 .menu-toggle {
-  display: none;
   font-size: 1.8rem;
   background: none;
   border: none;
   cursor: pointer;
-  margin-left: 15px;
+  display: none; /* Ẩn toggle menu trên desktop */
 }
-
 
 .nav-container {
   display: flex;
