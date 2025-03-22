@@ -1,13 +1,15 @@
 <template>
   <!-- Company Overview Section -->
   <article class="section company-overview">
-    <img
-      src="@/assets/images/About/HL1.png"
-      class="section-image"
-      alt="Company overview"
-    />
+    <div class="section-image-wrapper">
+      <img
+        src="@/assets/images/About/HL1.png"
+        class="section-image"
+        alt="Company overview"
+      />
+    </div>
     <div class="section-content">
-      <h2 class="section-title">{{ $t("companyoverview") }}</h2>
+      <h3 class="section-title">{{ $t("companyoverview") }}</h3>
       <p class="section-description">
         {{ $t("companyoverview_des") }}
       </p>
@@ -17,7 +19,7 @@
   <!-- Resources Section -->
   <article class="section resources">
     <div class="section-content">
-      <h2 class="section-title">{{ $t("resources") }}</h2>
+      <h3 class="section-title">{{ $t("resources") }}</h3>
       <p class="section-description">
         {{ $t("resources_des") }}
       </p>
@@ -33,13 +35,15 @@
 
   <!-- Technology Section -->
   <article class="section technology">
-    <img
-      src="@/assets/images/About/technology.png"
-      class="section-image"
-      alt="Our technology"
-    />
+    <div class="section-image-wrapper">
+      <img
+        src="@/assets/images/About/technology.png"
+        class="section-image"
+        alt="Our technology"
+      />
+    </div>
     <div class="section-content">
-      <h2 class="section-title">{{ $t("technology") }}</h2>
+      <h3 class="section-title">{{ $t("technology") }}</h3>
       <p class="section-description">
         {{ $t("technology_des") }}
       </p>
@@ -48,28 +52,19 @@
 </template>
 
 <style scoped>
-:root {
-  --primary-bg: #fdf5e6;
-  --secondary-bg: #4a5568;
-  --technology-bg: #dbcbd8;
-  --text-color: #ffffff;
-  --shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 /* Common Styles for Sections */
 .section {
   display: flex;
-  align-items: stretch;
   justify-content: center;
+  align-items: center;
   gap: 0;
+  padding: 1.5em;
   width: 100%;
-  max-width: 1200px;
-  border-radius: 10px;
   overflow: hidden;
   margin: 0 auto;
 }
 
-.section.company-overview {
+/* .section.company-overview {
   margin-bottom: 76px;
 }
 
@@ -79,28 +74,34 @@
 
 .section.technology {
   margin-top: 76px;
-}
+} */
 
 /* Image Styles */
 .section-image {
+  flex: 1; 
   aspect-ratio: 1.11;
   object-fit: cover;
   object-position: center;
   width: 385px;
+  height: au;
   border-radius: 10px;
   box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+}
+
+.section-image-wrapper {
   flex: 1;
+  display: flex;
 }
 
 /* Content Wrapper Styles */
 .section-content {
-  flex: 1;
-  min-width: 240px;
-  min-height: 300px;
-  padding: 20px;
-  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
+  min-height: 20em;
+  padding: 2.5em;
+  box-shadow: var(--shadow);
+  z-index: 1;
 }
 
 /* Specific Background Colors */
@@ -109,84 +110,62 @@
   height: 100%;
 }
 
-.section.resources .section-content {
+.section.resources > .section-content {
   background-color: #575e72;
-  color: #fff;
-  padding: 40px;
+  color: var(--white);
   height: 100%;
 }
 
-.section.technology .section-content {
-  background-color: #dbcbd8;
+.section.technology > .section-content {
+  background-color: var(--gray);
   height: 100%;
 }
 
 /* Title and Description Styles */
 .section-title {
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1;
-  margin-left: 50px;
-}
-
-.section-description {
-  font-size: 16px;
-  font-weight: 400;
-  margin-left: 50px;
-}
-
-.section-image-wrapper {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-}
-
-.section.resources .section-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.section.resources .section-title {
-  font-size: 30px;
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
   margin-bottom: 20px;
 }
 
-.section.resources .section-description {
-  line-height: 1.6;
-}
+/* .section.resources .section-title {
+  font-size: 30px;
+  margin-bottom: 20px;
+} */
+
 
 /* Responsive Styles */
-@media (max-width: 991px) {
+@media (max-width: 768px) {
   .section {
     flex-direction: column;
   }
 
   .section-image {
     max-width: 100%;
-    margin: 0 auto;
+    aspect-ratio: 4/3;
+    box-shadow: none;
+    border-radius: 10px 10px 0 0;
   }
 
   .section-content {
-    max-width: 100%;
-    text-align: center;
-  }
+    max-width: 385px;
+    margin: 0 auto;
 
-  .section-title,
-  .section-description {
-    margin-left: 0;
+    text-align: center;
+    border-radius: 0 0 10px 10px ;
   }
 
   .section.resources {
     flex-direction: column-reverse;
   }
-  .section.resources .section-image {
+
+  /* .section.resources .section-image {
     max-width: 385px; 
     width: 100%; 
     height: auto; 
     display: block;
     margin: 0 auto;
-  }
+  } */
 }
 </style>

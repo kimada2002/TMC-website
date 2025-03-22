@@ -24,7 +24,7 @@ defineProps({
 .track-and-stop {
   position: relative;
   display: flex;
-  width: 158px;
+  width: 8em;
   max-width: 100%;
   padding-left: 2px;
   align-items: flex-start;
@@ -62,7 +62,7 @@ defineProps({
 
 @media (max-width: 991px) {
   .track-and-stop {
-    margin-top: 40px;
+    margin-top: 0.5em;
   }
 }
 </style>

@@ -1,18 +1,28 @@
 <template>
   <section id="about" class="about-us-page">
-    <h1 class="page-title">{{ $t("aboutus") }}</h1>
-
-    <TrackAndStop />
-
+    <!-- About Us Heading -->
+    <div class="header-container">
+      <h2 class="title">{{ $t("aboutus") }}</h2>
+      <TrackAndStop />
+    </div>
+    
+    <!-- About Us Content -->
     <div class="content-container">
       <AboutUsView />
     </div>
 
-    <h2 class="clients-title">{{ $t("clients") }}<br /></h2>
+    <!-- Client Section -->
+    <div>
+      <!-- Client Heading -->
+      <div class="header-container">
+        <h2 class="title">{{ $t("clients") }}<br /></h2>
+        <TrackAndStop darkMode />
+      </div>
 
-    <TrackAndStop darkMode />
+      <!-- Client Content -->
+      <ClientsSection />
 
-    <ClientsSection />
+    </div>
   </section>
 </template>
   
@@ -23,61 +33,46 @@ import ClientsSection from "./ClientsSection.vue";
 </script>
 
   
-  <style scoped>
+<style scoped>
 .about-us-page {
-  background-color: rgba(251, 255, 254, 1);
   display: flex;
-  padding: 52px 0;
+  margin: 50px auto;
   flex-direction: column;
   overflow: hidden;
   align-items: center;
 }
 
-.page-title {
-  color: rgba(16, 25, 53, 1);
-  font-size: 50px;
-  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
-  font-weight: 700;
+.title {
+  color: var(--black);
+  font-size: var(--text-5xl);
   text-align: center;
-  margin: 0;
 }
 
 .content-container {
   display: flex;
-  margin-top: 80px;
+  margin: 50px auto;
   width: 100%;
-  max-width: 1040px;
+  max-width: 1100px;
   flex-direction: column;
-  align-items: stretch;
-  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
-  color: rgba(16, 25, 53, 1);
   justify-content: center;
+  gap: var(--spacing-12);
 }
 
-.clients-title {
-  color: rgba(0, 0, 0, 1);
-  font-size: 50px;
-  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  text-align: center;
-  margin-top: 54px;
-  margin-bottom: 0;
+.header-container {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
 }
 
 @media (max-width: 991px) {
   .page-title {
-    font-size: 40px;
+    font-size: var(--text-5xl);
+    margin-top: var(--spacing-10);
   }
 
   .content-container {
     max-width: 100%;
-    margin-top: 40px;
-  }
-
-  .clients-title {
-    margin-top: 40px;
-    font-size: 40px;
+    margin-top: var(--spacing-10);
   }
 }
 </style>
