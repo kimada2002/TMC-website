@@ -87,7 +87,7 @@
       <a href="#" class="menu-link">{{ $t("digital_printing") }}</a>
       <a href="#" class="menu-link">{{ $t("offset_printing") }}</a>
       <a href="#" class="menu-link">{{ $t("digital_offset") }}</a>
-      <a href="#" class="menu-link">pop_posm{{ $t("pop_posm") }}</a>
+      <a href="#" class="menu-link">{{ $t("pop_posm") }}</a>
       <a href="#" class="menu-link">{{ $t("interior_exterior") }}</a>
     </nav>
 
