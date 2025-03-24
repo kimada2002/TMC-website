@@ -99,7 +99,16 @@ const messages = {
             "Failed to send message. Please try again.",
 
         //footer
+        footer_detail: "Expert in design, crafting quality products.",
         follow: "Follow Us",
+        call: "Call us",
+        production: "Production",
+        digital_printing: "Digital Printing",
+        offset_printing: "Offset Printing",
+        digital_offset: "Digital Offset",
+        design_creatives: "Design - Creatives",
+        brading: "Branding Key Visual",
+        company: "Company",
     },
     vi: {
         //Navbar
@@ -199,7 +208,16 @@ const messages = {
         mail_notification_text_fail: "Gửi lời nhắn thất bại. Hãy thử lại.",
 
         //footer
+        footer_detail: "Chuyên thiết kế, tạo ra sản phẩm chất lượng.",
         follow: "Theo dõi",
+        call: "Liên hệ",
+        production: "Sản xuất",
+        digital_printing: "In kỹ thuật số",
+        offset_printing: "In Offset",
+        digital_offset: "In kỹ thuật số Offset",
+        design_creatives: "Thiết kế - Sáng tạo",
+        brading: "Hình ảnh thương hiệu",
+        company: "Công ty",
     },
 };
 
