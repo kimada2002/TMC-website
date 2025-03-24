@@ -18,6 +18,7 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
+import { computed } from "vue";
 import ServiceRow from "@/components/ServiceRow.vue";
 import ServiceImage_1 from "@/assets/images/Service/Interior-Exterior.png";
 import ServiceImage_2 from "@/assets/images/Service/POP-POSM.png";
@@ -27,7 +28,8 @@ import ServiceImage_5 from "@/assets/images/Service/AdvertisingDesign.png";
 import ServiceImage_6 from "@/assets/images/Service/POP-POSM-Design,png.png";
 
 const { t } = useI18n();
-const serviceRows = [
+
+const serviceRows = computed(() => [
   {
     backgroundColor: "rgba(16, 25, 53, 0.5)",
     services: [
@@ -68,7 +70,7 @@ const serviceRows = [
       },
     ],
   },
-];
+]);
 </script>
 
 <style scoped>
