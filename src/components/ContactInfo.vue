@@ -1,6 +1,6 @@
 <template>
   <aside class="contact-info">
-    <h1 class="contact-title">{{ $t("contact_us") }}</h1>
+    <h2 class="contact-title">{{ $t("contact_us") }}</h2>
     <p class="contact-subtitle">{{ $t("contactTitle") }}</p>
     <div class="contact-details">
       <div class="contact-item">
@@ -64,10 +64,9 @@
 }
 
 .contact-subtitle {
-  font-family: "Inter", sans-serif;
-  font-size: 16px;
-  color: #888;
-  margin-bottom: 40px;
+  color: var(--gray);
+  opacity: 0.5;
+  margin-bottom: var(--spacing-12);
 }
 
 .contact-details {
@@ -79,8 +78,7 @@
 .contact-item {
   display: flex;
   align-items: flex-start;
-  gap: 15px;
-  font-family: "Inter", sans-serif;
+  gap: 20px;
 }
 
 .icon {
@@ -109,7 +107,7 @@
   border-radius: 8px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .contact-info {
     padding: 20px;
   }
@@ -123,7 +121,9 @@
   }
 
   .map-image {
-    height: 150px;
+    
+    height: auto ;
+    
   }
 }
 </style>
