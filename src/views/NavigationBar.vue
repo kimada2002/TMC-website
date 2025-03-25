@@ -31,6 +31,9 @@
       <button class="nav-button" @click="scrollToSection('contact')">
         {{ $t("contact") }}
       </button>
+      <button v-if="!isLoggedIn" class="nav-button" @click="goToLogin">
+        Login
+      </button>
       <button v-if="isLoggedIn" class="nav-button" @click="goToAdmin">
         Admin
       </button>
@@ -71,6 +74,10 @@ onMounted(() => {
     isLoggedIn.value = !!user; // Nếu có user thì là true, ngược lại false
   });
 });
+
+const goToLogin = () => {
+  router.push("/login");
+};
 
 const goToAdmin = () => {
   router.push("/admin");
