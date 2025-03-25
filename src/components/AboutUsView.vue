@@ -1,6 +1,6 @@
 <template>
   <!-- Company Overview Section -->
-  <article class="section company-overview">
+  <article class="section company-overview fade-in-right-side" ref="companySection">
     <div class="section-image-wrapper">
       <img
         src="@/assets/images/About/HL1.png"
@@ -17,7 +17,7 @@
   </article>
 
   <!-- Resources Section -->
-  <article class="section resources">
+  <article class="section resources fade-in-left-side" ref="resourcesSection">
     <div class="section-content">
       <h3 class="section-title">{{ $t("resources") }}</h3>
       <p class="section-description">
@@ -34,7 +34,7 @@
   </article>
 
   <!-- Technology Section -->
-  <article class="section technology">
+  <article class="section technology fade-in-right-side" ref="techSection">
     <div class="section-image-wrapper">
       <img
         src="@/assets/images/About/technology.png"
@@ -51,6 +51,35 @@
   </article>
 </template>
 
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useIntersectionObserver } from '@/utils/useIntersectionObserver'
+
+const companySection = ref(null)
+const resourcesSection = ref(null)
+const techSection = ref(null)
+
+onMounted(() => {
+  const sections = [companySection.value, resourcesSection.value, techSection.value]
+  
+  const observer = useIntersectionObserver(
+    (entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible')
+      }
+    },
+    {
+      threshold: 0.2,
+      rootMargin: '0px'
+    }
+  )
+
+  sections.forEach(section => {
+    if (section) observer.observe(section)
+  })
+})
+</script>
+
 <style scoped>
 /* Common Styles for Sections */
 .section {
@@ -64,18 +93,6 @@
   margin: 0 auto;
 }
 
-/* .section.company-overview {
-  margin-bottom: 76px;
-}
-
-.section.resources {
-  margin-top: 76px;
-}
-
-.section.technology {
-  margin-top: 76px;
-} */
-
 /* Image Styles */
 .section-image {
   flex: 1; 
@@ -86,12 +103,12 @@
   height: au;
   border-radius: 10px;
   box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.25);
-  z-index: 2;
 }
 
 .section-image-wrapper {
   flex: 1;
   display: flex;
+  z-index: 2;
 }
 
 /* Content Wrapper Styles */
@@ -129,11 +146,65 @@
   margin-bottom: 20px;
 }
 
-/* .section.resources .section-title {
-  font-size: 30px;
-  margin-bottom: 20px;
-} */
+/* Animation Styles */
+.fade-in-right-side,
+.fade-in-left-side {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
 
+.fade-in-right-side.visible,
+.fade-in-left-side.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Add stagger effect for children */
+.fade-in-right-side.visible .section-image-wrapper {
+  animation: slideInRightSide 0.6s ease-out 0.3s both;
+}
+
+.fade-in-right-side.visible .section-content {
+  animation: slideInRightSide 0.6s ease-out 0.6s both;
+}
+
+.fade-in-left-side.visible .section-image-wrapper {
+  animation: slideInLeftSide 0.6s ease-out 0.3s both;
+}
+
+.fade-in-left-side.visible .section-content {
+  animation: slideInLeftSide 0.6s ease-out 0.6s both;
+}
+
+@keyframes slideInRightSide {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeftSide {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Ensure smooth animation performance */
+.section {
+  will-change: transform;
+  backface-visibility: hidden;
+}
 
 /* Responsive Styles */
 @media (max-width: 768px) {
@@ -159,13 +230,6 @@
   .section.resources {
     flex-direction: column-reverse;
   }
-
-  /* .section.resources .section-image {
-    max-width: 385px; 
-    width: 100%; 
-    height: auto; 
-    display: block;
-    margin: 0 auto;
-  } */
 }
+
 </style>
