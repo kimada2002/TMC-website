@@ -15,14 +15,14 @@ import ContactFormFields from "@/components/ContactFormFields.vue";
 <style scoped>
 .contact-container {
   padding: 40px;
-  background-color: #fff;
+  background-color: var(--white);
   max-width: 1366px;
   margin: 0 auto;
 }
 
 .contact-form {
   max-width: 1100px;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   padding: 40px;
   gap: 40px;
@@ -43,7 +43,7 @@ import ContactFormFields from "@/components/ContactFormFields.vue";
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .contact-container {
     padding: 15px;
   }

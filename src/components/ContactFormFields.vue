@@ -159,13 +159,13 @@ const resetForm = () => {
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 30px;
+  gap: var(--spacing-5);
+  margin-top: var(--spacing-8);
 }
 
 .form-row {
   display: flex;
-  gap: 20px;
+  gap: var(--spacing-5);
 }
 
 @media (max-width: 991px) {
@@ -182,11 +182,11 @@ const resetForm = () => {
 .message-textarea {
   width: 100%;
   padding: 10px 0;
+  font-size: var(--text-base);
   border: none;
-  border-bottom: 1px solid #888;
-  font-size: 16px;
+  border-bottom: 1px solid var(--gray);
   outline: none;
-  background: transparent;
+  resize: none;
 }
 
 .subject-section {
@@ -199,23 +199,20 @@ const resetForm = () => {
 }
 
 .field-label {
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-size: 18px;
+  font-family: var(--font-primary);
 }
 
 .radio-options {
   display: flex;
-  gap: 20px;
-  margin-top: 10px;
+  gap: var(--spacing-5);
+  margin-top: var(--spacing-2);
 }
 
 .radio-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
+  gap: var(--spacing-2);
+  font-size: var(--text-base);
   cursor: pointer;
 }
 
@@ -223,30 +220,36 @@ const resetForm = () => {
   display: none;
 }
 
+/* Modify the checked state */
 .radio-input:checked + .radio-custom {
-  background-color: #4040ff;
-  border-color: #4040ff;
+  background-color: var(--black);
+  border-color: var(--black);
 }
 
 .radio-input:checked + .radio-custom::after {
-  content: "";
-  display: block;
-  width: 10px;
-  height: 10px;
-  background-color: white;
-  border-radius: 50%;
+  content: "✓";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--white);
+  font-size: 12px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
+/* Update the radio custom styles */
 .radio-custom {
   width: 20px;
   height: 20px;
-  border: 2px solid #ddd;
+  border: 2px solid var(--black);
   border-radius: 50%;
   position: relative;
+  transition: all 0.3s ease;
+  background-color: var(--white);
 }
 
 .message-section {
@@ -261,20 +264,21 @@ const resetForm = () => {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 24px;
-  background-color: #4040ff;
-  color: #fff;
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: var(--blue);
+  color: var(--white);
   border: none;
   border-radius: 4px;
-  font-family: "Poppins", sans-serif;
-  font-size: 14px;
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .submit-button:hover {
-  background-color: #fff;
-  color: #000;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: var(--white);
+  color: var(--black);
+  box-shadow: 0 var(--spacing-1) var(--spacing-1) rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 640px) {
