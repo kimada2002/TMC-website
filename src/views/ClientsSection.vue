@@ -30,7 +30,7 @@ const ShowLogos = ref([]);
 
 const fetchLogos = async () => {
   const storage = getStorage();
-  const listRef = storageRef(storage, "logo-clients/");
+  const listRef = storageRef(storage, "clients/");
 
   try {
     const res = await listAll(listRef);

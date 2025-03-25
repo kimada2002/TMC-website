@@ -31,16 +31,24 @@
       <button class="nav-button" @click="scrollToSection('contact')">
         {{ $t("contact") }}
       </button>
+      <button v-if="isLoggedIn" class="nav-button" @click="goToAdmin">
+        Admin
+      </button>
     </div>
   </nav>
 </template>
 
+
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import LanguageSelector from "./LanguageSelector.vue";
 
 const isMenuOpen = ref(false);
 const navbar = ref(null);
+const isLoggedIn = ref(false);
+const router = useRouter();
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
@@ -54,6 +62,18 @@ const scrollToSection = (id) => {
     window.scrollTo({ top: offsetTop, behavior: "smooth" });
     isMenuOpen.value = false;
   }
+};
+
+// Kiểm tra trạng thái đăng nhập từ Firebase
+onMounted(() => {
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    isLoggedIn.value = !!user; // Nếu có user thì là true, ngược lại false
+  });
+});
+
+const goToAdmin = () => {
+  router.push("/admin");
 };
 </script>
 
@@ -108,6 +128,21 @@ const scrollToSection = (id) => {
   font-size: 16px;
   cursor: pointer;
   color: rgba(0, 0, 0, 1);
+}
+
+.admin-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.admin-button:hover {
+  background-color: #0056b3;
 }
 
 @media (max-width: 768px) {
