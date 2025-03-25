@@ -71,7 +71,7 @@ const scrollToSection = (id) => {
 onMounted(() => {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
-    isLoggedIn.value = !!user; // Nếu có user thì là true, ngược lại false
+    isLoggedIn.value = !!user; 
   });
 });
 
