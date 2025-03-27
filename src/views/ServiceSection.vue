@@ -90,14 +90,14 @@ const serviceRows = computed(() => [
   height: 100%;
   width: 100%;
   object-fit: cover;
+  opacity: 0.5;
   object-position: center;
 }
 
 .section-title {
   position: relative;
-  color: black;
-  font-size: 50px;
-  font-weight: 700;
+  color: var(--black);
+  font-size:  var(--text-5xl);
   letter-spacing: 2.5px;
   text-align: center;
   align-self: center;

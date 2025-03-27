@@ -34,7 +34,7 @@ defineProps({
 <style scoped>
 .service-card {
   border-radius: 12px;
-  background-color: #fbfffe;
+  background-color: var(--white);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-grow: 1;
@@ -42,7 +42,6 @@ defineProps({
   align-items: flex-start;
   gap: 10px;
   overflow: hidden;
-  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
   min-height: 350px;
   justify-content: center;
 }
@@ -63,24 +62,22 @@ defineProps({
 
 .service-details {
   display: flex;
-  margin-top: 24px;
+  margin-top: var(--spacing-6);
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
 .service-title {
-  color: #000;
-  font-size: 24px;
-  font-weight: 600;
+  color: var(--black);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
   margin: 0;
 }
 
 .service-description {
-  color: #101935;
-  font-size: 16px;
-  font-weight: 300;
-  margin-top: 10px;
+  margin-top: var(--spacing-4);
+  font-weight: var(--font-normal);
 }
 
 @media (max-width: 991px) {
