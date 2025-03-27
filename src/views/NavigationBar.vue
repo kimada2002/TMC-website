@@ -1,18 +1,12 @@
 <template>
-  <nav ref="navbar" class="navbar">
+  <nav ref="navbar" :class="['navbar', { 'navbar-scrolled': isScrolled }]">
     <div class="nav-left">
       <div class="logo">
         <img
           src="@/assets/images/TMC-logo.png"
-          class="desktop-logo"
           alt="Desktop Logo"
         />
       </div>
-    </div>
-
-    <div class="nav-right">
-      <button class="menu-toggle" @click="toggleMenu">☰</button>
-      <LanguageSelector />
     </div>
 
     <div :class="['nav-container', { show: isMenuOpen }]">
@@ -31,16 +25,34 @@
       <button class="nav-button" @click="scrollToSection('contact')">
         {{ $t("contact") }}
       </button>
+      <!-- <button v-if="!isLoggedIn" class="nav-button" @click="goToLogin">
+        Login
+      </button> -->
+    </div>
+
+    <div class="nav-right">
+      <LanguageSelector />
+      <button class="menu-toggle" @click="toggleMenu">☰</button>
+
+      <!-- Admin Page -->
+      <button v-if="isLoggedIn" class="admin-button" @click="goToAdmin">
+        Admin
+      </button>
     </div>
   </nav>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import LanguageSelector from "./LanguageSelector.vue";
 
 const isMenuOpen = ref(false);
 const navbar = ref(null);
+const isLoggedIn = ref(false);
+const isScrolled = ref(false);
+const router = useRouter();
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
@@ -55,6 +67,32 @@ const scrollToSection = (id) => {
     isMenuOpen.value = false;
   }
 };
+
+// Kiểm tra trạng thái đăng nhập từ Firebase
+onMounted(() => {
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    isLoggedIn.value = !!user; 
+  });
+
+  window.addEventListener('scroll', () => {
+    isScrolled.value = window.scrollY > 0;
+  });
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', () => {
+    isScrolled.value = window.scrollY > 0;
+  });
+});
+
+// const goToLogin = () => {
+//   router.push("/login");
+// };
+
+const goToAdmin = () => {
+  router.push("/admin");
+};
 </script>
 
 <style scoped>
@@ -63,12 +101,16 @@ const scrollToSection = (id) => {
   top: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  background: white;
+  background: white ;
   padding: 10px 20px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
   z-index: 1000;
+}
+
+.navbar-scrolled {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .nav-left {
@@ -77,11 +119,12 @@ const scrollToSection = (id) => {
 }
 
 .logo img {
-  max-width: 108px;
+  max-width: 90px;
 }
 
 .nav-right {
   display: flex;
+  gap: 15px;
   align-items: center;
 }
 
@@ -90,7 +133,7 @@ const scrollToSection = (id) => {
   background: none;
   border: none;
   cursor: pointer;
-  display: none; /* Ẩn toggle menu trên desktop */
+  display: none; 
 }
 
 .nav-container {
@@ -101,18 +144,61 @@ const scrollToSection = (id) => {
 }
 
 .nav-button {
-  padding: 10px;
+  position: relative;
+  padding: 10px 20px;
   background: none;
+  opacity: 0.6;
   border: none;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: var(--font-normal);
+  font-size: var(--text-base);
   cursor: pointer;
-  color: rgba(0, 0, 0, 1);
+  transition: all 0.3s ease-out;
+}
+
+.nav-button::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  top: 90%;
+  left: 20px;
+  background-color: var(--black);
+  transition: all 0.3s ease-out;
+}
+
+.nav-button:hover {
+  opacity: 1;
+}
+
+.nav-button:hover::after {
+  width: calc(80% - 40px); /* 40px accounts for the padding */
+}
+  
+.admin-button {
+  background-color: var(--blue);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.admin-button:hover {
+  background-color: var(--white);
+  color: var(--black);
+  box-shadow: 0 var(--spacing-1) var(--spacing-1) rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 768px) {
   .menu-toggle {
     display: block;
+  }
+  
+  .logo img{
+    max-width: 40%;
   }
 
   .nav-container {
@@ -120,7 +206,7 @@ const scrollToSection = (id) => {
     top: 60px;
     left: 0;
     width: 100%;
-    height: 50vh;
+    height: auto;
     background: rgba(255, 255, 255, 0.95);
     flex-direction: column;
     display: none;
@@ -140,5 +226,15 @@ const scrollToSection = (id) => {
     width: 100%;
     text-align: center;
   }
+
+  .nav-button::after {
+    display: none;
+  }
+
+  .admin-button{
+    font-size: var(--text-xs);
+    padding: 8px 12px;
+  }
+  
 }
 </style>
