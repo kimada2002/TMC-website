@@ -61,9 +61,4 @@ defineProps({
   object-fit: contain;
 }
 
-@media (max-width: 991px) {
-  .track-and-stop {
-    margin-top: 0.5em;
-  }
-}
 </style>
