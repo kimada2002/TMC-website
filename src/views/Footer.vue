@@ -18,7 +18,7 @@
     <section class="social-contact">
       <h3 class="section-heading">{{ $t("follow") }}</h3>
       <div class="social-icons">
-        <a href="#" aria-label="Facebook">
+        <a aria-label="Facebook">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -35,7 +35,7 @@
             />
           </svg>
         </a>
-        <a href="#" aria-label="Twitter">
+        <a aria-label="Twitter">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -58,7 +58,7 @@
             />
           </svg>
         </a>
-        <a href="#" aria-label="Instagram">
+        <a aria-label="Instagram">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -84,26 +84,26 @@
     <!-- Footer Menus -->
     <nav class="footer-menu">
       <h3 class="menu-heading">{{ $t("production") }}</h3>
-      <a href="#" class="menu-link">{{ $t("digital_printing") }}</a>
-      <a href="#" class="menu-link">{{ $t("offset_printing") }}</a>
-      <a href="#" class="menu-link">{{ $t("digital_offset") }}</a>
-      <a href="#" class="menu-link">{{ $t("pop_posm") }}</a>
-      <a href="#" class="menu-link">{{ $t("interior_exterior") }}</a>
+      <a class="menu-link">{{ $t("digital_printing") }}</a>
+      <a class="menu-link">{{ $t("offset_printing") }}</a>
+      <a class="menu-link">{{ $t("digital_offset") }}</a>
+      <a class="menu-link">{{ $t("pop_posm") }}</a>
+      <a class="menu-link">{{ $t("interior_exterior") }}</a>
     </nav>
 
     <nav class="footer-menu">
       <h3 class="menu-heading">{{ $t("design_creatives") }}</h3>
-      <a href="#" class="menu-link">{{ $t("brading") }}</a>
-      <a href="#" class="menu-link">{{ $t("pop_posm") }}</a>
-      <a href="#" class="menu-link">{{ $t("interior_design") }}</a>
+      <a class="menu-link">{{ $t("brading") }}</a>
+      <a class="menu-link">{{ $t("pop_posm") }}</a>
+      <a class="menu-link">{{ $t("interior_design") }}</a>
     </nav>
 
     <nav class="footer-menu">
       <h3 class="menu-heading">{{ $t("company") }}</h3>
-      <a href="#" class="menu-link">{{ $t("about") }}</a>
-      <a href="#" class="menu-link">{{ $t("service") }}</a>
-      <a href="#" class="menu-link">{{ $t("work") }}</a>
-      <a href="#" class="menu-link">{{ $t("contact") }}</a>
+      <a class="menu-link">{{ $t("about") }}</a>
+      <a class="menu-link">{{ $t("service") }}</a>
+      <a class="menu-link">{{ $t("work") }}</a>
+      <a class="menu-link">{{ $t("contact") }}</a>
     </nav>
   </footer>
 </template>
