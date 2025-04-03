@@ -3,7 +3,7 @@
     <!-- About Us Heading -->
     <div class="header-container">
       <h2 class="title">{{ $t("aboutus") }}</h2>
-      <TrackAndStop />
+      <TrackAndStop darkMode />
     </div>
     
     <!-- About Us Content -->

@@ -281,9 +281,12 @@ const resetForm = () => {
   box-shadow: 0 var(--spacing-1) var(--spacing-1) rgba(0, 0, 0, 0.25);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 991px) {
   .submit-button {
+    display: flex;
     width: 100%;
+    align-items: center;
+    justify-content: center;
   }
 }
 

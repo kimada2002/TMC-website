@@ -22,12 +22,13 @@ defineProps({
 
 <style scoped>
 .track-and-stop {
-  position: relative;
+  position: absolute;
   display: flex;
   width: 8em;
   max-width: 100%;
   padding-left: 2px;
   align-items: flex-start;
+  margin: 60px auto;
 }
 
 .track {

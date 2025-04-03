@@ -65,7 +65,7 @@ onMounted(fetchLogos);
 }
 
 .slider-container {
-  width: 70%;
+  width: 100%;
   overflow: hidden;
   position: relative;
 }

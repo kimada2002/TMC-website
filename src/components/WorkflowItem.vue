@@ -119,5 +119,9 @@ defineProps({
     width: 100%;
     padding-bottom: 100px;
   }
+
+  .workflow-step-details {
+    margin-top: 60px;
+  }
 }
 </style>

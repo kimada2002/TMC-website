@@ -6,6 +6,7 @@
       alt="Service background"
     />
     <h2 class="section-title">{{ $t("our_service") }}</h2>
+    <TrackAndStop darkMode />
 
     <ServiceRow
       v-for="(row, index) in serviceRows"
@@ -19,6 +20,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 import { computed } from "vue";
+import TrackAndStop from "@/components/TrackAndStop.vue";
 import ServiceRow from "@/components/ServiceRow.vue";
 import ServiceImage_1 from "@/assets/images/Service/Interior-Exterior.png";
 import ServiceImage_2 from "@/assets/images/Service/POP-POSM.png";
@@ -81,7 +83,8 @@ const serviceRows = computed(() => [
   min-height: 1786px;
   padding-top: 44px;
   overflow: hidden;
-  align-items: stretch;
+  align-items: center; /* Căn giữa theo chiều ngang */
+  text-align: center;
 }
 
 .background-image {
@@ -97,8 +100,7 @@ const serviceRows = computed(() => [
 .section-title {
   position: relative;
   color: var(--black);
-  font-size:  var(--text-5xl);
-  letter-spacing: 2.5px;
+  font-size: var(--text-5xl);
   text-align: center;
   align-self: center;
   margin: 0 0 98px;

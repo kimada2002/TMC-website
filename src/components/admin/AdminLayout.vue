@@ -5,7 +5,8 @@
         <li>
           <router-link to="/">
             <span class="icon">
-              <ion-icon name="unlink-outline"></ion-icon>            </span>
+              <ion-icon name="unlink-outline"></ion-icon>
+            </span>
             <img src="@/assets/images/TMC-logo_white.png" alt="" />
           </router-link>
         </li>
@@ -48,7 +49,6 @@
       </ul>
     </div>
 
-    <!-- Nội dung chính -->
     <div class="main">
       <div class="topbar">
         <div class="toggle" @click="toggleSidebar">
@@ -56,6 +56,9 @@
             :name="isCollapsed ? 'menu-outline' : 'close-outline'"
           ></ion-icon>
         </div>
+      </div>
+      <div class="admin-title">
+        <h1>Trang Quản trị viên</h1>
       </div>
       <router-view />
     </div>
@@ -77,9 +80,9 @@ const toggleSidebar = () => {
 
 const logout = async () => {
   try {
-    await signOut(auth); 
-    localStorage.removeItem("user"); 
-    router.push("/"); 
+    await signOut(auth);
+    localStorage.removeItem("user");
+    router.push("/");
   } catch (error) {
     console.error("Lỗi khi đăng xuất:", error);
   }
@@ -244,5 +247,11 @@ const goHome = () => {
   align-items: center;
   font-size: 2.5rem;
   cursor: pointer;
+}
+
+.admin-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
