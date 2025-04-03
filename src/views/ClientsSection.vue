@@ -54,13 +54,12 @@ onMounted(fetchLogos);
 <style scoped>
 .clients-section {
   background-color: #dbcbd8;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 54px;
   padding: 38px 70px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  max-width: 100%;
   overflow: hidden;
 }
 
@@ -77,7 +76,7 @@ onMounted(fetchLogos);
 
 .slide-track {
   display: flex;
-  gap: 20px;
+  gap: 50px;
   align-items: center;
   animation: slide-left 20s linear infinite;
 }
@@ -114,7 +113,7 @@ onMounted(fetchLogos);
     width: 100%;
   }
   .slide-track {
-    gap: 10px;
+    gap: 40px;
   }
 }
 </style>
