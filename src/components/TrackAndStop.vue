@@ -45,20 +45,13 @@ defineProps({
   background-color: #000;
 }
 
-.stop-dot {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 4px;
-  aspect-ratio: 1;
-  object-fit: contain;
-}
-
 @media (max-width: 991px) {
   .track-and-stop {
     margin-top: 0.5em;
+  }
+  .track-line{
+    margin-top: 40px;
+    width: 100%;
   }
 }
 </style>
