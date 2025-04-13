@@ -64,6 +64,7 @@ onMounted(() => {
   padding: 89px 80px 193px;
   will-change: transform;
   backface-visibility: hidden;
+  width: 100%;
 }
 
 @media (max-width: 991px) {
@@ -82,7 +83,7 @@ onMounted(() => {
   .service-grid {
     flex-direction: column;
     align-items: stretch;
-    gap: 0px;
+    gap: 10px;
   }
 }
 

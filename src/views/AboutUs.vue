@@ -12,7 +12,7 @@
     </div>
 
     <!-- Client Section -->
-    <div>
+    <div class="clients-container">
       <!-- Client Heading -->
       <div class="header-container">
         <h2 class="title">{{ $t("clients") }}<br /></h2>
@@ -64,10 +64,13 @@ import ClientsSection from "./ClientsSection.vue";
   align-items: center; 
 }
 
+.clients-container {
+  width: 100%;
+}
+
 @media (max-width: 991px) {
-  .page-title {
-    font-size: var(--text-5xl);
-    margin-top: var(--spacing-10);
+  .title{
+    font-size: 40px;
   }
 
   .content-container {
