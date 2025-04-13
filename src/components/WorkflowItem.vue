@@ -103,7 +103,6 @@ defineProps({
   word-wrap: break-word;
   text-align: left; 
   display: flex;
-  align-items: center;
   gap: 8px; 
 }
 
