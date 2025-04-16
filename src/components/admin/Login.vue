@@ -62,7 +62,7 @@ const loading = ref(false);
 
 const login = async () => {
   if (!email.value || !password.value) {
-    errorMsg.value = "Please enter email and password!";
+    errorMsg.value = "Xin hãy nhập Email và mặt khẩu!";
     return;
   }
 
@@ -83,16 +83,16 @@ const login = async () => {
   } catch (error) {
     switch (error.code) {
       case "auth/invalid-email":
-        errorMsg.value = "Invalid email!";
+        errorMsg.value = "Email không hợp lệ!";
         break;
       case "auth/user-not-found":
-        errorMsg.value = "Account not found!";
+        errorMsg.value = "Tài khoản không tồn tại!";
         break;
       case "auth/wrong-password":
-        errorMsg.value = "Wrong password!";
+        errorMsg.value = "Sai mật khẩu!";
         break;
       default:
-        errorMsg.value = "Login failed. Please try again!";
+        errorMsg.value = "Đăng nhập thất bại, hãy thử lại!";
     }
   } finally {
     loading.value = false;
@@ -112,7 +112,7 @@ const login = async () => {
 
 .login-container {
   display: flex;
-  max-width: 900px; /* Điều chỉnh theo nhu cầu */
+  max-width: 900px; 
   width: 100%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -233,7 +233,6 @@ const login = async () => {
   }
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .login-container {
     flex-direction: column;
@@ -241,7 +240,7 @@ const login = async () => {
   }
   
   .login-image {
-    height: 200px; /* Chiều cao hình ảnh trên mobile */
+    height: 200px; 
   }
 }
 </style>
