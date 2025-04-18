@@ -11,7 +11,7 @@
 <style scoped>
 .hero-section {
   position: relative;
-  width: 100%;
+  max-width: 100%;
   height: 90vh; 
   min-height: 400px;
   max-width: 1366px;

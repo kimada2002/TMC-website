@@ -1,6 +1,5 @@
 <template>
   <div class="gallery-container">
-    <!-- Swiper Slider -->
     <div :class="{ 'blur-background': selectedImage }">
       <swiper
         v-if="images.length > 0"
@@ -8,8 +7,12 @@
         :slides-per-view="3"
         :space-between="10"
         :loop="true"
-        :autoplay="{ delay: 3000, disableOnInteraction: false }"
-        pagination
+        :autoplay="{ delay: 1000, disableOnInteraction: false }"
+        :pagination="{
+          clickable: true,
+          dynamicBullets: true,
+          dynamicMainBullets: 3
+        }"
         navigation
         :breakpoints="{
           1024: { slidesPerView: 3, spaceBetween: 10 },
@@ -26,7 +29,6 @@
 
     <div v-if="images.length === 0">Chưa có ảnh nào.</div>
 
-    <!-- Modal hiển thị ảnh phóng to -->
     <div v-if="selectedImage" class="modal" @click="closeImage">
       <div class="modal-content" @click.stop>
         <span class="close-btn" @click="closeImage">&times;</span>
@@ -69,7 +71,7 @@ onMounted(fetchImages);
 <style scoped>
 .gallery-container {
   width: 100%;
-  max-width: 100vw; /* Ngăn tràn ra ngoài màn hình */
+  max-width: 100vw;
   height: 250px;
   text-align: center;
   background-image: url("@/assets/images/image_bg.png");
@@ -78,7 +80,7 @@ onMounted(fetchImages);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* Ẩn phần tràn ra ngoài */
+  overflow: hidden;
   box-sizing: border-box;
 }
 
@@ -89,9 +91,9 @@ onMounted(fetchImages);
 
 .slider {
   width: 100%;
-  max-width: 1000px; /* Giới hạn chiều rộng tối đa */
+  max-width: 1000px;
   margin: 20px auto;
-  overflow: hidden; /* Ngăn tràn */
+  overflow: hidden;
 }
 
 .slide-image {
