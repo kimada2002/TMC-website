@@ -3,8 +3,38 @@ import AdminLayout from "@/components/admin/AdminLayout.vue";
 import Login from "@/components/admin/Login.vue";
 import Sliders from "@/components/admin/Sliders.vue";
 import Clients from "@/components/admin/Clients.vue";
+import HeroSection from "@/views/HeroSection.vue";
+import AboutUs from "@/views/AboutUs.vue";
+import ServiceSection from "@/views/ServiceSection.vue";
+import WorkflowSection from "@/views/WorkflowSection.vue";
+import ContactForm from "@/views/ContactForm.vue";
 
 const routes = [
+    {
+        path: "/",
+        name: "HeroSection",
+        component: HeroSection,
+    },
+    {
+        path: "/about",
+        name: "AboutUs",
+        component: AboutUs,
+    },
+    {
+        path: "/services",
+        name: "ServiceSection",
+        component: ServiceSection,
+    },
+    {
+        path: "/workflow",
+        name: "WorkflowSection",
+        component: WorkflowSection,
+    },
+    {
+        path: "/contact",
+        name: "ContactForm",
+        component: ContactForm,
+    },
     {
         path: "/login",
         name: "Login",
@@ -24,6 +54,13 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { top: 0 };
+        }
+    },
 });
 
 // Kiểm tra quyền truy cập trước khi vào admin

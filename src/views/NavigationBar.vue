@@ -2,32 +2,26 @@
   <nav ref="navbar" :class="['navbar', { 'navbar-scrolled': isScrolled }]">
     <div class="nav-left">
       <div class="logo">
-        <img
-          src="@/assets/images/TMC-logo.png"
-          alt="Desktop Logo"
-        />
+        <img src="@/assets/images/TMC-logo.png" alt="Desktop Logo" />
       </div>
     </div>
 
     <div :class="['nav-container', { show: isMenuOpen }]">
-      <button class="nav-button" @click="scrollToSection('header')">
+      <router-link to="/" class="nav-button">
         {{ $t("home") }}
-      </button>
-      <button class="nav-button" @click="scrollToSection('about')">
+      </router-link>
+      <router-link to="/about" class="nav-button">
         {{ $t("about") }}
-      </button>
-      <button class="nav-button" @click="scrollToSection('service')">
+      </router-link>
+      <router-link to="/services" class="nav-button">
         {{ $t("service") }}
-      </button>
-      <button class="nav-button" @click="scrollToSection('workflow')">
+      </router-link>
+      <router-link to="/workflow" class="nav-button">
         {{ $t("work") }}
-      </button>
-      <button class="nav-button" @click="scrollToSection('contact')">
+      </router-link>
+      <router-link to="/contact" class="nav-button">
         {{ $t("contact") }}
-      </button>
-      <!-- <button v-if="!isLoggedIn" class="nav-button" @click="goToLogin">
-        Login
-      </button> -->
+      </router-link>
     </div>
 
     <div class="nav-right">
@@ -41,7 +35,6 @@
     </div>
   </nav>
 </template>
-
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
@@ -59,37 +52,27 @@ const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
 
-const scrollToSection = (id) => {
-  const element = document.getElementById(id);
-  if (element && navbar.value) {
-    const navbarHeight = navbar.value.offsetHeight;
-    const offsetTop = element.offsetTop - navbarHeight;
-    window.scrollTo({ top: offsetTop, behavior: "smooth" });
-    isMenuOpen.value = false;
-  }
+const closeMenu = () => {
+  isMenuOpen.value = false;
 };
 
 // Kiểm tra trạng thái đăng nhập từ Firebase
 onMounted(() => {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
-    isLoggedIn.value = !!user; 
+    isLoggedIn.value = !!user;
   });
 
-  window.addEventListener('scroll', () => {
+  window.addEventListener("scroll", () => {
     isScrolled.value = window.scrollY > 0;
   });
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', () => {
+  window.removeEventListener("scroll", () => {
     isScrolled.value = window.scrollY > 0;
   });
 });
-
-// const goToLogin = () => {
-//   router.push("/login");
-// };
 
 const goToAdmin = () => {
   router.push("/admin");
@@ -104,7 +87,7 @@ const goToAdmin = () => {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: white ;
+  background: white;
   padding: 10px 20px;
   transition: all 0.3s ease;
   z-index: 1000;
@@ -134,7 +117,7 @@ const goToAdmin = () => {
   background: none;
   border: none;
   cursor: pointer;
-  display: none; 
+  display: none;
 }
 
 .nav-container {
@@ -154,6 +137,8 @@ const goToAdmin = () => {
   font-size: var(--text-base);
   cursor: pointer;
   transition: all 0.3s ease-out;
+  text-decoration: none;
+  color: inherit;
 }
 
 .nav-button::after {
@@ -172,9 +157,17 @@ const goToAdmin = () => {
 }
 
 .nav-button:hover::after {
-  width: calc(80% - 40px); /* 40px accounts for the padding */
+  width: calc(80% - 40px);
 }
-  
+
+.nav-button.router-link-active {
+  opacity: 1;
+}
+
+.nav-button.router-link-active::after {
+  width: calc(80% - 40px);
+}
+
 .admin-button {
   background-color: var(--blue);
   color: white;
@@ -197,8 +190,8 @@ const goToAdmin = () => {
   .menu-toggle {
     display: block;
   }
-  
-  .logo img{
+
+  .logo img {
     max-width: 40%;
   }
 
@@ -232,10 +225,9 @@ const goToAdmin = () => {
     display: none;
   }
 
-  .admin-button{
+  .admin-button {
     font-size: var(--text-xs);
     padding: 8px 12px;
   }
-  
 }
 </style>
