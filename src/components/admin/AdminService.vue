@@ -19,7 +19,9 @@
       <div v-for="item in services" :key="item.id" class="service-card">
         <img :src="item.imageUrl" alt="Service" width="80" />
         <div>
-          <p><strong>{{ item.title.vi }}</strong></p>
+          <p>
+            <strong>{{ item.title.vi }}</strong>
+          </p>
           <p>{{ item.description.vi }}</p>
         </div>
         <button @click="editService(item)">Sửa</button>
@@ -190,30 +192,129 @@ onMounted(fetchServices);
 
 <style scoped>
 .admin-services {
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
+  padding: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 28px;
+  color: #333;
 }
 
 .form-section {
-  margin-bottom: 30px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
+}
+
+.form-section input,
+.form-section textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  width: 100%;
+}
+
+.form-section input[type="file"] {
+  border: none;
+}
+
+.form-section button {
+  padding: 10px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+  width: fit-content;
+}
+
+.form-section button:hover {
+  background-color: #45a049;
+}
+
+.form-section button:nth-child(4) {
+  background-color: #f44336;
+}
+
+.form-section button:nth-child(4):hover {
+  background-color: #d32f2f;
 }
 
 .service-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .service-card {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.service-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.service-card div {
+  flex: 1;
+}
+
+.service-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.service-card strong {
+  font-weight: 600;
+  color: #222;
+}
+
+.service-card button {
+  padding: 6px 10px;
+  font-size: 13px;
+  background-color: #2196f3;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-left: 8px;
+}
+
+.service-card button:hover {
+  background-color: #1976d2;
+}
+
+.service-card button:nth-child(4) {
+  background-color: #f44336;
+}
+
+.service-card button:nth-child(4):hover {
+  background-color: #d32f2f;
 }
 </style>

@@ -4,7 +4,7 @@ import Login from "@/components/admin/Login.vue";
 import Sliders from "@/components/admin/Sliders.vue";
 import Clients from "@/components/admin/Clients.vue";
 import HeroSection from "@/views/HeroSection.vue";
-import AboutUs from "@/views/AboutUs.vue";
+import AboutUs from "@/components/AboutUs.vue";
 import ServiceSection from "@/views/ServiceSection.vue";
 import WorkflowSection from "@/views/WorkflowSection.vue";
 import ContactForm from "@/views/ContactForm.vue";

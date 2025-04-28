@@ -26,8 +26,8 @@
   
 <script setup>
 import TrackAndStop from "@/components/TrackAndStop.vue";
-import AboutUsView from "@/components/AboutUsView.vue";
-import ClientsSection from "./ClientsSection.vue";
+import AboutUsView from "@/views/AboutUsView.vue";
+import ClientsSection from "../views/ClientsSection.vue";
 </script>
 
   

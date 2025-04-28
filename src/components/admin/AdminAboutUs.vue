@@ -1,234 +1,358 @@
 <template>
-    <button @click="showAddForm">Thêm thông tin mới</button>
   <div class="admin-about">
+    <h2>Quản lý About Us</h2>
 
-    <h2>Danh sách About Us đã có</h2>
-    <div v-if="aboutUsList.length === 0">Không có dữ liệu.</div>
-    <ul class="aboutus-list">
-      <li v-for="item in aboutUsList" :key="item.id">
-        <strong>{{ item.title }}</strong>
-        <p>{{ item.content }}</p>
-        <button @click="editAboutUs(item)">Sửa</button>
-        <button @click="deleteAboutUs(item.id)">Xóa</button>
-      </li>
-    </ul>
+    <div class="form-section">
+      <input type="file" @change="handleImageChange" />
+      <input v-model="form.title.vi" placeholder="Tiêu đề (Tiếng Việt)" />
+      <textarea
+        v-model="form.description.vi"
+        placeholder="Mô tả (Tiếng Việt)"
+        rows="5"
+      ></textarea>
+      <input
+        v-model.number="form.order"
+        type="number"
+        placeholder="Thứ tự (STT)"
+      />
 
-    <hr class="divider" />
+      <button @click="isEditing ? updateAbout() : addAbout()">
+        {{ isEditing ? "Cập nhật" : "Thêm mới" }}
+      </button>
+      <button v-if="isEditing" @click="resetForm">Huỷ</button>
+    </div>
 
-    <!-- Nút thêm mới sẽ hiển thị modal -->
+    <hr />
 
-    <!-- Modal Thêm Mới -->
-    <div
-      v-if="isAddMode || isEditMode"
-      class="modal-overlay"
-      @click="closeModal"
-    >
-      <div class="modal-content" @click.stop>
-        <h2>{{ isEditMode ? "Chỉnh sửa About Us" : "Thêm mới About Us" }}</h2>
-
-        <div class="form-group">
-          <label>Tiêu đề</label>
-          <input v-model="title" type="text" />
+    <div class="about-list">
+      <div
+        v-for="(item) in aboutListSorted"
+        :key="item.id"
+        class="about-card"
+      >
+        <img :src="item.imageUrl" alt="About Image" width="80" />
+        <div>
+          <p>
+            <strong>STT: {{ item.order ?? "N/A" }}</strong>
+          </p>
+          <p>
+            <strong>VIE: {{ item.title.vi }}</strong> /
+            <strong>ENG: {{ item.title.en }}</strong>
+          </p>
+          <p>VIE: {{ item.description.vi }}</p>
+          <p>ENG: {{ item.description.en }}</p>
         </div>
-
-        <div class="form-group">
-          <label>Nội dung</label>
-          <textarea v-model="content" rows="8"></textarea>
+        <div class="action-buttons">
+          <button @click="editAbout(item)">Sửa</button>
+          <button @click="deleteAbout(item.id)">Xoá</button>
         </div>
-
-        <button @click="saveAboutUs">
-          {{ isEditMode ? "Cập nhật" : "Lưu" }}
-        </button>
-        <button @click="closeModal" class="cancel-btn">Hủy</button>
-        <p v-if="successMessage" class="success">{{ successMessage }}</p>
       </div>
     </div>
   </div>
 </template>
-  
-  <script setup>
-import { ref, onMounted } from "vue";
+
+<script setup>
+import { ref, onMounted, computed } from "vue";
+import { db, storage } from "@/firebase";
 import {
-  doc,
-  getDoc,
-  setDoc,
   collection,
   getDocs,
+  addDoc,
+  updateDoc,
   deleteDoc,
+  doc,
 } from "firebase/firestore";
-import { db } from "@/firebase";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+import { translateText } from "@/utils/translate"; // 🔥
 
-const title = ref("");
-const content = ref("");
-const successMessage = ref("");
-const aboutUsList = ref([]);
-const isEditMode = ref(false);
-const isAddMode = ref(false); // Chế độ thêm mới
-const currentEditId = ref(null);
+const aboutList = ref([]);
+const isEditing = ref(false);
+const editingId = ref(null);
+const imageFile = ref(null);
 
-const fetchAboutUs = async () => {
+const form = ref({
+  imageUrl: "",
+  title: { vi: "", en: "" },
+  description: { vi: "", en: "" },
+  order: null, // 🔥 thêm order
+});
+
+const fetchAbouts = async () => {
   const querySnapshot = await getDocs(collection(db, "aboutus"));
-  aboutUsList.value = querySnapshot.docs.map((doc) => ({
+  aboutList.value = querySnapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
 };
 
-const saveAboutUs = async () => {
-  try {
-    if (isEditMode.value) {
-      await setDoc(doc(db, "aboutus", currentEditId.value), {
-        title: title.value,
-        content: content.value,
-      });
-      successMessage.value = "Cập nhật thành công!";
-    } else {
-      const docRef = doc(collection(db, "aboutus"));
-      await setDoc(docRef, {
-        title: title.value,
-        content: content.value,
-      });
-      successMessage.value = "Đã lưu thành công!";
-    }
+const aboutListSorted = computed(() =>
+  [...aboutList.value].sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999))
+);
 
-    title.value = "";
-    content.value = "";
-    isEditMode.value = false;
-    isAddMode.value = false;
+const handleImageChange = (e) => {
+  imageFile.value = e.target.files[0];
+};
 
-    await fetchAboutUs();
+const addAbout = async () => {
+  let imageUrl = "";
 
-    setTimeout(() => (successMessage.value = ""), 3000);
-  } catch (error) {
-    console.error("Lỗi khi lưu dữ liệu:", error);
+  if (imageFile.value) {
+    const imgRef = storageRef(
+      storage,
+      `aboutus/${Date.now()}_${imageFile.value.name}`
+    );
+    const snapshot = await uploadBytes(imgRef, imageFile.value);
+    imageUrl = await getDownloadURL(snapshot.ref);
   }
+
+  const translatedTitle = await translateText(form.value.title.vi, "en");
+  const translatedDescription = await translateText(
+    form.value.description.vi,
+    "en"
+  );
+
+  const aboutData = {
+    imageUrl,
+    title: { vi: form.value.title.vi, en: translatedTitle },
+    description: { vi: form.value.description.vi, en: translatedDescription },
+    order: form.value.order ?? 9999,
+  };
+
+  await addDoc(collection(db, "aboutus"), aboutData);
+
+  resetForm();
+  fetchAbouts();
 };
 
-const editAboutUs = (item) => {
-  isEditMode.value = true;
-  isAddMode.value = false;
-  currentEditId.value = item.id;
-  title.value = item.title;
-  content.value = item.content;
+const editAbout = (item) => {
+  isEditing.value = true;
+  editingId.value = item.id;
+  form.value = {
+    imageUrl: item.imageUrl || "",
+    title: { vi: item.title?.vi || "", en: item.title?.en || "" },
+    description: {
+      vi: item.description?.vi || "",
+      en: item.description?.en || "",
+    },
+    order: item.order ?? null,
+  };
+  imageFile.value = null;
 };
 
-const deleteAboutUs = async (id) => {
-  if (confirm("Bạn có chắc chắn muốn xóa?")) {
+const updateAbout = async () => {
+  if (!editingId.value) return;
+
+  const currentAbout = aboutList.value.find((a) => a.id === editingId.value);
+  if (!currentAbout) return;
+
+  let imageUrl = currentAbout.imageUrl;
+
+  if (imageFile.value) {
+    const imgRef = storageRef(
+      storage,
+      `aboutus/${Date.now()}_${imageFile.value.name}`
+    );
+    const snapshot = await uploadBytes(imgRef, imageFile.value);
+    imageUrl = await getDownloadURL(snapshot.ref);
+
+    if (currentAbout.imageUrl) {
+      try {
+        const oldImageRef = storageRef(storage, currentAbout.imageUrl);
+        await deleteObject(oldImageRef);
+      } catch (e) {
+        console.warn("Không tìm thấy ảnh cũ để xoá:", e.message);
+      }
+    }
+  }
+
+  const translatedTitle = await translateText(form.value.title.vi, "en");
+  const translatedDescription = await translateText(
+    form.value.description.vi,
+    "en"
+  );
+
+  const updatedData = {
+    imageUrl,
+    title: { vi: form.value.title.vi, en: translatedTitle },
+    description: { vi: form.value.description.vi, en: translatedDescription },
+    order: form.value.order ?? 9999,
+  };
+
+  await updateDoc(doc(db, "aboutus", editingId.value), updatedData);
+
+  resetForm();
+  fetchAbouts();
+};
+
+const deleteAbout = async (id) => {
+  const item = aboutList.value.find((a) => a.id === id);
+  if (item?.imageUrl) {
+    const imageRef = storageRef(storage, item.imageUrl);
     try {
-      await deleteDoc(doc(db, "aboutus", id));
-      successMessage.value = "Đã xóa thành công!";
-      fetchAboutUs();
-      setTimeout(() => (successMessage.value = ""), 3000);
-    } catch (error) {
-      console.error("Lỗi khi xóa dữ liệu:", error);
+      await deleteObject(imageRef);
+    } catch (e) {
+      console.warn("Không tìm thấy ảnh để xoá:", e.message);
     }
   }
+
+  await deleteDoc(doc(db, "aboutus", id));
+  fetchAbouts();
 };
 
-const showAddForm = () => {
-  isAddMode.value = true;
-  isEditMode.value = false;
+const resetForm = () => {
+  form.value = {
+    imageUrl: "",
+    title: { vi: "", en: "" },
+    description: { vi: "", en: "" },
+    order: null,
+  };
+  imageFile.value = null;
+  isEditing.value = false;
+  editingId.value = null;
 };
 
-const closeModal = () => {
-  isAddMode.value = false;
-  isEditMode.value = false;
-};
-
-onMounted(fetchAboutUs);
+onMounted(fetchAbouts);
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .admin-about {
-  max-width: 800px;
-  margin: 40px auto;
+  padding: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 28px;
+  color: #333;
+}
+
+.form-section {
+  background: #f9f9f9;
   padding: 20px;
-  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-section input,
+.form-section textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  width: 100%;
+}
+
+.form-section input[type="file"] {
+  border: none;
+}
+
+.form-section button {
+  padding: 10px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+  width: fit-content;
+}
+
+.form-section button:hover {
+  background-color: #45a049;
+}
+
+.form-section button:nth-child(2) {
+  background-color: #f44336;
+}
+
+.form-section button:nth-child(2):hover {
+  background-color: #d32f2f;
+}
+
+.about-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.about-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
   border-radius: 12px;
   background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
-.aboutus-list {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 30px;
-}
-
-.aboutus-list li {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-input,
-textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
+.about-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  flex-shrink: 0;
 }
 
-button {
-  background: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
+.about-card div {
+  flex: 1;
 }
 
-button:hover {
-  background: #0056b3;
+.about-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
 }
 
-.success {
-  margin-top: 15px;
-  color: green;
+.about-card strong {
+  font-weight: 600;
+  color: #222;
 }
 
-.divider {
-  margin: 30px 0;
-  border: none;
-  border-top: 1px solid #ccc;
-}
-
-.form-container {
-  margin-top: 20px;
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+.action-buttons {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
 
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
+.action-buttons button {
+  padding: 6px 10px;
+  font-size: 13px;
+  background-color: #2196F3;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-.cancel-btn {
-  background: #f44336;
+.action-buttons button:hover {
+  background-color: #1976D2;
 }
 
-.cancel-btn:hover {
-  background: #d32f2f;
+.action-buttons button:nth-child(2) {
+  background-color: #f44336;
 }
+
+.action-buttons button:nth-child(2):hover {
+  background-color: #d32f2f;
+}
+
 </style>
-  

@@ -8,7 +8,10 @@
       <input v-model="form.stepNumber" type="number" placeholder="Số bước" />
 
       <!-- Tiêu đề bước -->
-      <input v-model="form.stepTitle.vi" placeholder="Tiêu đề bước (Tiếng Việt)" />
+      <input
+        v-model="form.stepTitle.vi"
+        placeholder="Tiêu đề bước (Tiếng Việt)"
+      />
 
       <!-- Các chi tiết bước -->
       <div v-for="(detail, index) in form.stepDetails" :key="index">
@@ -30,11 +33,12 @@
 
     <!-- Danh sách workflow -->
     <div class="workflow-list">
-      <div v-for="item in workflows" :key="item.id" class="workflow-card">
+      <div v-for="item in sortedWorkflows" :key="item.id" class="workflow-card">
         <img :src="item.imageUrl" alt="icon" width="50" />
         <div>
           <p>
-            <strong>Bước {{ item.stepNumber }}</strong> - {{ item.stepTitle?.vi || "" }}
+            <strong>Bước {{ item.stepNumber }}</strong> -
+            {{ item.stepTitle?.vi || "" }}
           </p>
           <ul>
             <li v-for="(d, i) in item.stepDetails" :key="i">
@@ -50,10 +54,22 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { db, storage } from "@/firebase";
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
-import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { translateText } from "@/utils/translate"; // Hàm dịch ngôn ngữ có sẵn
 
 const workflows = ref([]);
@@ -94,12 +110,18 @@ const addWorkflow = async () => {
   let imageUrl = "";
 
   if (imageFile.value) {
-    const imgRef = storageRef(storage, `workflow-icons/${Date.now()}_${imageFile.value.name}`);
+    const imgRef = storageRef(
+      storage,
+      `workflow-icons/${Date.now()}_${imageFile.value.name}`
+    );
     const snapshot = await uploadBytes(imgRef, imageFile.value);
     imageUrl = await getDownloadURL(snapshot.ref);
   }
 
-  const translatedStepTitle = await translateText(form.value.stepTitle.vi, "en");
+  const translatedStepTitle = await translateText(
+    form.value.stepTitle.vi,
+    "en"
+  );
   const translatedStepDetails = await Promise.all(
     form.value.stepDetails.map(async (detail) => ({
       vi: detail.vi,
@@ -141,7 +163,10 @@ const updateWorkflow = async () => {
   let imageUrl = item.imageUrl;
 
   if (imageFile.value) {
-    const imgRef = storageRef(storage, `workflow-icons/${Date.now()}_${imageFile.value.name}`);
+    const imgRef = storageRef(
+      storage,
+      `workflow-icons/${Date.now()}_${imageFile.value.name}`
+    );
     const snapshot = await uploadBytes(imgRef, imageFile.value);
     imageUrl = await getDownloadURL(snapshot.ref);
 
@@ -156,7 +181,10 @@ const updateWorkflow = async () => {
     }
   }
 
-  const translatedStepTitle = await translateText(form.value.stepTitle.vi, "en");
+  const translatedStepTitle = await translateText(
+    form.value.stepTitle.vi,
+    "en"
+  );
   const translatedStepDetails = await Promise.all(
     form.value.stepDetails.map(async (detail) => ({
       vi: detail.vi,
@@ -203,35 +231,164 @@ const resetForm = () => {
   editingId.value = null;
 };
 
+const openForm = () => {
+  resetForm();
+  isFormOpen.value = true;
+};
+
+const closeForm = () => {
+  resetForm();
+  isFormOpen.value = false;
+};
+
+const sortedWorkflows = computed(() => {
+  return workflows.value.slice().sort((a, b) => a.stepNumber - b.stepNumber);
+});
+
 onMounted(fetchWorkflows);
 </script>
 
 <style scoped>
 .admin-workflow {
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
+  padding: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 28px;
+  color: #333;
 }
 
 .form-section {
-  margin-bottom: 30px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
+}
+
+.form-section input,
+.form-section textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  width: 100%;
+}
+
+.form-section input[type="file"] {
+  border: none;
+}
+
+.form-section button {
+  padding: 10px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+  width: fit-content;
+}
+
+.form-section button:hover {
+  background-color: #45a049;
+}
+
+.form-section button:nth-of-type(2) {
+  background-color: #2196f3;
+}
+
+.form-section button:nth-of-type(2):hover {
+  background-color: #1976d2;
+}
+
+.form-section button:nth-of-type(3) {
+  background-color: #f44336;
+}
+
+.form-section button:nth-of-type(3):hover {
+  background-color: #d32f2f;
 }
 
 .workflow-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .workflow-card {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.workflow-card img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.workflow-card div {
+  flex: 1;
+}
+
+.workflow-card p {
+  margin: 4px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.workflow-card ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.workflow-card li {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.workflow-card button {
+  padding: 6px 10px;
+  font-size: 13px;
+  background-color: #2196f3;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-left: 8px;
+}
+
+.workflow-card button:hover {
+  background-color: #1976d2;
+}
+
+.workflow-card button:nth-of-type(2) {
+  background-color: #f44336;
+}
+
+.workflow-card button:nth-of-type(2):hover {
+  background-color: #d32f2f;
 }
 </style>
