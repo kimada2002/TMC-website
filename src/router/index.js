@@ -8,6 +8,11 @@ import AboutUs from "@/views/AboutUs.vue";
 import ServiceSection from "@/views/ServiceSection.vue";
 import WorkflowSection from "@/views/WorkflowSection.vue";
 import ContactForm from "@/views/ContactForm.vue";
+import AdminServiceEditor from "@/components/admin/AdminService.vue";
+import AdminWorkFlow from "@/components/admin/AdminWorkFlow.vue";
+import AdminAboutUs from "@/components/admin/AdminAboutUs.vue";
+import AdminLanguage from "@/components/admin/AdminLanguage.vue";
+
 
 const routes = [
     {
@@ -47,6 +52,10 @@ const routes = [
         children: [
             { path: "sliders", component: Sliders },
             { path: "clients", component: Clients },
+            { path: "about", component: AdminAboutUs },
+            { path: "services", component: AdminServiceEditor },
+            { path: "workflow", component: AdminWorkFlow },
+            { path: "languages", component: AdminLanguage },
         ],
     },
 ];

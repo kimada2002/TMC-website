@@ -74,7 +74,6 @@ onMounted(fetchImages);
   max-width: 100vw;
   height: 250px;
   text-align: center;
-  background-image: url("@/assets/images/image_bg.png");
   background-size: cover;
   background-position: center;
   display: flex;

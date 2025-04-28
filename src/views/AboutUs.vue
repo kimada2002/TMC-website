@@ -5,7 +5,7 @@
       <h2 class="title">{{ $t("aboutus") }}</h2>
       <TrackAndStop darkMode />
     </div>
-    
+
     <!-- About Us Content -->
     <div class="content-container">
       <AboutUsView />
@@ -19,9 +19,7 @@
         <TrackAndStop darkMode />
       </div>
 
-      <!-- Client Content -->
       <ClientsSection />
-
     </div>
   </section>
 </template>
@@ -59,9 +57,9 @@ import ClientsSection from "./ClientsSection.vue";
 }
 
 .header-container {
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .clients-container {
@@ -69,7 +67,7 @@ import ClientsSection from "./ClientsSection.vue";
 }
 
 @media (max-width: 991px) {
-  .title{
+  .title {
     font-size: 40px;
   }
 

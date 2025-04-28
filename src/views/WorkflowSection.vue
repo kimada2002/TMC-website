@@ -5,63 +5,88 @@
       class="background-image"
       alt="Workflow background"
     />
-    <h2 class="section-title">{{ $t("workflowTitle") }}</h2>
+    <h2 class="section-title">
+      {{ lang === "vi" ? "Quy trình làm việc" : "Workflow Process" }}
+    </h2>
     <p class="section-description">
-      {{ $t("workflowDescription") }}
+      {{
+        lang === "vi"
+          ? "Đây là các bước chúng tôi thực hiện để hoàn thành dự án của bạn."
+          : "These are the steps we take to complete your project."
+      }}
     </p>
-    <div class="workflow-items-container">
-      <WorkflowItem
-        v-for="(step, index) in steps"
-        :key="index"
-        :imageUrl="step.imageUrl"
-        :stepNumber="step.stepNumber"
-        :stepTitle="$t(step.stepTitle)"
-        :stepDetails="step.stepDetails.map(detail => $t(detail))"
-      />
+
+    <div class="workflow-wrapper">
+      <div class="workflow-items-container">
+        <WorkflowItem
+          v-for="(step, index) in paginatedSteps"
+          :key="index"
+          :imageUrl="step.imageUrl"
+          :stepNumber="step.stepNumber"
+          :stepTitle="lang === 'vi' ? step.stepTitle.vi : step.stepTitle.en"
+          :stepDetails="step.stepDetails.map((detail) =>
+            lang === 'vi' ? detail.vi : detail.en
+          )"
+        />
+      </div>
+
+      <!-- Chỉ hiện nút mũi tên khi có > 5 workflows -->
+      <template v-if="showArrows">
+        <button class="nav-button left" @click="prevPage" :disabled="currentPage === 1">
+          ‹
+        </button>
+        <button class="nav-button right" @click="nextPage" :disabled="currentPage === totalPages">
+          ›
+        </button>
+      </template>
     </div>
   </section>
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from "vue";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/firebase";
 import WorkflowItem from "@/components/WorkflowItem.vue";
-import Icon_1 from "@/assets/images/WorkFlow/icon1.png"
-import Icon_2 from "@/assets/images/WorkFlow/icon2.png"
-import Icon_3 from "@/assets/images/WorkFlow/icon3.png"
-import Icon_4 from "@/assets/images/WorkFlow/icon4.png"
-import Icon_5 from "@/assets/images/WorkFlow/icon5.png"
 
-const steps = [
-  {
-    imageUrl: Icon_1,
-    stepNumber: "1",
-    stepTitle: "step1Title",
-    stepDetails: ["step1Details.detail1", "step1Details.detail2", "step1Details.detail3"],
-  },
-  {
-    imageUrl: Icon_2,
-    stepNumber: "2",
-    stepTitle: "step2Title",
-    stepDetails: ["step2Details.detail1", "step2Details.detail2", "step2Details.detail3", "step2Details.detail4"],
-  },
-  {
-    imageUrl: Icon_3,
-    stepNumber: "3",
-    stepTitle: "step3Title",
-    stepDetails: ["step3Details.detail1", "step3Details.detail2", "step3Details.detail3"],
-  },
-  {
-    imageUrl: Icon_4,
-    stepNumber: "4",
-    stepTitle: "step4Title",
-    stepDetails: ["step4Details.detail1", "step4Details.detail2", "step4Details.detail3", "step4Details.detail4"],
-  },
-  {
-    imageUrl: Icon_5,
-    stepNumber: "5",
-    stepTitle: "step5Title",
-    stepDetails: ["step5Details.detail1", "step5Details.detail2", "step5Details.detail3"],
-  },
-];
+const steps = ref([]);
+const lang = localStorage.getItem("lang") || "vi";
+
+const currentPage = ref(1);
+const itemsPerPage = 5; // 5 workflows mỗi trang
+
+onMounted(async () => {
+  const querySnapshot = await getDocs(collection(db, "workflows"));
+  steps.value = querySnapshot.docs.map((doc) => doc.data());
+});
+
+const sortedSteps = computed(() =>
+  [...steps.value].sort((a, b) => a.stepNumber - b.stepNumber)
+);
+
+const totalPages = computed(() =>
+  Math.ceil(sortedSteps.value.length / itemsPerPage)
+);
+
+const paginatedSteps = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return sortedSteps.value.slice(start, end);
+});
+
+const showArrows = computed(() => sortedSteps.value.length > itemsPerPage);
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+}
+
+function prevPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+}
 </script>
 
 <style scoped>
@@ -69,8 +94,8 @@ const steps = [
   display: flex;
   flex-direction: column;
   position: relative;
-  min-height: 1153px;
-  padding: 91px 30px;
+  padding: 20px 20px;
+  min-height: 575px;
   overflow: hidden;
   align-items: center;
   font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
@@ -90,54 +115,108 @@ const steps = [
 .section-title {
   position: relative;
   color: rgba(0, 0, 0, 1);
-  font-size: 50px;
+  font-size: 36px;
   font-weight: 700;
-  line-height: 0.8;
-  letter-spacing: 2.5px;
+  line-height: 1.1;
+  letter-spacing: 1px;
   text-align: center;
   margin: 0;
 }
 
 .section-description {
   position: relative;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 40px;
-  letter-spacing: 1px;
+  line-height: 30px;
+  letter-spacing: 0.5px;
   text-align: center;
-  margin-top: 100px;
-  width: 887px;
+  margin-top: 10px;
+  width: 850px;
   max-width: 100%;
 }
 
-.workflow-items-container {
+/* Wrapper để chứa items và các mũi tên */
+.workflow-wrapper {
   position: relative;
+  width: 100%;
+  max-width: 1224px;
+  margin-top: 10px;
+}
+
+.workflow-items-container {
   border-radius: 12px;
   display: flex;
-  margin-top: 100px;
-  width: 1189px;
-  max-width: 100%;
-  align-items: stretch;
-  gap: 16px;
   flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  width: 100%;
+}
+
+.workflow-items-container > * {
+  flex: 1 1 250px;
+  max-width: 235px;
+}
+
+/* Mũi tên điều hướng */
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(16, 25, 53, 0.8);
+  border: none;
+  color: white;
+  font-size: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.3s;
+}
+
+.nav-button:hover {
+  background: rgba(221, 100, 66, 0.9);
+}
+
+.nav-button.left {
+  left: -60px; /* nằm ngoài vùng workflow-wrapper */
+}
+
+.nav-button.right {
+  right: -60px; /* nằm ngoài vùng workflow-wrapper */
+}
+
+.nav-button:disabled {
+  background: rgba(16, 25, 53, 0.3);
+  cursor: default;
 }
 
 @media (max-width: 991px) {
   .workflow-section {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 30px 16px;
   }
 
   .section-title {
-    font-size: 40px;
+    font-size: 28px;
   }
 
   .section-description {
-    margin-top: 40px;
+    font-size: 14px;
+    margin-top: 24px;
+    line-height: 26px;
   }
 
   .workflow-items-container {
-    margin-top: 40px;
+    margin-top: 30px;
+    gap: 10px;
+  }
+
+  .nav-button.left {
+    left: -30px;
+  }
+
+  .nav-button.right {
+    right: -30px;
   }
 }
 </style>

@@ -61,7 +61,6 @@ onMounted(() => {
 <style scoped>
 .service-row {
   position: relative;
-  padding: 89px 80px 193px;
   will-change: transform;
   backface-visibility: hidden;
   width: 100%;

@@ -1,7 +1,7 @@
 <template>
   <div class="language-selector">
     <select 
-      :value="$i18n.locale"
+      :value="currentLang"
       @change="changeLanguage($event.target.value)"
       class="lang-select"
     >
@@ -17,9 +17,7 @@
 </template>
 
 <script setup>
-import { useI18n } from "vue-i18n";
-
-const { locale } = useI18n();
+import { ref, onMounted } from "vue";
 
 // Supported languages
 const languages = [
@@ -27,10 +25,19 @@ const languages = [
   { code: "en", label: "ENG" }
 ];
 
-// Change language and save to localStorage
+const currentLang = ref("vi");
+
+onMounted(() => {
+  const savedLang = localStorage.getItem("lang");
+  if (savedLang) {
+    currentLang.value = savedLang;
+  }
+});
+
 const changeLanguage = (lang) => {
-  locale.value = lang;
+  currentLang.value = lang;
   localStorage.setItem("lang", lang);
+  window.location.reload(); // Reload để các component lấy lại đúng ngôn ngữ từ localStorage
 };
 </script>
 
@@ -68,5 +75,4 @@ const changeLanguage = (lang) => {
   padding: 12px;
   border: none;
 }
-
 </style>

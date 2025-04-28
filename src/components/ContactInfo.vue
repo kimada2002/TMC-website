@@ -32,7 +32,7 @@
       </div>
       <div class="map-container">
         <a
-          href="https://www.google.com/maps/place/14+Nguy%E1%BB%85n+Th%E1%BB%8B+Di%E1%BB%87u,+Ph%C6%B0%E1%BB%9Dng+6,+Qu%E1%BA%ADn+3,+H%E1%BB%93+Ch%C3%AD+Minh,+Vi%E1%BB%87t+Nam/@10.7769373,106.6869031,17z/data=!3m1!4b1!4m6!3m5!1s0x31752f3ac28d806f:0xa7d917f3252929c6!8m2!3d10.776932!4d106.689478!16s%2Fg%2F11q2njsd_f?entry=ttu&g_ep=EgoyMDI1MDMxMi4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
+          href="https://www.google.com/maps/place/14+Nguy%E1%BB%85n+Th%E1%BB%8B+Di%E1%BB%87u,+Ph%C6%B0%E1%BB%9Dng+6,+Qu%E1%BA%ADn+3,+H%E1%BB%93+Ch%C3%AD+Minh,+Vi%E1%BB%87t+Nam"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -52,49 +52,51 @@
   flex: 1;
   background-color: #000;
   color: #fff;
-  padding: 40px;
+  padding: 30px;
   border-radius: 8px;
 }
 
 .contact-title {
   font-family: "Inter", sans-serif;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 600;
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .contact-subtitle {
   color: var(--gray);
   opacity: 0.5;
-  margin-bottom: var(--spacing-12);
+  margin-bottom: 12px; 
+  font-size: 14px;
 }
 
 .contact-details {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px; /* giảm gap giữa các mục */
 }
 
 .contact-item {
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: 12px; /* giảm khoảng cách icon và text */
 }
 
 .icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
 }
 
 .phone-numbers {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 3px;
+  font-size: 14px;
 }
 
 .map-container {
-  margin-top: 30px;
+  margin-top: 16px; /* giảm khoảng cách */
   width: 100%;
   border-radius: 8px;
   overflow: hidden;
@@ -102,28 +104,26 @@
 
 .map-image {
   width: 100%;
-  height: 250px;
+  height: 150px; /* giảm chiều cao bản đồ */
   object-fit: cover;
   border-radius: 8px;
 }
 
 @media (max-width: 768px) {
   .contact-info {
-    padding: 20px;
+    padding: 16px;
   }
 
   .contact-title {
-    font-size: 24px;
+    font-size: 20px;
   }
 
-  .map-container {
-    height: 150px;
+  .contact-subtitle {
+    font-size: 13px;
   }
 
   .map-image {
-    
-    height: auto ;
-    
+    height: 120px;
   }
 }
 </style>

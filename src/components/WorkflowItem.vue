@@ -42,14 +42,14 @@ defineProps({
   border-radius: 12px;
   background-color: rgba(219, 203, 216, 0.5);
   display: flex;
-  min-height: 400px;
-  padding: 30px 20px 143px;
+  padding: 20px 16px 40px;
   flex-direction: column;
   align-items: center;
   justify-content: start;
   flex: 1;
   transition: background-color 0.5s ease, color 0.5s ease;
   width: 50%;
+  min-height: 415px; /* bỏ chiều cao cố định */
 }
 
 .workflow-item:hover {
@@ -80,35 +80,41 @@ defineProps({
 }
 
 .workflow-step-title {
-  font-size: 23px;
+  font-size: 20px;
   font-weight: 700;
   text-align: center;
-  margin-top: 37px;
+  margin-top: 20px;
   transition: filter 0.5s ease;
-  height: 70px;
+  line-height: 1.3;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* chỉ 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: calc(1.3em * 3); /* 2 dòng = 2 x line-height */
 }
 
 .workflow-step-details {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  margin-top: 37px;
+  margin-top: 20px;
   text-align: center;
   display: flex;
-  gap: 10px;
+  gap: 6px;
   flex-wrap: wrap;
 }
-
 .step-detail {
-  white-space: normal; 
+  margin-top: auto;
+  white-space: normal;
   word-wrap: break-word;
-  text-align: left; 
+  text-align: left;
   display: flex;
-  gap: 8px; 
+  gap: 8px;
 }
 
 .step-detail::before {
-  content: "•"; 
-  color: #101935; 
+  content: "•";
+  color: #101935;
   font-size: 16px;
   margin-right: 5px;
 }

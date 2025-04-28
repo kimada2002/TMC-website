@@ -39,6 +39,42 @@
         </li>
 
         <li>
+          <router-link to="/admin/about">
+            <span class="icon">
+              <ion-icon name="people-outline"></ion-icon>
+            </span>
+            <span class="title">About Us</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/admin/services">
+            <span class="icon">
+              <ion-icon name="people-outline"></ion-icon>
+            </span>
+            <span class="title">Services</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/admin/workflow">
+            <span class="icon">
+              <ion-icon name="people-outline"></ion-icon>
+            </span>
+            <span class="title">WorkFlow</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/admin/languages">
+            <span class="icon">
+              <ion-icon name="people-outline"></ion-icon>
+            </span>
+            <span class="title">Languages</span>
+          </router-link>
+        </li>
+
+        <li>
           <a @click="logout">
             <span class="icon">
               <ion-icon name="log-out-outline"></ion-icon>
