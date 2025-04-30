@@ -66,11 +66,11 @@
         </li>
 
         <li>
-          <router-link to="/admin/languages">
+          <router-link to="/admin/chatbot">
             <span class="icon">
               <ion-icon name="people-outline"></ion-icon>
             </span>
-            <span class="title">Languages</span>
+            <span class="title">ChatBot</span>
           </router-link>
         </li>
 
@@ -114,14 +114,12 @@ const toggleSidebar = () => {
   isCollapsed.value = !isCollapsed.value;
 };
 
-const logout = async () => {
-  try {
-    await signOut(auth);
-    localStorage.removeItem("user");
-    router.push("/");
-  } catch (error) {
-    console.error("Lỗi khi đăng xuất:", error);
-  }
+const logout = () => {
+  localStorage.setItem(
+    "user",
+    JSON.stringify({ isLoggedIn: false, role: "user" })
+  );
+  router.push("/");
 };
 
 const goHome = () => {

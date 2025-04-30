@@ -29,7 +29,11 @@
       <button class="menu-toggle" @click="toggleMenu">☰</button>
 
       <!-- Admin Page -->
-      <button v-if="isLoggedIn" class="admin-button" @click="goToAdmin">
+      <button
+        v-if="isLoggedIn && isAdmin"
+        class="admin-button"
+        @click="goToAdmin"
+      >
         Admin
       </button>
     </div>
@@ -45,6 +49,7 @@ import LanguageSelector from "./LanguageSelector.vue";
 const isMenuOpen = ref(false);
 const navbar = ref(null);
 const isLoggedIn = ref(false);
+const isAdmin = ref(false);
 const isScrolled = ref(false);
 const router = useRouter();
 
@@ -58,14 +63,11 @@ const closeMenu = () => {
 
 // Kiểm tra trạng thái đăng nhập từ Firebase
 onMounted(() => {
-  const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    isLoggedIn.value = !!user;
-  });
-
-  window.addEventListener("scroll", () => {
-    isScrolled.value = window.scrollY > 0;
-  });
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user && user.isLoggedIn && user.role === "admin") {
+    isLoggedIn.value = user.isLoggedIn;
+    isAdmin.value = user.role === "admin";
+  }
 });
 
 onUnmounted(() => {

@@ -2,12 +2,12 @@
   <div class="login-page">
     <div class="login-container">
       <div class="login-image">
-        <img src="@/assets/images/login-image.png" alt="Login Image">
+        <img src="@/assets/images/login-image.png" alt="Login Image" />
       </div>
-      
+
       <div class="login-card">
         <h1 class="login-title">Đăng Nhập</h1>
-        <p class="login-subtitle">Vui lòng điền thông tin </p>
+        <p class="login-subtitle">Vui lòng điền thông tin</p>
 
         <div v-if="errorMsg" class="error-message">
           {{ errorMsg }}
@@ -62,7 +62,7 @@ const loading = ref(false);
 
 const login = async () => {
   if (!email.value || !password.value) {
-    errorMsg.value = "Xin hãy nhập Email và mặt khẩu!";
+    errorMsg.value = "Xin hãy nhập Email và mật khẩu!";
     return;
   }
 
@@ -77,7 +77,11 @@ const login = async () => {
     const user = userCredential.user;
 
     if (user) {
-      localStorage.setItem("user", JSON.stringify({ isLoggedIn: true }));
+      // Lưu thông tin vào localStorage với role 'admin'
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ isLoggedIn: true, role: "admin" })
+      );
       router.push("/admin");
     }
   } catch (error) {
@@ -112,7 +116,7 @@ const login = async () => {
 
 .login-container {
   display: flex;
-  max-width: 900px; 
+  max-width: 900px;
   width: 100%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -238,9 +242,9 @@ const login = async () => {
     flex-direction: column;
     max-width: 400px;
   }
-  
+
   .login-image {
-    height: 200px; 
+    height: 200px;
   }
 }
 </style>
