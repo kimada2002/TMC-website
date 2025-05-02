@@ -7,7 +7,7 @@
         :slides-per-view="3"
         :space-between="10"
         :loop="true"
-        :autoplay="{ delay: 1000, disableOnInteraction: false }"
+        :autoplay="{ delay: 4000, disableOnInteraction: false }"
         :pagination="{
           clickable: true,
           dynamicBullets: true,
@@ -170,31 +170,13 @@ onMounted(fetchImages);
   font-size: 24px;
 }
 
-@media (max-width: 1024px) {
-  .slide-image {
-    max-width: 266px;
-    height: 175px;
-  }
-  :deep(.swiper-button-prev) {
-    left: 30px;
-  }
-
-  :deep(.swiper-button-next) {
-    right: 30px;
-  }
-}
-
 @media (max-width: 768px) {
   .slide-image {
     max-width: 266px;
     height: 175px;
   }
-}
-
-@media (max-width: 480px) {
-  .slide-image {
-    max-width: 266px;
-    height: 175px;
+  .gallery-container {
+margin-top: 10rem;
   }
 }
 </style>

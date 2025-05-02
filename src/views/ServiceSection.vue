@@ -40,21 +40,22 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import ServiceRow from "@/components/ServiceRow.vue";
 
-const lang = localStorage.getItem("lang") || "vi"; // lấy ngôn ngữ lưu local
+const lang = localStorage.getItem("lang") || "vi";
 const currentIndex = ref(0);
 const serviceRows = ref([]);
 const services = ref([]);
 
-onMounted(async () => {
-  const querySnapshot = await getDocs(collection(db, "services"));
-  services.value = querySnapshot.docs.map((doc) => doc.data());
-  prepareServiceRows();
-});
+// Debounce helper
+let resizeTimeout;
+const debounce = (func, delay = 300) => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(func, delay);
+};
 
 const prepareServiceRows = () => {
   const mappedServices = services.value.map((service) => ({
@@ -64,15 +65,37 @@ const prepareServiceRows = () => {
     paddingBottom: "90px",
   }));
 
-  const chunkSize = 3;
+  const isMobile = window.innerWidth <= 768;
+  const chunkSize = isMobile ? 1 : 3;
+
   const rows = [];
   for (let i = 0; i < mappedServices.length; i += chunkSize) {
     rows.push({
       services: mappedServices.slice(i, i + chunkSize),
     });
   }
+
   serviceRows.value = rows;
+  currentIndex.value = 0; // Reset về trang đầu khi thay đổi cấu trúc
 };
+
+const onResize = () => {
+  debounce(() => {
+    prepareServiceRows();
+  });
+};
+
+onMounted(async () => {
+  const querySnapshot = await getDocs(collection(db, "services"));
+  services.value = querySnapshot.docs.map((doc) => doc.data());
+  prepareServiceRows();
+
+  window.addEventListener("resize", onResize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", onResize);
+});
 
 const nextRow = () => {
   if (currentIndex.value < serviceRows.value.length - 1) {
@@ -90,6 +113,7 @@ const prevRow = () => {
 <style scoped>
 /* CSS giữ nguyên không đổi */
 .services-section {
+  height: 40rem;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -140,8 +164,8 @@ const prevRow = () => {
   font-size: 24px;
   border: none;
   border-radius: 10%;
-  width: 48px;
-  height: 48px;
+  width: 53.33px;
+  height: 53.33px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -156,8 +180,7 @@ const prevRow = () => {
 }
 
 .arrow-button:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
+  display: none;
 }
 
 .arrow-button.left {
@@ -170,11 +193,11 @@ const prevRow = () => {
 
 @media (max-width: 768px) {
   .arrow-button.left {
-    left: -10px;
+    left: -40px;
   }
 
   .arrow-button.right {
-    right: -10px;
+    right: -40px;
   }
 
   .arrow-button {

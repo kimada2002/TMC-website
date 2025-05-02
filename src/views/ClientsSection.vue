@@ -53,8 +53,7 @@ onMounted(fetchLogos);
 
 <style scoped>
 .clients-section {
-  background-color: #dbcbd8;
-  margin-top: 54px;
+  background-color: #f5f5f5;
   padding: 38px 70px;
   display: flex;
   justify-content: center;

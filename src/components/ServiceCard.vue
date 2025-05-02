@@ -80,10 +80,25 @@ defineProps({
   font-weight: var(--font-normal);
 }
 
-@media (max-width: 991px) {
+/* Responsive chỉnh lại cho 768px trở xuống */
+@media (max-width: 768px) {
   .service-card {
-    margin-top: 40px;
-    padding: 24px 20px;
+    flex-direction: column;
+    align-items: center;
+    min-height: auto;
+  }
+
+  .service-content {
+    max-width: 100%;
+    min-width: auto;
+  }
+
+  .service-title {
+    font-size: var(--text-xl);
+  }
+
+  .service-description {
+    font-size: var(--text-base);
   }
 }
 </style>

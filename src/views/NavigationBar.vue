@@ -1,5 +1,5 @@
 <template>
-  <nav ref="navbar" :class="['navbar', { 'navbar-scrolled': isScrolled }]">
+  <nav ref="navbar" class="navbar">
     <div class="nav-left">
       <div class="logo">
         <img src="@/assets/images/TMC-logo.png" alt="Desktop Logo" />
@@ -7,19 +7,19 @@
     </div>
 
     <div :class="['nav-container', { show: isMenuOpen }]">
-      <router-link to="/" class="nav-button">
+      <router-link to="/" class="nav-button" @click="closeMenu">
         {{ $t("home") }}
       </router-link>
-      <router-link to="/about" class="nav-button">
+      <router-link to="/about" class="nav-button" @click="closeMenu">
         {{ $t("about") }}
       </router-link>
-      <router-link to="/services" class="nav-button">
+      <router-link to="/services" class="nav-button" @click="closeMenu">
         {{ $t("service") }}
       </router-link>
-      <router-link to="/workflow" class="nav-button">
+      <router-link to="/workflow" class="nav-button" @click="closeMenu">
         {{ $t("work") }}
       </router-link>
-      <router-link to="/contact" class="nav-button">
+      <router-link to="/contact" class="nav-button" @click="closeMenu">
         {{ $t("contact") }}
       </router-link>
     </div>
@@ -27,8 +27,6 @@
     <div class="nav-right">
       <LanguageSelector />
       <button class="menu-toggle" @click="toggleMenu">☰</button>
-
-      <!-- Admin Page -->
       <button
         v-if="isLoggedIn && isAdmin"
         class="admin-button"
@@ -41,16 +39,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import LanguageSelector from "./LanguageSelector.vue";
 
 const isMenuOpen = ref(false);
-const navbar = ref(null);
 const isLoggedIn = ref(false);
 const isAdmin = ref(false);
-const isScrolled = ref(false);
 const router = useRouter();
 
 const toggleMenu = () => {
@@ -61,19 +56,12 @@ const closeMenu = () => {
   isMenuOpen.value = false;
 };
 
-// Kiểm tra trạng thái đăng nhập từ Firebase
 onMounted(() => {
   const user = JSON.parse(localStorage.getItem("user"));
   if (user && user.isLoggedIn && user.role === "admin") {
     isLoggedIn.value = user.isLoggedIn;
-    isAdmin.value = user.role === "admin";
+    isAdmin.value = true;
   }
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", () => {
-    isScrolled.value = window.scrollY > 0;
-  });
 });
 
 const goToAdmin = () => {
@@ -93,10 +81,6 @@ const goToAdmin = () => {
   padding: 10px 20px;
   transition: all 0.3s ease;
   z-index: 1000;
-}
-
-.navbar-scrolled {
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .nav-left {
@@ -158,16 +142,13 @@ const goToAdmin = () => {
   opacity: 1;
 }
 
-.nav-button:hover::after {
+.nav-button:hover::after,
+.nav-button.router-link-active::after {
   width: calc(80% - 40px);
 }
 
 .nav-button.router-link-active {
   opacity: 1;
-}
-
-.nav-button.router-link-active::after {
-  width: calc(80% - 40px);
 }
 
 .admin-button {

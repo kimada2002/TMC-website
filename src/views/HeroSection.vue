@@ -1,210 +1,177 @@
 <template>
-  <header id="header" class="hero-section">
-    <img
-      src="@/assets/images/Header6.png"
-      class="hero-background"
-      alt="Background image"
-    />
+  <div class="container">
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Text Section -->
+      <div class="text-section">
+        <h1 class="title">Technology</h1>
+        <h1 class="title">Management</h1>
+        <h1 class="title">Consultancy</h1>
+        <p class="tagline">
+          From Concept to Execution - We Bring Your Brand to Life
+        </p>
+        <!-- <button @click="goToAbout" class="cta-button">Get Started</button> -->
+      </div>
 
-    <div class="gallery-wrapper">
-      <swiper
-        v-if="images.length > 0"
-        :modules="[Autoplay, Pagination, Navigation]"
-        :slides-per-view="3"
-        :space-between="10"
-        :loop="true"
-        :autoplay="{ delay: 1000, disableOnInteraction: false }"
-        :pagination="{
-          clickable: true,
-          dynamicBullets: true,
-          dynamicMainBullets: 3,
-        }"
-        navigation
-        :breakpoints="{
-          1024: { slidesPerView: 3, spaceBetween: 10 },
-          768: { slidesPerView: 2, spaceBetween: 10 },
-          480: { slidesPerView: 1, spaceBetween: 5 },
-        }"
-        class="slider"
-      >
-        <swiper-slide v-for="(img, index) in images" :key="index">
-          <img :src="img" class="slide-image" @click="openFullscreen(img)" />
-        </swiper-slide>
-      </swiper>
+      <!-- Running Character -->
+      <div class="character-container">
+        <img
+          src="@/assets/images/login-image.png"
+          alt="Running Character"
+          class="runner-image"
+        />
+      </div>
+    </main>
+    <div class="images-gallery">
+      <image-gallery />
     </div>
-
-    <div v-if="selectedImage" class="fullscreen-modal" @click="closeFullscreen">
-      <img :src="selectedImage" class="fullscreen-image" />
-      <span class="close-btn" @click="closeFullscreen">&times;</span>
-    </div>
-  </header>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { db } from "@/firebase";
-import { collection, getDocs } from "firebase/firestore";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/autoplay";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import ImageGallery from "./ImageGallery.vue";
+import { useRouter } from "vue-router";
 
-const images = ref([]);
-const selectedImage = ref(null);
+const router = useRouter();
 
-const fetchImages = async () => {
-  const querySnapshot = await getDocs(collection(db, "images"));
-  images.value = querySnapshot.docs.map((doc) => doc.data().url);
+const goToAbout = () => {
+  router.push("/about");
 };
-
-const openFullscreen = (img) => {
-  selectedImage.value = img;
-  document.body.style.overflow = "hidden";
-};
-
-const closeFullscreen = () => {
-  selectedImage.value = null;
-  document.body.style.overflow = "";
-};
-
-onMounted(fetchImages);
 </script>
 
 <style scoped>
-.hero-section {
+:root {
+  --primary: #111;
+  --secondary: #333;
+  --accent: #ff4d4d;
+  --text: #fff;
+  --bg: #f5f5f5;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+.container {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  background-image: url("@/assets/images/hero-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Main Content */
+.main-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5vh 5vw;
+  gap: 2rem;
+  flex-wrap: nowrap;
+}
+
+.text-section {
+  flex: 1;
+  max-width: 50%;
+}
+
+.title {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0.5em 0;
+  color: var(--primary);
+}
+
+.tagline {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  max-width: 30ch;
+  margin: clamp(1rem, 4vw, 2rem) 0;
+  color: var(--secondary);
+}
+
+.cta-button {
+  background: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: clamp(0.5rem, 1.5vw, 1rem) clamp(1rem, 4vw, 2.5rem);
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 50px;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Running Character */
+.character-container {
   position: relative;
-  width: 100%;
-  height: 90vh;
-  min-height: 400px;
-  max-width: 1366px;
-  margin: 0 auto;
-  overflow: hidden;
+  width: 50%;
+  height: 100%;
+  min-height: clamp(400px, 60vh, 600px);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.gallery-wrapper {
-  position: absolute;
-  bottom: 2%;
-  left: 50%;
-  transform: translateX(-50%);
+.runner-image {
   width: 100%;
-  max-width: 1000px;
-  z-index: 2;
+  max-width: 600px;
+  height: auto;
 }
 
-.hero-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.slider {
-  width: 100%;
-  height: 100%;
-}
-
-.slide-image {
-  width: 100%;
-  height: 175px;
-  object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.slide-image:hover {
-  transform: scale(1);
-}
-
-.fullscreen-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.fullscreen-image {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-}
-
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  color: white;
-  font-size: 40px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 1001;
-}
-
-::v-deep(.swiper-button-next),
-::v-deep(.swiper-button-prev) {
-  background-color: rgba(0, 0, 0, 0.5); 
-  color: white;
-  border-radius: 10%;
-  padding: 10px;
-  width: 48px;
-  height: 48px;
-}
-
-::v-deep(.swiper-button-next::after),
-::v-deep(.swiper-button-prev::after) {
-  color: white; /* Màu mũi tên */
-  font-size: 20px;
-}
-
-/* Responsive styles */
-@media (max-width: 1024px) {
-  .hero-section {
-    height: 70vh;
+/* Floating Animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
   }
-
-  .gallery-wrapper {
-    bottom: 5%;
+  50% {
+    transform: translateY(-10px);
   }
 }
 
+.images-gallery {
+  margin-top: -8vh;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .hero-section {
-    height: 60vh;
+  .title {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    margin: 0.3em 0;
   }
 
-  .slide-image {
-    height: 150px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-section {
-    height: 50vh;
+  .tagline {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin: 1.5rem 0;
   }
 
-  .slide-image {
-    height: 120px;
+  .character-container {
+    display: none;
   }
 
-  .close-btn {
-    top: 15px;
-    right: 20px;
-    font-size: 30px;
+  .runner-image {
+    max-width: 80%;
+  }
+
+  .main-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .text-section {
+    max-width: 100%;
+    margin: 0;
   }
 }
 </style>

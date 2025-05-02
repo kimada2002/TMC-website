@@ -1,9 +1,10 @@
 <template>
   <section id="about" class="about-us-page">
     <!-- About Us Heading -->
-    <div class="header-container">
-      <h2 class="title">{{ $t("aboutus") }}</h2>
-      <TrackAndStop darkMode />
+    <div class="header-container" style="background-color: #fff; width: 100%;">
+      <h2 class="section-title" style="margin: 20px 0;">
+        {{ lang === "vi" ? "Về chúng tôi" : "About Us" }}
+      </h2>
     </div>
 
     <!-- About Us Content -->
@@ -15,8 +16,9 @@
     <div class="clients-container">
       <!-- Client Heading -->
       <div class="header-container">
-        <h2 class="title">{{ $t("clients") }}<br /></h2>
-        <TrackAndStop darkMode />
+        <h2 class="section-title">
+          {{ lang === "vi" ? "Khách hàng" : "Our Clients" }}
+        </h2>
       </div>
 
       <ClientsSection />
@@ -25,30 +27,33 @@
 </template>
   
 <script setup>
-import TrackAndStop from "@/components/TrackAndStop.vue";
 import AboutUsView from "@/views/AboutUsView.vue";
-import ClientsSection from "../views/ClientsSection.vue";
+import ClientsSection from "@/views/ClientsSection.vue";
+import { ref } from "vue";
+
+const lang = localStorage.getItem("lang") || "vi"; // Giá trị mặc định là tiếng Việt
 </script>
 
   
 <style scoped>
 .about-us-page {
   display: flex;
-  margin: 50px auto;
   flex-direction: column;
   overflow: hidden;
   align-items: center;
+  background: #f5f5f5;
 }
 
-.title {
+.section-title {
+  position: relative;
   color: var(--black);
-  font-size: var(--text-5xl);
+  font-size: 36px;
   text-align: center;
+  margin-top: 20px;
 }
 
 .content-container {
   display: flex;
-  margin: 50px auto;
   width: 100%;
   max-width: 1100px;
   flex-direction: column;
@@ -64,17 +69,6 @@ import ClientsSection from "../views/ClientsSection.vue";
 
 .clients-container {
   width: 100%;
-}
-
-@media (max-width: 991px) {
-  .title {
-    font-size: 40px;
-  }
-
-  .content-container {
-    max-width: 100%;
-    margin-top: var(--spacing-10);
-  }
 }
 </style>
   

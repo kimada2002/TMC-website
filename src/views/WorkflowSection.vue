@@ -6,13 +6,13 @@
       alt="Workflow background"
     />
     <h2 class="section-title">
-      {{ lang === "vi" ? "Quy trình làm việc" : "Workflow Process" }}
+      {{ lang === "vi" ? "Quy trình" : "Workflow" }}
     </h2>
     <p class="section-description">
       {{
         lang === "vi"
-          ? "Đây là các bước chúng tôi thực hiện để hoàn thành dự án của bạn."
-          : "These are the steps we take to complete your project."
+          ? "Công ty có quy trình vận hành rõ ràng, đảm bảo sự liên lạc giữa các phòng ban trong công ty, thực hiện công việc hiệu quả nhất, đảm bảo chất lượng sản phẩm cao cũng như giảm thiểu mọi rủi ro."
+          : "The company has a clear operating process, ensuring communication between departments in the company, performing work most efficiently, ensure high quality product as well as minimize all risks."
       }}
     </p>
 
@@ -24,18 +24,28 @@
           :imageUrl="step.imageUrl"
           :stepNumber="step.stepNumber"
           :stepTitle="lang === 'vi' ? step.stepTitle.vi : step.stepTitle.en"
-          :stepDetails="step.stepDetails.map((detail) =>
-            lang === 'vi' ? detail.vi : detail.en
-          )"
+          :stepDetails="
+            step.stepDetails.map((detail) =>
+              lang === 'vi' ? detail.vi : detail.en
+            )
+          "
         />
       </div>
 
       <!-- Chỉ hiện nút mũi tên khi có > 5 workflows -->
       <template v-if="showArrows">
-        <button class="nav-button left" @click="prevPage" :disabled="currentPage === 1">
+        <button
+          class="arrow-button left"
+          @click="prevPage"
+          :disabled="currentPage === 1"
+        >
           ‹
         </button>
-        <button class="nav-button right" @click="nextPage" :disabled="currentPage === totalPages">
+        <button
+          class="arrow-button right"
+          @click="nextPage"
+          :disabled="currentPage === totalPages"
+        >
           ›
         </button>
       </template>
@@ -44,20 +54,32 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import WorkflowItem from "@/components/WorkflowItem.vue";
 
 const steps = ref([]);
 const lang = localStorage.getItem("lang") || "vi";
-
 const currentPage = ref(1);
-const itemsPerPage = 5; // 5 workflows mỗi trang
+const itemsPerPage = ref(5); // Mặc định 5 items/page (desktop)
 
+// Tính số items trên mỗi trang theo chiều rộng
+function updateItemsPerPage() {
+  itemsPerPage.value = window.innerWidth < 768 ? 1 : 5;
+}
+
+// Gọi khi mounted và khi resize
 onMounted(async () => {
+  updateItemsPerPage();
+  window.addEventListener("resize", updateItemsPerPage);
+
   const querySnapshot = await getDocs(collection(db, "workflows"));
   steps.value = querySnapshot.docs.map((doc) => doc.data());
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", updateItemsPerPage);
 });
 
 const sortedSteps = computed(() =>
@@ -65,16 +87,18 @@ const sortedSteps = computed(() =>
 );
 
 const totalPages = computed(() =>
-  Math.ceil(sortedSteps.value.length / itemsPerPage)
+  Math.ceil(sortedSteps.value.length / itemsPerPage.value)
 );
 
 const paginatedSteps = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  const end = start + itemsPerPage.value;
   return sortedSteps.value.slice(start, end);
 });
 
-const showArrows = computed(() => sortedSteps.value.length > itemsPerPage);
+const showArrows = computed(
+  () => sortedSteps.value.length > itemsPerPage.value
+);
 
 function nextPage() {
   if (currentPage.value < totalPages.value) {
@@ -155,49 +179,54 @@ function prevPage() {
 .workflow-items-container > * {
   flex: 1 1 250px;
   max-width: 235px;
+  height: 530px;
 }
 
 /* Mũi tên điều hướng */
-.nav-button {
+.arrow-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(16, 25, 53, 0.8);
-  border: none;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
-  font-size: 28px;
+  font-size: 24px;
+  border: none;
+  border-radius: 10%;
   width: 48px;
   height: 48px;
-  border-radius: 50%;
   cursor: pointer;
-  z-index: 10;
-  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.nav-button:hover {
-  background: rgba(221, 100, 66, 0.9);
+.arrow-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  transform: translateY(-50%) scale(1.05);
 }
 
-.nav-button.left {
-  left: -60px; /* nằm ngoài vùng workflow-wrapper */
+.arrow-button:disabled {
+  display: none;
 }
 
-.nav-button.right {
-  right: -60px; /* nằm ngoài vùng workflow-wrapper */
+.arrow-button.left {
+  left: -60px;
 }
 
-.nav-button:disabled {
-  background: rgba(16, 25, 53, 0.3);
-  cursor: default;
+.arrow-button.right {
+  right: -60px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 768px) {
   .workflow-section {
     padding: 30px 16px;
   }
 
   .section-title {
-    font-size: 28px;
+    font-size: 36px;
   }
 
   .section-description {
@@ -211,12 +240,18 @@ function prevPage() {
     gap: 10px;
   }
 
-  .nav-button.left {
-    left: -30px;
+  .arrow-button.left {
+    left: -10px;
   }
 
-  .nav-button.right {
-    right: -30px;
+  .arrow-button.right {
+    right: -10px;
+  }
+
+  .arrow-button {
+    font-size: 28px;
+    width: 40px;
+    height: 40px;
   }
 }
 </style>
