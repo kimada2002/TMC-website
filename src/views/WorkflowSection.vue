@@ -32,7 +32,6 @@
         />
       </div>
 
-      <!-- Chỉ hiện nút mũi tên khi có > 5 workflows -->
       <template v-if="showArrows">
         <button
           class="arrow-button left"
@@ -62,14 +61,12 @@ import WorkflowItem from "@/components/WorkflowItem.vue";
 const steps = ref([]);
 const lang = localStorage.getItem("lang") || "vi";
 const currentPage = ref(1);
-const itemsPerPage = ref(5); // Mặc định 5 items/page (desktop)
+const itemsPerPage = ref(5); 
 
-// Tính số items trên mỗi trang theo chiều rộng
 function updateItemsPerPage() {
   itemsPerPage.value = window.innerWidth < 768 ? 1 : 5;
 }
 
-// Gọi khi mounted và khi resize
 onMounted(async () => {
   updateItemsPerPage();
   window.addEventListener("resize", updateItemsPerPage);
@@ -159,7 +156,6 @@ function prevPage() {
   max-width: 100%;
 }
 
-/* Wrapper để chứa items và các mũi tên */
 .workflow-wrapper {
   position: relative;
   width: 100%;
