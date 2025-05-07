@@ -8,13 +8,6 @@
     <h2 class="section-title">
       {{ lang === "vi" ? "Quy trình" : "Workflow" }}
     </h2>
-    <p class="section-description">
-      {{
-        lang === "vi"
-          ? "Công ty có quy trình vận hành rõ ràng, đảm bảo sự liên lạc giữa các phòng ban trong công ty, thực hiện công việc hiệu quả nhất, đảm bảo chất lượng sản phẩm cao cũng như giảm thiểu mọi rủi ro."
-          : "The company has a clear operating process, ensuring communication between departments in the company, performing work most efficiently, ensure high quality product as well as minimize all risks."
-      }}
-    </p>
 
     <div class="workflow-wrapper">
       <div class="workflow-items-container">

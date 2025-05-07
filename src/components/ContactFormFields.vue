@@ -7,7 +7,7 @@
           <input
             type="text"
             v-model="formData.firstName"
-            :placeholder="lang === 'vi' ? 'Họ' : 'First Name'"
+            :placeholder="t('form.firstName')"
             class="form-input"
             required
           />
@@ -16,7 +16,7 @@
           <input
             type="text"
             v-model="formData.lastName"
-            :placeholder="lang === 'vi' ? 'Tên' : 'Last Name'"
+            :placeholder="t('form.lastName')"
             class="form-input"
             required
           />
@@ -29,7 +29,7 @@
           <input
             type="email"
             v-model="formData.email"
-            :placeholder="lang === 'vi' ? 'Email' : 'Email'"
+            :placeholder="t('form.email')"
             class="form-input"
             required
           />
@@ -38,7 +38,7 @@
           <input
             type="tel"
             v-model="formData.phone"
-            :placeholder="lang === 'vi' ? 'Số điện thoại' : 'Phone'"
+            :placeholder="t('form.phone')"
             class="form-input"
             required
           />
@@ -48,7 +48,7 @@
       <!-- Subject Section -->
       <fieldset class="subject-section">
         <legend class="field-label">
-          {{ lang === "vi" ? "Chủ đề liên hệ" : "Subject" }}
+          {{ t("form.subject") }}
         </legend>
         <div class="radio-options">
           <label class="radio-label">
@@ -59,7 +59,7 @@
               class="radio-input"
             />
             <span class="radio-custom"></span>
-            <span>{{ lang === "vi" ? "Thiết kế" : "Design" }}</span>
+            <span>{{ t("form.subjects.design") }}</span>
           </label>
           <label class="radio-label">
             <input
@@ -69,7 +69,7 @@
               class="radio-input"
             />
             <span class="radio-custom"></span>
-            <span>{{ lang === "vi" ? "Sản xuất" : "Production" }}</span>
+            <span>{{ t("form.subjects.production") }}</span>
           </label>
         </div>
       </fieldset>
@@ -77,16 +77,12 @@
       <!-- Message Section -->
       <div class="message-section">
         <label for="message" class="field-label">
-          {{ lang === "vi" ? "Nội dung" : "Message" }}
+          {{ t("form.message") }}
         </label>
         <textarea
           id="message"
           v-model="formData.message"
-          :placeholder="
-            lang === 'vi'
-              ? 'Nhập nội dung tin nhắn...'
-              : 'Enter your message...'
-          "
+          :placeholder="t('form.messagePlaceholder')"
           class="message-textarea"
           required
         ></textarea>
@@ -96,7 +92,7 @@
       <div class="form-row">
         <div class="form-group">
           <label class="field-label">
-            {{ lang === "vi" ? "Mã xác thực" : "Verification Code" }}
+            {{ t("form.verificationCode") }}
           </label>
           <div class="captcha-box">
             <span class="captcha-code">{{ captchaCode }}</span>
@@ -113,7 +109,7 @@
           <input
             type="text"
             v-model="userCaptchaInput"
-            :placeholder="lang === 'vi' ? 'Nhập mã xác thực' : 'Enter verification code'"
+            :placeholder="t('form.verificationCodePlaceholder')"
             class="form-input"
             required
           />
@@ -122,7 +118,7 @@
 
       <!-- Submit Button -->
       <button type="submit" class="submit-button">
-        <span>{{ lang === "vi" ? "Gửi liên hệ" : "Send Message" }}</span>
+        <span>{{ t("form.submit") }}</span>
         <img
           src="../assets/images/Contact/touch-screen.png"
           class="send-icon"
@@ -135,10 +131,11 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 import emailjs from "emailjs-com";
 import Swal from "sweetalert2";
 
-const lang = localStorage.getItem("lang") || "vi";
+const { t } = useI18n(); // Sử dụng hàm t từ vue-i18n
 
 const formData = ref({
   firstName: "",
@@ -168,11 +165,8 @@ const submitForm = async () => {
   if (userCaptchaInput.value.trim().toUpperCase() !== captchaCode.value) {
     Swal.fire({
       icon: "warning",
-      title: lang === "vi" ? "Sai mã xác thực" : "Invalid Code",
-      text:
-        lang === "vi"
-          ? "Vui lòng nhập đúng mã xác thực."
-          : "Please enter the correct verification code.",
+      title: t("form.invalidCode"),
+      text: t("form.invalidCodeMessage"),
     });
     generateCaptcha();
     return;
@@ -188,11 +182,8 @@ const submitForm = async () => {
 
     Swal.fire({
       icon: "success",
-      title: lang === "vi" ? "Gửi thành công!" : "Sent successfully!",
-      text:
-        lang === "vi"
-          ? "Chúng tôi sẽ liên hệ với bạn sớm nhất."
-          : "We will contact you as soon as possible.",
+      title: t("form.successTitle"),
+      text: t("form.successMessage"),
     });
 
     resetForm();
@@ -200,11 +191,8 @@ const submitForm = async () => {
   } catch (error) {
     Swal.fire({
       icon: "error",
-      title: lang === "vi" ? "Gửi thất bại!" : "Failed to send!",
-      text:
-        lang === "vi"
-          ? "Đã xảy ra lỗi khi gửi email. Vui lòng thử lại sau."
-          : "There was an error sending the email. Please try again later.",
+      title: t("form.errorTitle"),
+      text: t("form.errorMessage"),
     });
   }
 };
@@ -221,6 +209,7 @@ const resetForm = () => {
   userCaptchaInput.value = "";
 };
 </script>
+
 
 <style scoped>
 .form-section {
