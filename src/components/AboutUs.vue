@@ -3,7 +3,7 @@
     <!-- About Us Heading -->
     <div class="header-container" style="background-color: #fff; width: 100%;">
       <h2 class="section-title" style="margin: 20px 0;">
-        {{ lang === "vi" ? "Về chúng tôi" : "About Us" }}
+        {{ lang === "vi" ? "Về Chúng Tôi" : "About Us" }}
       </h2>
     </div>
 
@@ -17,7 +17,7 @@
       <!-- Client Heading -->
       <div class="header-container">
         <h2 class="section-title">
-          {{ lang === "vi" ? "Khách hàng" : "Our Clients" }}
+          {{ lang === "vi" ? "Khách Hàng" : "Our Clients" }}
         </h2>
       </div>
 

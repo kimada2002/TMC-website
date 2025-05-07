@@ -160,18 +160,17 @@ function observeVisibleSections() {
 }
 
 .section {
-  width: 100vw;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
   height: 60vh;
   padding: 4rem 2rem;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   background-color: #f5f5f5;
   box-sizing: border-box;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease;
+  gap: 2rem;
 }
 
 .visible {
@@ -186,7 +185,9 @@ function observeVisibleSections() {
 
 .section-content {
   flex: 1;
-  text-align: left;
+  min-width: 300px;
+  max-width: 600px;
+  padding: 1rem;
 }
 
 .section-title {
@@ -212,19 +213,37 @@ function observeVisibleSections() {
 .section-description {
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow-y: auto;
+  text-overflow: ellipsis;
+  max-height: calc(1.6em * 5); /* Tương ứng 5 dòng */
+  padding-right: 4px; /* tránh che mất chữ khi có scrollbar */
 }
 
-.section-content,
+.section-description::-webkit-scrollbar {
+  width: 6px;
+}
+
+.section-description::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
 .section-image {
-  flex: 1;
-  max-width: 50%;
-  margin: 8rem;
+  flex: none;
+  width: 400px; /* hoặc giá trị bạn thấy phù hợp, có thể responsive bằng clamp */
+  max-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .section-image img {
   max-width: 100%;
   height: auto;
-  max-height: 70vh;
+  max-height: 100%;
   object-fit: cover;
   border-radius: 10px;
 }

@@ -7,7 +7,7 @@
     />
 
     <h2 class="section-title">
-      {{ lang === "vi" ? "Dịch vụ của chúng tôi" : "Our Services" }}
+      {{ lang === "vi" ? "Dịch Vụ Của Chúng Tôi" : "Our Services" }}
     </h2>
 
     <div class="service-row-wrapper">

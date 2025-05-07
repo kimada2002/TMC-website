@@ -1,7 +1,15 @@
 <template>
   <aside class="contact-info">
-    <h2 class="contact-title">{{ $t("contact_us") }}</h2>
-    <p class="contact-subtitle">{{ $t("contactTitle") }}</p>
+    <h2 class="contact-title">
+      {{ lang === "vi" ? "Liên Hệ" : "Contact" }}
+    </h2>
+    <p class="contact-subtitle">
+      {{
+        lang === "vi"
+          ? "Hãy để chúng tôi đồng hành cùng thiết kế của bạn"
+          : "Let’s us accompany your design"
+      }}
+    </p>
     <div class="contact-details">
       <div class="contact-item">
         <img
@@ -28,7 +36,11 @@
           class="icon address-icon"
           alt="Address icon"
         />
-        <span>{{ $t("contactAdd") }}</span>
+        <span>{{
+          lang === "vi"
+            ? "14 Nguyễn Thị Diệu , phường Võ Thị Sáu, Quận 3, thành phố Hồ Chí Minh"
+            : "14 Nguyen Thi Dieu Steet , Vo Thi Sau, District 3, Ho Chi Minh City"
+        }}</span>
       </div>
       <div class="map-container">
         <a
@@ -46,6 +58,12 @@
     </div>
   </aside>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+const lang = localStorage.getItem("lang") || "vi";
+</script>
 
 <style scoped>
 .contact-info {
@@ -66,7 +84,7 @@
 .contact-subtitle {
   color: var(--gray);
   opacity: 0.5;
-  margin-bottom: 12px; 
+  margin-bottom: 12px;
   font-size: 14px;
 }
 

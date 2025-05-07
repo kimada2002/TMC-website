@@ -89,10 +89,12 @@ const goToAdmin = () => {
 }
 
 .logo img {
+  margin-left: 10rem;
   max-width: 90px;
 }
 
 .nav-right {
+  margin-right: 10rem;
   display: flex;
   gap: 15px;
   align-items: center;

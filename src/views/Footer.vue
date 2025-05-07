@@ -28,16 +28,16 @@
       </h3>
       <div class="explore-grid">
         <div class="explore-column">
-          <a href="#" class="explore-link">
+          <a href="/about" class="explore-link">
             {{ lang === "vi" ? "Về chúng tôi" : "About Us" }}
           </a>
-          <a href="#" class="explore-link">
+          <a href="/services" class="explore-link">
             {{ lang === "vi" ? "Dịch vụ" : "Services" }}
           </a>
-          <a href="#" class="explore-link">
+          <a href="workflow" class="explore-link">
             {{ lang === "vi" ? "Quy trình" : "Workflow" }}
           </a>
-          <a href="#" class="explore-link">
+          <a href="contact" class="explore-link">
             {{ lang === "vi" ? "Liên hệ" : "Contact" }}
           </a>
         </div>
@@ -56,7 +56,7 @@
             : "14 Nguyen Thi Dieu Street, Vo Thi Sau, District 3, Ho Chi Minh City"
         }}
       </p>
-      <p class="contact-info">(84-8) 3930 3792 / (84-8) 3930 4339</p>
+      <p class="contact-info">(84-8) 3930 3792</p>
       <p class="contact-info">info@thienminhhad.com</p>
     </div>
   </footer>

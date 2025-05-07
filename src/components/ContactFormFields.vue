@@ -7,7 +7,7 @@
           <input
             type="text"
             v-model="formData.firstName"
-            :placeholder="$t('first_name')"
+            :placeholder="lang === 'vi' ? 'Họ' : 'First Name'"
             class="form-input"
             required
           />
@@ -16,7 +16,7 @@
           <input
             type="text"
             v-model="formData.lastName"
-            :placeholder="$t('last_name')"
+            :placeholder="lang === 'vi' ? 'Tên' : 'Last Name'"
             class="form-input"
             required
           />
@@ -29,7 +29,7 @@
           <input
             type="email"
             v-model="formData.email"
-            placeholder="Email"
+            :placeholder="lang === 'vi' ? 'Email' : 'Email'"
             class="form-input"
             required
           />
@@ -38,7 +38,7 @@
           <input
             type="tel"
             v-model="formData.phone"
-            :placeholder="$t('phone')"
+            :placeholder="lang === 'vi' ? 'Số điện thoại' : 'Phone'"
             class="form-input"
             required
           />
@@ -47,7 +47,9 @@
 
       <!-- Subject Section -->
       <fieldset class="subject-section">
-        <legend class="field-label">{{ $t("subjectTitle") }}</legend>
+        <legend class="field-label">
+          {{ lang === "vi" ? "Chủ đề liên hệ" : "Subject" }}
+        </legend>
         <div class="radio-options">
           <label class="radio-label">
             <input
@@ -57,7 +59,7 @@
               class="radio-input"
             />
             <span class="radio-custom"></span>
-            <span>{{ $t("subjectdetail1") }}</span>
+            <span>{{ lang === "vi" ? "Thiết kế" : "Design" }}</span>
           </label>
           <label class="radio-label">
             <input
@@ -67,26 +69,60 @@
               class="radio-input"
             />
             <span class="radio-custom"></span>
-            <span>{{ $t("subjectdetail2") }}</span>
+            <span>{{ lang === "vi" ? "Sản xuất" : "Production" }}</span>
           </label>
         </div>
       </fieldset>
 
       <!-- Message Section -->
       <div class="message-section">
-        <label for="message" class="field-label">{{ $t("message") }}</label>
+        <label for="message" class="field-label">
+          {{ lang === "vi" ? "Nội dung" : "Message" }}
+        </label>
         <textarea
           id="message"
           v-model="formData.message"
-          :placeholder="$t('message_des')"
+          :placeholder="
+            lang === 'vi'
+              ? 'Nhập nội dung tin nhắn...'
+              : 'Enter your message...'
+          "
           class="message-textarea"
           required
         ></textarea>
       </div>
 
+      <!-- Captcha Verification -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="field-label">
+            {{ lang === "vi" ? "Mã xác thực" : "Verification Code" }}
+          </label>
+          <div class="captcha-box">
+            <span class="captcha-code">{{ captchaCode }}</span>
+            <button
+              type="button"
+              @click="generateCaptcha"
+              class="refresh-button"
+            >
+              🔄
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            v-model="userCaptchaInput"
+            :placeholder="lang === 'vi' ? 'Nhập mã xác thực' : 'Enter verification code'"
+            class="form-input"
+            required
+          />
+        </div>
+      </div>
+
       <!-- Submit Button -->
       <button type="submit" class="submit-button">
-        <span>{{ $t("contact_button") }}</span>
+        <span>{{ lang === "vi" ? "Gửi liên hệ" : "Send Message" }}</span>
         <img
           src="../assets/images/Contact/touch-screen.png"
           class="send-icon"
@@ -98,12 +134,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import emailjs from "emailjs-com";
-import { useI18n } from "vue-i18n";
 import Swal from "sweetalert2";
 
-const { t } = useI18n();
+const lang = localStorage.getItem("lang") || "vi";
 
 const formData = ref({
   firstName: "",
@@ -114,27 +149,62 @@ const formData = ref({
   message: "",
 });
 
+const captchaCode = ref("");
+const userCaptchaInput = ref("");
+
+const generateCaptcha = () => {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  captchaCode.value = Array.from(
+    { length: 5 },
+    () => chars[Math.floor(Math.random() * chars.length)]
+  ).join("");
+};
+
+onMounted(() => {
+  generateCaptcha();
+});
+
 const submitForm = async () => {
+  if (userCaptchaInput.value.trim().toUpperCase() !== captchaCode.value) {
+    Swal.fire({
+      icon: "warning",
+      title: lang === "vi" ? "Sai mã xác thực" : "Invalid Code",
+      text:
+        lang === "vi"
+          ? "Vui lòng nhập đúng mã xác thực."
+          : "Please enter the correct verification code.",
+    });
+    generateCaptcha();
+    return;
+  }
+
   try {
     await emailjs.send(
-      "nqnhatdz008", // Service ID
-      "template_g354xgk", // Template ID
+      "nqnhatdz008",
+      "template_g354xgk",
       formData.value,
-      "WlORgExyaUS_YPdn7" // User ID
+      "WlORgExyaUS_YPdn7"
     );
 
     Swal.fire({
       icon: "success",
-      title: t("mail_notification_title_success"),
-      text: t("mail_notification_text_success"),
+      title: lang === "vi" ? "Gửi thành công!" : "Sent successfully!",
+      text:
+        lang === "vi"
+          ? "Chúng tôi sẽ liên hệ với bạn sớm nhất."
+          : "We will contact you as soon as possible.",
     });
 
     resetForm();
+    generateCaptcha();
   } catch (error) {
     Swal.fire({
       icon: "error",
-      title: t("mail_notification_title_fail"),
-      text: t("mail_notification_text_fail"),
+      title: lang === "vi" ? "Gửi thất bại!" : "Failed to send!",
+      text:
+        lang === "vi"
+          ? "Đã xảy ra lỗi khi gửi email. Vui lòng thử lại sau."
+          : "There was an error sending the email. Please try again later.",
     });
   }
 };
@@ -148,6 +218,7 @@ const resetForm = () => {
     subject: "",
     message: "",
   };
+  userCaptchaInput.value = "";
 };
 </script>
 
@@ -220,7 +291,6 @@ const resetForm = () => {
   display: none;
 }
 
-/* Modify the checked state */
 .radio-input:checked + .radio-custom {
   background-color: var(--black);
   border-color: var(--black);
@@ -241,7 +311,6 @@ const resetForm = () => {
   transform: translate(-50%, -50%);
 }
 
-/* Update the radio custom styles */
 .radio-custom {
   width: 20px;
   height: 20px;
@@ -296,5 +365,28 @@ const resetForm = () => {
 
 .submit-button:hover .send-icon {
   filter: invert(1);
+}
+
+.captcha-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.captcha-code {
+  padding: 5px 10px;
+  background-color: var(--gray-light);
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: 18px;
+  border-radius: 4px;
+  user-select: none;
+}
+
+.refresh-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 }
 </style>
