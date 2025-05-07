@@ -14,10 +14,10 @@
           :key="index"
           :imageUrl="step.imageUrl"
           :stepNumber="step.stepNumber"
-          :stepTitle="lang === 'vi' ? step.stepTitle.vi : step.stepTitle.en"
+          :stepTitle="locale === 'vi' ? step.stepTitle.vi : step.stepTitle.en"
           :stepDetails="
             step.stepDetails.map((detail) =>
-              lang === 'vi' ? detail.vi : detail.en
+              locale === 'vi' ? detail.vi : detail.en
             )
           "
         />
@@ -45,12 +45,13 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { useI18n } from "vue-i18n";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import WorkflowItem from "@/components/WorkflowItem.vue";
 
+const { locale } = useI18n(); // 🔄 Lấy ngôn ngữ hiện tại từ i18n
 const steps = ref([]);
-const lang = localStorage.getItem("lang") || "vi";
 const currentPage = ref(1);
 const itemsPerPage = ref(5);
 
@@ -102,6 +103,7 @@ function prevPage() {
 </script>
 
 <style scoped>
+/* giữ nguyên phần style như bạn đã viết */
 .workflow-section {
   display: flex;
   flex-direction: column;
@@ -133,18 +135,6 @@ function prevPage() {
   letter-spacing: 1px;
   text-align: center;
   margin: 0;
-}
-
-.section-description {
-  position: relative;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 30px;
-  letter-spacing: 0.5px;
-  text-align: center;
-  margin-top: 10px;
-  width: 850px;
-  max-width: 100%;
 }
 
 .workflow-wrapper {
@@ -214,12 +204,6 @@ function prevPage() {
 
   .section-title {
     font-size: 36px;
-  }
-
-  .section-description {
-    font-size: 14px;
-    margin-top: 24px;
-    line-height: 26px;
   }
 
   .workflow-items-container {

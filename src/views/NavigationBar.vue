@@ -214,5 +214,17 @@ const goToAdmin = () => {
     font-size: var(--text-xs);
     padding: 8px 12px;
   }
+
+  .logo img {
+    margin-left: -5rem;
+    max-width: 90px;
+  }
+
+  .nav-right {
+    margin-right: -5rem;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
 }
 </style>
