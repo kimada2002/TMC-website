@@ -1,9 +1,9 @@
 <template>
   <section id="about" class="about-us-page">
     <!-- About Us Heading -->
-    <div class="header-container" style="background-color: #fff; width: 100%;">
-      <h2 class="section-title" style="margin: 20px 0;">
-        {{ lang === "vi" ? "Về Chúng Tôi" : "About Us" }}
+    <div class="header-container" style="background-color: #fff; width: 100%">
+      <h2 class="section-title" style="margin: 20px 0">
+        <h2 class="title">{{ $t("aboutus") }}</h2>
       </h2>
     </div>
 

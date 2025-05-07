@@ -20,7 +20,7 @@
         {{ $t("work") }}
       </router-link>
       <router-link to="/contact" class="nav-button" @click="closeMenu">
-        {{ $t("contact") }}
+        {{ $t("contact1") }}
       </router-link>
     </div>
 

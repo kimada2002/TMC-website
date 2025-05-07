@@ -5,9 +5,7 @@
       class="background-image"
       alt="Workflow background"
     />
-    <h2 class="section-title">
-      {{ lang === "vi" ? "Quy trình" : "Workflow" }}
-    </h2>
+    <h2 class="section-title">{{ $t("workflow") }}</h2>
 
     <div class="workflow-wrapper">
       <div class="workflow-items-container">
@@ -54,7 +52,7 @@ import WorkflowItem from "@/components/WorkflowItem.vue";
 const steps = ref([]);
 const lang = localStorage.getItem("lang") || "vi";
 const currentPage = ref(1);
-const itemsPerPage = ref(5); 
+const itemsPerPage = ref(5);
 
 function updateItemsPerPage() {
   itemsPerPage.value = window.innerWidth < 768 ? 1 : 5;

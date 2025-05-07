@@ -6,9 +6,7 @@
       alt="Service background"
     />
 
-    <h2 class="section-title">
-      {{ lang === "vi" ? "Dịch Vụ Của Chúng Tôi" : "Our Services" }}
-    </h2>
+    <h2 class="section-title">{{ $t("our_service") }}</h2>
 
     <div class="service-row-wrapper">
       <button

@@ -7,7 +7,11 @@ const messages = {
         about: "About",
         service: "Services",
         work: "WorkFlow",
-        contact: "Contact",
+        contact1: "Contact",
+
+        aboutus: "About Us",
+        our_service: "Our Services",
+        workflow: "WorkFlow",
 
         //Contact
         form: {
@@ -64,7 +68,11 @@ const messages = {
         about: "Giới thiệu",
         service: "Dịch vụ",
         work: "Quy trình",
-        contact: "Liên hệ",
+        contact1: "Liên hệ",
+
+        aboutus: "Về Chúng Tôi",
+        our_service: "Dịch Vụ",
+        workflow: "Quy Trình",
 
         //Contact
         form: {
