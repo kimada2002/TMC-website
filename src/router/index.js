@@ -11,7 +11,6 @@ import ContactForm from "@/views/ContactForm.vue";
 import AdminServiceEditor from "@/components/admin/AdminService.vue";
 import AdminWorkFlow from "@/components/admin/AdminWorkFlow.vue";
 import AdminAboutUs from "@/components/admin/AdminAboutUs.vue";
-import AdminChatBot from "@/components/admin/AdminChatBot.vue";
 
 
 const routes = [
@@ -55,7 +54,6 @@ const routes = [
             { path: "about", component: AdminAboutUs },
             { path: "services", component: AdminServiceEditor },
             { path: "workflow", component: AdminWorkFlow },
-            { path: "chatbot", component: AdminChatBot },
         ],
     },
 ];

@@ -10,7 +10,6 @@
         <p class="tagline">
           From Concept to Execution - We Bring Your Brand to Life
         </p>
-        <!-- <button @click="goToAbout" class="cta-button">Get Started</button> -->
       </div>
 
       <!-- Running Character -->
@@ -30,13 +29,7 @@
 
 <script setup>
 import ImageGallery from "./ImageGallery.vue";
-import { useRouter } from "vue-router";
 
-const router = useRouter();
-
-const goToAbout = () => {
-  router.push("/about");
-};
 </script>
 
 <style scoped>

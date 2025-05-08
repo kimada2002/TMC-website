@@ -17,9 +17,8 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed,  } from "vue";
 import { useRoute } from "vue-router";
-import { useI18n } from "vue-i18n";
 
 // Import các component
 import NavigationBar from "./views/NavigationBar.vue";
@@ -35,17 +34,8 @@ const isAuthPage = computed(
 );
 
 // Quản lý ngôn ngữ
-const { locale } = useI18n(); // Truy cập vào i18n
-const language = ref(locale.value); // Đồng bộ `locale` với trạng thái `language`
 
-// Danh sách các ngôn ngữ khả dụng
-const availableLanguages = ["en", "vi"];
 
-// Hàm thay đổi ngôn ngữ
-const changeLanguage = (lang) => {
-  language.value = lang; // Cập nhật trạng thái `language`
-  locale.value = lang; // Đồng bộ với i18n
-};
 </script>
 
 <style scoped>

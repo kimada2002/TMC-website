@@ -98,7 +98,7 @@ onMounted(fetchImages);
 .slide-image {
   width: 100%;
   height: 175px;
-  object-fit: fill;
+  object-fit: cover;
   border-radius: 8px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -118,7 +118,7 @@ onMounted(fetchImages);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 100;
 }
 .modal-content {
   position: relative;

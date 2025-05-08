@@ -31,6 +31,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease;
   padding: 0;
+  z-index: 200;
 }
 
 .messenger-button:hover {

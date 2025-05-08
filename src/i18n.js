@@ -44,6 +44,9 @@ const messages = {
                 "14 Nguyen Thi Dieu Steet, Vo Thi Sau, District 3, Ho Chi Minh City",
         },
 
+        //WorkFlow
+        step: "Step",
+
         //Footer
         footer: {
             tagline: "Contact us to create what you desire today.",
@@ -103,6 +106,9 @@ const messages = {
             address:
                 "14 Nguyễn Thị Diệu, phường Võ Thị Sáu, Quận 3, thành phố Hồ Chí Minh",
         },
+
+        //WorkFlow
+        step: "Bước",
 
         //Footer
         footer: {

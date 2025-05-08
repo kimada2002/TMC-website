@@ -180,10 +180,7 @@ function observeVisibleSections() {
 .section.reverse {
   flex-direction: row-reverse;
 }
-.section.reverse .section-description,
-.section.reverse .section-title{
-  text-align: right;
-}
+
 .section-content {
   flex: 1;
   min-width: 300px;

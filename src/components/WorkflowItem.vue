@@ -88,28 +88,28 @@ defineProps({
   line-height: 1.3;
 
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* chỉ 2 dòng */
+  -webkit-line-clamp: 3; 
   -webkit-box-orient: vertical;
   overflow: hidden;
-  height: calc(1.3em * 3); /* 2 dòng = 2 x line-height */
+  height: calc(1.3em * 3); 
 }
 
 .workflow-step-details {
   font-size: 14px;
   font-weight: 600;
   margin-top: 20px;
-  text-align: center;
+  text-align: left; 
   display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+  flex-direction: column; 
+  gap: 8px; 
 }
+
 .step-detail {
-  margin-top: auto;
+  display: flex;
+  align-items: flex-start;
   white-space: normal;
   word-wrap: break-word;
-  text-align: left;
-  display: flex;
-  gap: 8px;
+  line-height: 1.4;
 }
 
 .step-detail::before {

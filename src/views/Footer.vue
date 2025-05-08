@@ -22,18 +22,18 @@
       </h3>
       <div class="explore-grid">
         <div class="explore-column">
-          <a href="/about" class="explore-link">
+          <RouterLink to="/about" class="explore-link">
             {{ $t("footer.explore.about") }}
-          </a>
-          <a href="/services" class="explore-link">
+          </RouterLink>
+          <RouterLink to="/services" class="explore-link">
             {{ $t("footer.explore.services") }}
-          </a>
-          <a href="workflow" class="explore-link">
+          </RouterLink>
+          <RouterLink to="/workflow" class="explore-link">
             {{ $t("footer.explore.workflow") }}
-          </a>
-          <a href="contact" class="explore-link">
+          </RouterLink>
+          <RouterLink to="/contact" class="explore-link">
             {{ $t("footer.explore.contact") }}
-          </a>
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-// No need for lang variable as we're using i18n
+import { RouterLink } from "vue-router";
 </script>
 
 <style scoped>

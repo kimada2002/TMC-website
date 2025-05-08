@@ -41,7 +41,7 @@
         <li>
           <router-link to="/admin/about">
             <span class="icon">
-              <ion-icon name="people-outline"></ion-icon>
+              <ion-icon name="globe-outline"></ion-icon>
             </span>
             <span class="title">About Us</span>
           </router-link>
@@ -50,7 +50,7 @@
         <li>
           <router-link to="/admin/services">
             <span class="icon">
-              <ion-icon name="people-outline"></ion-icon>
+              <ion-icon name="settings-outline"></ion-icon>
             </span>
             <span class="title">Services</span>
           </router-link>
@@ -59,18 +59,9 @@
         <li>
           <router-link to="/admin/workflow">
             <span class="icon">
-              <ion-icon name="people-outline"></ion-icon>
+              <ion-icon name="document-lock-outline"></ion-icon>
             </span>
             <span class="title">WorkFlow</span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link to="/admin/chatbot">
-            <span class="icon">
-              <ion-icon name="people-outline"></ion-icon>
-            </span>
-            <span class="title">ChatBot</span>
           </router-link>
         </li>
 
