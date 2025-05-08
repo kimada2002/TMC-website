@@ -62,6 +62,7 @@ body {
 
 .text-section {
   max-width: 50%;
+  padding-left: 6rem
 }
 
 .title {

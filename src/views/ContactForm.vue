@@ -14,9 +14,9 @@ import ContactFormFields from "@/components/ContactFormFields.vue";
 
 <style scoped>
 .contact-container {
-  padding: 10px;
+  padding: 3rem;
   background-color: var(--white);
-  max-width: 1366px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
