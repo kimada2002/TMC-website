@@ -46,20 +46,23 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import { db } from "@/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useIntersectionObserver } from "@/utils/useIntersectionObserver";
-import ClientsSection from "./ClientsSection.vue";
+
+const { locale } = useI18n(); // Lấy ngôn ngữ hiện tại từ i18n
 
 const sections = ref([]);
 const sectionRefs = ref([]);
 const currentPage = ref(1);
-const lang = ref(localStorage.getItem("lang") || "vi");
 const itemsPerPage = ref(1);
 
 onMounted(async () => {
   await fetchSections();
+  updateItemsPerPage();
   observeVisibleSections();
+  window.addEventListener("resize", updateItemsPerPage);
 });
 
 onUnmounted(() => {
@@ -67,11 +70,7 @@ onUnmounted(() => {
 });
 
 const updateItemsPerPage = () => {
-  if (window.innerWidth < 768) {
-    itemsPerPage.value = 1;
-  } else {
-    itemsPerPage.value = 1; // Bạn có thể đặt 2 nếu muốn hiện 2 mục cùng lúc trên desktop
-  }
+  itemsPerPage.value = window.innerWidth < 768 ? 1 : 1; // Có thể chỉnh thành 2 cho desktop
 };
 
 const fetchSections = async () => {
@@ -99,13 +98,13 @@ const prevPage = () => {
   if (currentPage.value > 1) currentPage.value--;
 };
 
-function getTitle(section) {
-  return lang.value === "vi" ? section.title.vi : section.title.en;
-}
+const getTitle = (section) => {
+  return section.title?.[locale.value] || "";
+};
 
-function getDescription(section) {
-  return lang.value === "vi" ? section.description.vi : section.description.en;
-}
+const getDescription = (section) => {
+  return section.description?.[locale.value] || "";
+};
 
 watch(paginatedSections, () => {
   sectionRefs.value = [];
@@ -178,7 +177,6 @@ function observeVisibleSections() {
   transform: translateY(0) !important;
 }
 
-/* ZigZag đảo chiều flex row */
 .section.reverse {
   flex-direction: row-reverse;
 }
@@ -206,8 +204,8 @@ function observeVisibleSections() {
   -webkit-box-orient: vertical;
   overflow-y: auto;
   text-overflow: ellipsis;
-  max-height: calc(1.6em * 5); /* Tương ứng 5 dòng */
-  padding-right: 4px; /* tránh che mất chữ khi có scrollbar */
+  max-height: calc(1.6em * 5);
+  padding-right: 4px;
 }
 
 .section-description::-webkit-scrollbar {
@@ -237,7 +235,6 @@ function observeVisibleSections() {
               -2px -2px 8px rgba(255, 255, 255, 0.8);
 }
 
-/* Arrows */
 .arrow-button {
   position: absolute;
   top: 50%;
@@ -274,25 +271,12 @@ function observeVisibleSections() {
   right: 1rem;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .section {
     margin-top: -2rem;
     flex-direction: column !important;
     text-align: center;
     height: 38rem;
-  }
-
-  .section-title-about {
-    order: -2;
-    font-size: 1.75rem;
-    margin-top: 2rem;
-  }
-
-  .section-title-clients {
-    order: -2;
-    font-size: 1.75rem;
-    margin-top: 2rem;
   }
 
   .section-content,

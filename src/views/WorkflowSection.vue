@@ -5,16 +5,7 @@
       class="background-image"
       alt="Workflow background"
     />
-    <h2 class="section-title">
-      {{ lang === "vi" ? "Quy trình" : "Workflow" }}
-    </h2>
-    <p class="section-description">
-      {{
-        lang === "vi"
-          ? "Công ty có quy trình vận hành rõ ràng, đảm bảo sự liên lạc giữa các phòng ban trong công ty, thực hiện công việc hiệu quả nhất, đảm bảo chất lượng sản phẩm cao cũng như giảm thiểu mọi rủi ro."
-          : "The company has a clear operating process, ensuring communication between departments in the company, performing work most efficiently, ensure high quality product as well as minimize all risks."
-      }}
-    </p>
+    <h2 class="section-title">{{ $t("workflow") }}</h2>
 
     <div class="workflow-wrapper">
       <div class="workflow-items-container">
@@ -23,10 +14,10 @@
           :key="index"
           :imageUrl="step.imageUrl"
           :stepNumber="step.stepNumber"
-          :stepTitle="lang === 'vi' ? step.stepTitle.vi : step.stepTitle.en"
+          :stepTitle="locale === 'vi' ? step.stepTitle.vi : step.stepTitle.en"
           :stepDetails="
             step.stepDetails.map((detail) =>
-              lang === 'vi' ? detail.vi : detail.en
+              locale === 'vi' ? detail.vi : detail.en
             )
           "
         />
@@ -54,14 +45,15 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { useI18n } from "vue-i18n";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import WorkflowItem from "@/components/WorkflowItem.vue";
 
+const { locale } = useI18n(); // 🔄 Lấy ngôn ngữ hiện tại từ i18n
 const steps = ref([]);
-const lang = localStorage.getItem("lang") || "vi";
 const currentPage = ref(1);
-const itemsPerPage = ref(5); 
+const itemsPerPage = ref(5);
 
 function updateItemsPerPage() {
   itemsPerPage.value = window.innerWidth < 768 ? 1 : 5;
@@ -111,6 +103,7 @@ function prevPage() {
 </script>
 
 <style scoped>
+/* giữ nguyên phần style như bạn đã viết */
 .workflow-section {
   display: flex;
   flex-direction: column;
@@ -142,18 +135,6 @@ function prevPage() {
   letter-spacing: 1px;
   text-align: center;
   margin: 0;
-}
-
-.section-description {
-  position: relative;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 30px;
-  letter-spacing: 0.5px;
-  text-align: center;
-  margin-top: 10px;
-  width: 850px;
-  max-width: 100%;
 }
 
 .workflow-wrapper {
@@ -223,12 +204,6 @@ function prevPage() {
 
   .section-title {
     font-size: 36px;
-  }
-
-  .section-description {
-    font-size: 14px;
-    margin-top: 24px;
-    line-height: 26px;
   }
 
   .workflow-items-container {

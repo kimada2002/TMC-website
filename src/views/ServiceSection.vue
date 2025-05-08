@@ -6,9 +6,7 @@
       alt="Service background"
     />
 
-    <h2 class="section-title">
-      {{ lang === "vi" ? "Dịch Vụ Của Chúng Tôi" : "Our Services" }}
-    </h2>
+    <h2 class="section-title">{{ $t("our_service") }}</h2>
 
     <div class="service-row-wrapper">
       <button
@@ -40,12 +38,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import ServiceRow from "@/components/ServiceRow.vue";
+import { useI18n } from "vue-i18n";
 
-const lang = localStorage.getItem("lang") || "vi";
+const { locale } = useI18n(); // dùng locale từ i18n
+
 const currentIndex = ref(0);
 const serviceRows = ref([]);
 const services = ref([]);
@@ -58,9 +58,11 @@ const debounce = (func, delay = 300) => {
 };
 
 const prepareServiceRows = () => {
+  const lang = locale.value;
+
   const mappedServices = services.value.map((service) => ({
-    title: service.title ? service.title[lang] : "",
-    description: service.description ? service.description[lang] : "",
+    title: service.title?.[lang] || "",
+    description: service.description?.[lang] || "",
     imageUrl: service.imageUrl || "",
     paddingBottom: "90px",
   }));
@@ -76,7 +78,7 @@ const prepareServiceRows = () => {
   }
 
   serviceRows.value = rows;
-  currentIndex.value = 0; // Reset về trang đầu khi thay đổi cấu trúc
+  currentIndex.value = 0;
 };
 
 const onResize = () => {
@@ -91,6 +93,11 @@ onMounted(async () => {
   prepareServiceRows();
 
   window.addEventListener("resize", onResize);
+});
+
+// Watch khi locale (ngôn ngữ) thay đổi để cập nhật giao diện
+watch(locale, () => {
+  prepareServiceRows();
 });
 
 onBeforeUnmount(() => {
@@ -111,7 +118,6 @@ const prevRow = () => {
 </script>
 
 <style scoped>
-/* CSS giữ nguyên không đổi */
 .services-section {
   height: 40rem;
   display: flex;

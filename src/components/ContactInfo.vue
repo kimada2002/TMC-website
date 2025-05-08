@@ -1,14 +1,10 @@
 <template>
   <aside class="contact-info">
     <h2 class="contact-title">
-      {{ lang === "vi" ? "Liên Hệ" : "Contact" }}
+      {{ $t("contact.title") }}
     </h2>
     <p class="contact-subtitle">
-      {{
-        lang === "vi"
-          ? "Hãy để chúng tôi đồng hành cùng thiết kế của bạn"
-          : "Let’s us accompany your design"
-      }}
+      {{ $t("contact.subtitle") }}
     </p>
     <div class="contact-details">
       <div class="contact-item">
@@ -36,11 +32,7 @@
           class="icon address-icon"
           alt="Address icon"
         />
-        <span>{{
-          lang === "vi"
-            ? "14 Nguyễn Thị Diệu , phường Võ Thị Sáu, Quận 3, thành phố Hồ Chí Minh"
-            : "14 Nguyen Thi Dieu Steet , Vo Thi Sau, District 3, Ho Chi Minh City"
-        }}</span>
+        <span>{{ $t("contact.address") }}</span>
       </div>
       <div class="map-container">
         <a
@@ -60,9 +52,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-
-const lang = localStorage.getItem("lang") || "vi";
+// No need for lang variable as we're using i18n
 </script>
 
 <style scoped>
@@ -91,13 +81,13 @@ const lang = localStorage.getItem("lang") || "vi";
 .contact-details {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* giảm gap giữa các mục */
+  gap: 12px;
 }
 
 .contact-item {
   display: flex;
   align-items: flex-start;
-  gap: 12px; /* giảm khoảng cách icon và text */
+  gap: 12px;
 }
 
 .icon {
@@ -114,7 +104,7 @@ const lang = localStorage.getItem("lang") || "vi";
 }
 
 .map-container {
-  margin-top: 16px; /* giảm khoảng cách */
+  margin-top: 16px;
   width: 100%;
   border-radius: 8px;
   overflow: hidden;
@@ -122,7 +112,7 @@ const lang = localStorage.getItem("lang") || "vi";
 
 .map-image {
   width: 100%;
-  height: 150px; /* giảm chiều cao bản đồ */
+  height: 150px;
   object-fit: cover;
   border-radius: 8px;
 }

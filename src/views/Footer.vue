@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <!-- Phần giới thiệu -->
+    <!-- Introduction Section -->
     <div class="footer-intro">
       <img
         src="@/assets/images/TMC-logo.png"
@@ -8,53 +8,43 @@
         alt="Company Logo"
       />
       <p class="tagline">
-        {{
-          lang === "vi"
-            ? "Liên hệ với chúng tôi để tạo ra điều bạn mong muốn hôm nay."
-            : "Contact us to create what you desire today."
-        }}
+        {{ $t("footer.tagline") }}
       </p>
       <div class="copyright">
-        {{
-          lang === "vi" ? "© 2003 Công ty TNHH T.M.C" : "© 2003 T.M.C Co., Ltd"
-        }}
+        {{ $t("footer.copyright") }}
       </div>
     </div>
 
-    <!-- Phần Explore -->
+    <!-- Explore Section -->
     <div class="footer-explore">
       <h3 class="section-title">
-        {{ lang === "vi" ? "Khám phá" : "Explore" }}
+        {{ $t("footer.explore.title") }}
       </h3>
       <div class="explore-grid">
         <div class="explore-column">
           <a href="/about" class="explore-link">
-            {{ lang === "vi" ? "Về chúng tôi" : "About Us" }}
+            {{ $t("footer.explore.about") }}
           </a>
           <a href="/services" class="explore-link">
-            {{ lang === "vi" ? "Dịch vụ" : "Services" }}
+            {{ $t("footer.explore.services") }}
           </a>
           <a href="workflow" class="explore-link">
-            {{ lang === "vi" ? "Quy trình" : "Workflow" }}
+            {{ $t("footer.explore.workflow") }}
           </a>
           <a href="contact" class="explore-link">
-            {{ lang === "vi" ? "Liên hệ" : "Contact" }}
+            {{ $t("footer.explore.contact") }}
           </a>
         </div>
       </div>
     </div>
 
-    <!-- Phần Contact -->
+    <!-- Contact Section -->
     <div class="footer-contact">
       <h3 class="section-title">
-        {{ lang === "vi" ? "Liên hệ" : "Contact" }}
+        {{ $t("footer.contact.title") }}
       </h3>
       <p class="contact-info">
-        {{
-          lang === "vi"
-            ? "14 Nguyễn Thị Diệu, P. Võ Thị Sáu, Q.3, TP.HCM"
-            : "14 Nguyen Thi Dieu Street, Vo Thi Sau, District 3, Ho Chi Minh City"
-        }}
+        {{ $t("footer.contact.address") }}
       </p>
       <p class="contact-info">(84-8) 3930 3792</p>
       <p class="contact-info">info@thienminhhad.com</p>
@@ -63,7 +53,7 @@
 </template>
 
 <script setup>
-const lang = localStorage.getItem("lang") || "vi";
+// No need for lang variable as we're using i18n
 </script>
 
 <style scoped>
@@ -72,7 +62,7 @@ const lang = localStorage.getItem("lang") || "vi";
   font-family: "Arial", sans-serif;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px 20px; /* Giảm padding dưới để chừa chỗ cho copyright */
+  padding: 40px 20px 20px;
   display: grid;
   gap: 40px;
   color: #333;

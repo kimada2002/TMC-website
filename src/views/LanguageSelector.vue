@@ -1,15 +1,11 @@
 <template>
   <div class="language-selector">
-    <select 
+    <select
       :value="currentLang"
       @change="changeLanguage($event.target.value)"
       class="lang-select"
     >
-      <option 
-        v-for="lang in languages" 
-        :key="lang.code" 
-        :value="lang.code"
-      >
+      <option v-for="lang in languages" :key="lang.code" :value="lang.code">
         {{ lang.label }}
       </option>
     </select>
@@ -17,31 +13,49 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n();
 
 // Supported languages
 const languages = [
   { code: "vi", label: "VIE" },
-  { code: "en", label: "ENG" }
+  { code: "en", label: "ENG" },
 ];
 
-const currentLang = ref("vi");
+const currentLang = ref(locale.value);
 
+// Đồng bộ khi mounted
 onMounted(() => {
   const savedLang = localStorage.getItem("lang");
-  if (savedLang) {
+  if (savedLang && languages.some((l) => l.code === savedLang)) {
     currentLang.value = savedLang;
+    locale.value = savedLang;
   }
 });
 
+// Đồng bộ khi ngôn ngữ thay đổi
 const changeLanguage = (lang) => {
   currentLang.value = lang;
+  locale.value = lang;
   localStorage.setItem("lang", lang);
-  window.location.reload(); // Reload để các component lấy lại đúng ngôn ngữ từ localStorage
+
+  // Nếu cần reload để áp dụng thay đổi toàn cục
+  // window.location.reload();
 };
+
+// Theo dõi thay đổi từ bên ngoài (nếu cần)
+watch(locale, (newVal) => {
+  if (newVal !== currentLang.value) {
+    currentLang.value = newVal;
+    localStorage.setItem("lang", newVal);
+  }
+});
 </script>
 
 <style scoped>
+/* Giữ nguyên phần style như cũ */
 .language-selector {
   position: relative;
   display: inline-block;
