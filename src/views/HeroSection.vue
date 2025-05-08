@@ -40,17 +40,9 @@ const goToAbout = () => {
 </script>
 
 <style scoped>
-:root {
-  --primary: #111;
-  --secondary: #333;
-  --accent: #ff4d4d;
-  --text: #fff;
-  --bg: #f5f5f5;
-}
-
 body {
   margin: 0;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-primary);
   overflow-x: hidden;
 }
 
@@ -76,7 +68,6 @@ body {
 }
 
 .text-section {
-  flex: 1;
   max-width: 50%;
 }
 
@@ -115,7 +106,7 @@ body {
 /* Running Character */
 .character-container {
   position: relative;
-  width: 50%;
+  width: 40%;
   height: 100%;
   min-height: clamp(400px, 60vh, 600px);
   display: flex;
@@ -147,7 +138,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
   .title {
-    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-size: clamp(3rem, 5vw, 2.5rem);
     margin: 0.3em 0;
   }
 
@@ -170,8 +161,10 @@ body {
   }
 
   .text-section {
+    display: flex;
+    flex-direction: column;
     max-width: 100%;
-    margin: 0;
+    align-items: center;
   }
 }
 </style>

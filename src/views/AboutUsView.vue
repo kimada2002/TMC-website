@@ -163,7 +163,7 @@ function observeVisibleSections() {
   margin: 0 auto;
   width: 100%;
   height: 60vh;
-  padding: 4rem 2rem;
+  padding: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -218,9 +218,7 @@ function observeVisibleSections() {
 }
 
 .section-image {
-  flex: none;
-  width: 400px; 
-  max-height: 70vh;
+  width: 330px; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -277,6 +275,7 @@ function observeVisibleSections() {
     flex-direction: column !important;
     text-align: center;
     height: 38rem;
+    gap: 0.5rem;
   }
 
   .section-content,
@@ -287,6 +286,7 @@ function observeVisibleSections() {
 
   .section-image {
     order: -1;
+    width: 280px;
   }
 
   .section-title {
@@ -297,6 +297,12 @@ function observeVisibleSections() {
   .section-description {
     font-size: 1rem;
   }
+
+  .section.reverse .section-description,
+  .section.reverse .section-title{
+  text-align: center;
+}
+
 }
 
 /* Pop-up section animations */

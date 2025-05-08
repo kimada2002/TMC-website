@@ -178,7 +178,7 @@ onMounted(fetchImages);
     height: 175px;
   }
   .gallery-container {
-margin-top: 10rem;
+    margin-top: 1rem;
   }
 }
 </style>

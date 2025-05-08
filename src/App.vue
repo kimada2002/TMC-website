@@ -57,7 +57,6 @@ const changeLanguage = (lang) => {
 
 main {
   flex: 1;
-  padding: 16px;
 }
 
 .language-switcher {
