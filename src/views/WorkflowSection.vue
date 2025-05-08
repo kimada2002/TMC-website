@@ -7,7 +7,11 @@
     />
     <h2 class="section-title">{{ $t("workflow") }}</h2>
 
-    <div class="workflow-wrapper">
+    <div
+      class="workflow-wrapper"
+      @touchstart="handleTouchStart"
+      @touchend="handleTouchEnd"
+    >
       <div class="workflow-items-container">
         <WorkflowItem
           v-for="(step, index) in paginatedSteps"
@@ -50,7 +54,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import WorkflowItem from "@/components/WorkflowItem.vue";
 
-const { locale } = useI18n(); // 🔄 Lấy ngôn ngữ hiện tại từ i18n
+const { locale } = useI18n();
 const steps = ref([]);
 const currentPage = ref(1);
 const itemsPerPage = ref(5);
@@ -100,6 +104,30 @@ function prevPage() {
     currentPage.value--;
   }
 }
+
+// 👇 Thêm hỗ trợ vuốt
+const touchStartX = ref(0);
+const touchEndX = ref(0);
+
+const handleTouchStart = (e) => {
+  touchStartX.value = e.changedTouches[0].screenX;
+};
+
+const handleTouchEnd = (e) => {
+  touchEndX.value = e.changedTouches[0].screenX;
+  handleSwipeGesture();
+};
+
+const handleSwipeGesture = () => {
+  const diff = touchStartX.value - touchEndX.value;
+  if (Math.abs(diff) < 50) return; // Vuốt nhẹ quá thì bỏ qua
+
+  if (diff > 0 && currentPage.value < totalPages.value) {
+    nextPage();
+  } else if (diff < 0 && currentPage.value > 1) {
+    prevPage();
+  }
+};
 </script>
 
 <style scoped>
@@ -159,7 +187,6 @@ function prevPage() {
   height: 530px;
 }
 
-/* Mũi tên điều hướng */
 .arrow-button {
   position: absolute;
   top: 50%;

@@ -8,7 +8,11 @@
 
     <h2 class="section-title">{{ $t("our_service") }}</h2>
 
-    <div class="service-row-wrapper">
+    <div
+      class="service-row-wrapper"
+      @touchstart="handleTouchStart"
+      @touchend="handleTouchEnd"
+    >
       <button
         v-if="serviceRows.length > 1"
         class="arrow-button left"
@@ -44,18 +48,11 @@ import { db } from "@/firebase";
 import ServiceRow from "@/components/ServiceRow.vue";
 import { useI18n } from "vue-i18n";
 
-const { locale } = useI18n(); // dùng locale từ i18n
+const { locale } = useI18n();
 
 const currentIndex = ref(0);
 const serviceRows = ref([]);
 const services = ref([]);
-
-// Debounce helper
-let resizeTimeout;
-const debounce = (func, delay = 300) => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(func, delay);
-};
 
 const prepareServiceRows = () => {
   const lang = locale.value;
@@ -81,10 +78,41 @@ const prepareServiceRows = () => {
   currentIndex.value = 0;
 };
 
+// Responsive
+let resizeTimeout;
+const debounce = (func, delay = 300) => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(func, delay);
+};
+
 const onResize = () => {
   debounce(() => {
     prepareServiceRows();
   });
+};
+
+// Swipe support
+const touchStartX = ref(0);
+const touchEndX = ref(0);
+
+const handleTouchStart = (e) => {
+  touchStartX.value = e.changedTouches[0].screenX;
+};
+
+const handleTouchEnd = (e) => {
+  touchEndX.value = e.changedTouches[0].screenX;
+  handleSwipeGesture();
+};
+
+const handleSwipeGesture = () => {
+  const diff = touchStartX.value - touchEndX.value;
+  if (Math.abs(diff) < 50) return; // Vuốt quá nhẹ thì bỏ qua
+
+  if (diff > 0 && currentIndex.value < serviceRows.value.length - 1) {
+    nextRow();
+  } else if (diff < 0 && currentIndex.value > 0) {
+    prevRow();
+  }
 };
 
 onMounted(async () => {
@@ -95,7 +123,6 @@ onMounted(async () => {
   window.addEventListener("resize", onResize);
 });
 
-// Watch khi locale (ngôn ngữ) thay đổi để cập nhật giao diện
 watch(locale, () => {
   prepareServiceRows();
 });
@@ -158,6 +185,7 @@ const prevRow = () => {
   gap: 40px;
   transform: scale(0.9);
   transform-origin: center;
+  touch-action: pan-y;
 }
 
 .arrow-button {

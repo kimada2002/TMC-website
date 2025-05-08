@@ -1,6 +1,10 @@
 <template>
   <section class="about-us-wrapper">
-    <div class="section-wrapper">
+    <div
+      class="section-wrapper"
+      @touchstart="handleTouchStart"
+      @touchend="handleTouchEnd"
+    >
       <button
         v-if="totalPages > 1"
         class="arrow-button left"
@@ -51,12 +55,36 @@ import { db } from "@/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useIntersectionObserver } from "@/utils/useIntersectionObserver";
 
-const { locale } = useI18n(); // Lấy ngôn ngữ hiện tại từ i18n
+const { locale } = useI18n(); // Lấy ngôn ngữ hiện tại
 
 const sections = ref([]);
 const sectionRefs = ref([]);
 const currentPage = ref(1);
 const itemsPerPage = ref(1);
+
+// Vuốt trái/phải
+const touchStartX = ref(0);
+const touchEndX = ref(0);
+
+const handleTouchStart = (e) => {
+  touchStartX.value = e.changedTouches[0].screenX;
+};
+
+const handleTouchEnd = (e) => {
+  touchEndX.value = e.changedTouches[0].screenX;
+  handleSwipeGesture();
+};
+
+const handleSwipeGesture = () => {
+  const diff = touchStartX.value - touchEndX.value;
+  if (Math.abs(diff) < 50) return; // Vuốt quá nhẹ
+
+  if (diff > 0 && currentPage.value < totalPages.value) {
+    nextPage();
+  } else if (diff < 0 && currentPage.value > 1) {
+    prevPage();
+  }
+};
 
 onMounted(async () => {
   await fetchSections();
@@ -70,7 +98,7 @@ onUnmounted(() => {
 });
 
 const updateItemsPerPage = () => {
-  itemsPerPage.value = window.innerWidth < 768 ? 1 : 1; // Có thể chỉnh thành 2 cho desktop
+  itemsPerPage.value = window.innerWidth < 768 ? 1 : 1;
 };
 
 const fetchSections = async () => {
@@ -197,7 +225,7 @@ function observeVisibleSections() {
   font-size: var(--text-lg);
   line-height: 1.6;
   display: -webkit-box;
-  /* -webkit-line-clamp: 5; */
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow-y: auto;
   text-overflow: ellipsis;
@@ -215,7 +243,7 @@ function observeVisibleSections() {
 }
 
 .section-image {
-  width: 330px; 
+  width: 330px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -227,7 +255,7 @@ function observeVisibleSections() {
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.15),
-              -2px -2px 8px rgba(255, 255, 255, 0.8);
+    -2px -2px 8px rgba(255, 255, 255, 0.8);
 }
 
 .arrow-button {
@@ -245,7 +273,6 @@ function observeVisibleSections() {
   cursor: pointer;
   opacity: 0.2;
   transition: all 0.3s ease;
-  
 }
 
 .arrow-button:hover {
@@ -296,10 +323,9 @@ function observeVisibleSections() {
   }
 
   .section.reverse .section-description,
-  .section.reverse .section-title{
-  text-align: center;
-}
-
+  .section.reverse .section-title {
+    text-align: center;
+  }
 }
 
 /* Pop-up section animations */

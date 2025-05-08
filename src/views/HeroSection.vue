@@ -159,6 +159,7 @@ body {
     flex-direction: column;
     max-width: 100%;
     align-items: center;
+    padding-right: 6rem;
   }
 }
 </style>
