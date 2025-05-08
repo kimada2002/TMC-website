@@ -17,7 +17,7 @@
           :ref="(el) => (sectionRefs[i] = el)"
           :class="[
             'section',
-            currentPage % 2 === 0 ? 'fade-in-right-side' : 'fade-in-left-side',
+            'pop-up-section',
             ((currentPage - 1) * itemsPerPage + i) % 2 === 1 ? 'reverse' : '',
           ]"
         >
@@ -182,7 +182,10 @@ function observeVisibleSections() {
 .section.reverse {
   flex-direction: row-reverse;
 }
-
+.section.reverse .section-description,
+.section.reverse .section-title{
+  text-align: right;
+}
 .section-content {
   flex: 1;
   min-width: 300px;
@@ -191,30 +194,15 @@ function observeVisibleSections() {
 }
 
 .section-title {
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
-  font-weight: 700;
   margin-bottom: 1rem;
   line-height: 1.2;
 }
 
-.section-title-about {
-  position: relative;
-  color: var(--black);
-  font-size: 50px;
-}
-
-.section-title-clients {
-  position: relative;
-  color: var(--black);
-  font-size: 50px;
-  margin-top: 1rem;
-}
-
 .section-description {
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-size: var(--text-lg);
   line-height: 1.6;
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  /* -webkit-line-clamp: 5; */
   -webkit-box-orient: vertical;
   overflow-y: auto;
   text-overflow: ellipsis;
@@ -233,7 +221,7 @@ function observeVisibleSections() {
 
 .section-image {
   flex: none;
-  width: 400px; /* hoặc giá trị bạn thấy phù hợp, có thể responsive bằng clamp */
+  width: 400px; 
   max-height: 70vh;
   display: flex;
   align-items: center;
@@ -243,9 +231,10 @@ function observeVisibleSections() {
 .section-image img {
   max-width: 100%;
   height: auto;
-  max-height: 100%;
   object-fit: cover;
   border-radius: 10px;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.15),
+              -2px -2px 8px rgba(255, 255, 255, 0.8);
 }
 
 /* Arrows */
@@ -259,13 +248,16 @@ function observeVisibleSections() {
   font-size: 1.5rem;
   width: 44px;
   height: 44px;
-  border-radius: 50%;
+  border-radius: 10%;
   border: none;
   cursor: pointer;
+  opacity: 0.2;
   transition: all 0.3s ease;
+  
 }
 
 .arrow-button:hover {
+  opacity: 1;
   background: rgba(0, 0, 0, 0.7);
   transform: translateY(-50%) scale(1.05);
 }
@@ -320,6 +312,59 @@ function observeVisibleSections() {
 
   .section-description {
     font-size: 1rem;
+  }
+}
+
+/* Pop-up section animations */
+.pop-up-section {
+  opacity: 0;
+  transform: scale(0.95) translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pop-up-section.visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Add stagger effect for children */
+.pop-up-section.visible .section-content {
+  animation: fadeInUp 0.6s ease forwards 0.3s;
+}
+
+.pop-up-section.visible .section-image {
+  animation: fadeInUp 0.6s ease forwards 0.5s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ensure smooth performance */
+.section-content,
+.section-image {
+  opacity: 0;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .pop-up-section,
+  .pop-up-section.visible,
+  .pop-up-section.visible .section-content,
+  .pop-up-section.visible .section-image {
+    transition: none;
+    animation: none;
+    transform: none;
+    opacity: 1;
   }
 }
 </style>

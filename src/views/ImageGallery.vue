@@ -149,6 +149,7 @@ onMounted(fetchImages);
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
   color: white;
+  opacity: 0.3;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10%;
   width: 50px;
@@ -161,13 +162,14 @@ onMounted(fetchImages);
 
 :deep(.swiper-button-next:hover),
 :deep(.swiper-button-prev:hover) {
+  opacity: 1;
   background-color: rgba(0, 0, 0, 0.8);
   transform: scale(1.1);
 }
 
 :deep(.swiper-button-next:after),
 :deep(.swiper-button-prev:after) {
-  font-size: 24px;
+  font-size: 12px;
 }
 
 @media (max-width: 768px) {

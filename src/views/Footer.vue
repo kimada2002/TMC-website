@@ -116,7 +116,7 @@ const lang = localStorage.getItem("lang") || "vi";
 }
 
 .explore-link:hover {
-  color: #ff0000;
+  color: var(--orange);
 }
 
 /* === Contact Section === */
