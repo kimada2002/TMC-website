@@ -306,16 +306,13 @@ function observeVisibleSections() {
   .section-image {
     max-width: 100%;
     margin: 1rem 0;
+    
   }
 
   .section-image {
     order: -1;
     width: 280px;
-  }
-
-  .section-title {
-    font-size: 1.5rem;
-    margin-top: 0;
+    
   }
 
   .section-description {
@@ -326,6 +323,13 @@ function observeVisibleSections() {
   .section.reverse .section-title {
     text-align: center;
   }
+
+  .arrow-button {
+    width: 34px;
+    height: 34px;
+  }
+
+
 }
 
 /* Pop-up section animations */

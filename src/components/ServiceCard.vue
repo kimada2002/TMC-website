@@ -90,9 +90,11 @@ defineProps({
 
   .service-content {
     max-width: 100%;
-    min-width: auto;
   }
 
+
+
+  
   .service-title {
     font-size: var(--text-xl);
   }

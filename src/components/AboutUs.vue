@@ -3,7 +3,7 @@
     <!-- About Us Heading -->
     <div class="header-container" style="background-color: #fff; width: 100%">
       <h2 class="section-title" style="margin: 20px 0">
-        <h2 class="title">{{ $t("aboutus") }}</h2>
+          {{ $t("aboutus") }}
       </h2>
     </div>
 
@@ -47,7 +47,7 @@ const lang = localStorage.getItem("lang") || "vi"; // Giá trị mặc định l
 .section-title {
   position: relative;
   color: var(--black);
-  font-size: 36px;
+  font-size: var(--text-4xl);
   text-align: center;
   margin-top: 20px;
 }

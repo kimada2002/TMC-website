@@ -67,22 +67,9 @@ onMounted(() => {
   padding: 100px 40px;
 }
 
-@media (max-width: 768px) {
-  .service-row {
-    padding: 60px 16px;
-  }
-}
-
 .service-grid {
   display: flex;
   gap: 20px;
-}
-
-@media (max-width: 768px) {
-  .service-grid {
-    flex-direction: column;
-    gap: 12px;
-  }
 }
 
 .service-column {
@@ -94,8 +81,17 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
+  .service-grid {
+    flex-direction: column;
+    gap: 12px;
+  }
+
   .service-column {
     width: 100%;
+  }
+
+  .service-row {
+    padding: 40px 20px;
   }
 }
 

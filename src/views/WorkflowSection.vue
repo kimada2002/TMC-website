@@ -157,12 +157,12 @@ const handleSwipeGesture = () => {
 .section-title {
   position: relative;
   color: rgba(0, 0, 0, 1);
-  font-size: 36px;
+  font-size: var(--text-4xl);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: 1px;
   text-align: center;
-  margin: 0;
+  margin-bottom: 30px;
 }
 
 .workflow-wrapper {
@@ -193,21 +193,19 @@ const handleSwipeGesture = () => {
   transform: translateY(-50%);
   z-index: 2;
   background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  font-size: 24px;
+  color: #fff;
+  font-size: 1.5rem;
   border: none;
   border-radius: 10%;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0.2;
+  transition: all 0.3s ease;
 }
 
 .arrow-button:hover {
+  opacity: 1;
   background-color: rgba(0, 0, 0, 0.7);
   transform: translateY(-50%) scale(1.05);
 }
@@ -230,7 +228,8 @@ const handleSwipeGesture = () => {
   }
 
   .section-title {
-    font-size: 36px;
+    font-size: var(--text-3xl);
+    margin: 0;
   }
 
   .workflow-items-container {
@@ -239,17 +238,16 @@ const handleSwipeGesture = () => {
   }
 
   .arrow-button.left {
-    left: -10px;
+    left: 0;
   }
 
   .arrow-button.right {
-    right: -10px;
+    right: 0;
   }
 
   .arrow-button {
-    font-size: 28px;
-    width: 40px;
-    height: 40px;
+    width: 34px;
+    height: 34px;
   }
 }
 </style>

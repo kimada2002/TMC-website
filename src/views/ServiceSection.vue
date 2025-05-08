@@ -194,21 +194,19 @@ const prevRow = () => {
   transform: translateY(-50%);
   z-index: 2;
   background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  font-size: 24px;
+  color: #fff;
+  font-size: 1.5rem;
   border: none;
   border-radius: 10%;
-  width: 53.33px;
-  height: 53.33px;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0.2;
+  transition: all 0.3s ease;
 }
 
 .arrow-button:hover {
+  opacity: 1;
   background-color: rgba(0, 0, 0, 0.7);
   transform: translateY(-50%) scale(1.05);
 }
@@ -218,30 +216,28 @@ const prevRow = () => {
 }
 
 .arrow-button.left {
-  left: -60px;
+  left: -2rem;
 }
 
 .arrow-button.right {
-  right: -60px;
+  right: -2rem;
 }
 
 @media (max-width: 768px) {
   .arrow-button.left {
-    left: -40px;
+    left: -2.5rem;
   }
 
   .arrow-button.right {
-    right: -40px;
+    right: -2.5rem;
   }
 
-  .arrow-button {
-    font-size: 28px;
-    width: 40px;
-    height: 40px;
+  .section-title {
+    font-size: 2rem;
   }
 
-  .service-row-wrapper {
-    transform: scale(0.75);
+  .service-row-wrapper{
+    transform: scale(0.8);
   }
 }
 </style>
