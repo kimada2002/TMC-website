@@ -13,26 +13,34 @@
       <button v-if="isEditing" @click="resetForm">Huỷ</button>
     </div>
 
-    <hr />
+    <h2>Danh Sách</h2>
 
     <div class="service-list">
-      <div v-for="item in services" :key="item.id" class="service-card">
+      <div
+        v-for="item in paginatedServices"
+        :key="item.id"
+        class="service-card"
+      >
         <img :src="item.imageUrl" alt="Service" width="80" />
         <div>
-          <p>
-            <strong>{{ item.title.vi }}</strong>
-          </p>
+          <p><strong>{{ item.title.vi }}</strong></p>
           <p>{{ item.description.vi }}</p>
         </div>
         <button @click="editService(item)">Sửa</button>
-        <button @click="deleteService(item.id)">Xoá</button>
+        <button @click="confirmDelete(item.id)">Xoá</button>
       </div>
+    </div>
+
+    <div class="pagination" v-if="totalPages > 1">
+      <button @click="currentPage--" :disabled="currentPage === 1">« Trước</button>
+      <span>Trang {{ currentPage }} / {{ totalPages }}</span>
+      <button @click="currentPage++" :disabled="currentPage === totalPages">Tiếp »</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { db, storage } from "@/firebase";
 import {
   collection,
@@ -48,12 +56,15 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
-import { translateText } from "@/utils/translate"; // 🔥
+import { translateText } from "@/utils/translate";
+import Swal from "sweetalert2";
 
 const services = ref([]);
 const isEditing = ref(false);
 const editingId = ref(null);
 const imageFile = ref(null);
+const currentPage = ref(1);
+const perPage = 2;
 
 const form = ref({
   imageUrl: "",
@@ -76,31 +87,30 @@ const handleImageChange = (e) => {
 const addService = async () => {
   let imageUrl = "";
 
-  if (imageFile.value) {
-    const imgRef = storageRef(
-      storage,
-      `service-icons/${Date.now()}_${imageFile.value.name}`
-    );
-    const snapshot = await uploadBytes(imgRef, imageFile.value);
-    imageUrl = await getDownloadURL(snapshot.ref);
+  try {
+    if (imageFile.value) {
+      const imgRef = storageRef(storage, `service-icons/${Date.now()}_${imageFile.value.name}`);
+      const snapshot = await uploadBytes(imgRef, imageFile.value);
+      imageUrl = await getDownloadURL(snapshot.ref);
+    }
+
+    const translatedTitle = await translateText(form.value.title.vi, "en");
+    const translatedDescription = await translateText(form.value.description.vi, "en");
+
+    const serviceData = {
+      imageUrl,
+      title: { vi: form.value.title.vi, en: translatedTitle },
+      description: { vi: form.value.description.vi, en: translatedDescription },
+    };
+
+    await addDoc(collection(db, "services"), serviceData);
+    await Swal.fire("Thành công", "Đã thêm mới dịch vụ!", "success");
+
+    resetForm();
+    fetchServices();
+  } catch (err) {
+    await Swal.fire("Lỗi", "Không thể upload ảnh hoặc thêm dịch vụ", "error");
   }
-
-  const translatedTitle = await translateText(form.value.title.vi, "en");
-  const translatedDescription = await translateText(
-    form.value.description.vi,
-    "en"
-  );
-
-  const serviceData = {
-    imageUrl,
-    title: { vi: form.value.title.vi, en: translatedTitle },
-    description: { vi: form.value.description.vi, en: translatedDescription },
-  };
-
-  await addDoc(collection(db, "services"), serviceData);
-
-  resetForm();
-  fetchServices();
 };
 
 const editService = (item) => {
@@ -125,47 +135,63 @@ const updateService = async () => {
 
   let imageUrl = currentService.imageUrl;
 
-  if (imageFile.value) {
-    const imgRef = storageRef(
-      storage,
-      `service-icons/${Date.now()}_${imageFile.value.name}`
-    );
-    const snapshot = await uploadBytes(imgRef, imageFile.value);
-    imageUrl = await getDownloadURL(snapshot.ref);
+  try {
+    if (imageFile.value) {
+      const imgRef = storageRef(storage, `service-icons/${Date.now()}_${imageFile.value.name}`);
+      const snapshot = await uploadBytes(imgRef, imageFile.value);
+      imageUrl = await getDownloadURL(snapshot.ref);
 
-    if (currentService.imageUrl) {
-      try {
-        const oldImageRef = storageRef(storage, currentService.imageUrl);
-        await deleteObject(oldImageRef);
-      } catch (e) {
-        console.warn("Không tìm thấy ảnh cũ để xoá:", e.message);
+      if (currentService.imageUrl) {
+        try {
+          const oldImageRef = storageRef(storage, currentService.imageUrl);
+          await deleteObject(oldImageRef);
+        } catch (e) {
+          console.warn("Không tìm thấy ảnh cũ để xoá:", e.message);
+        }
       }
     }
+
+    const translatedTitle = await translateText(form.value.title.vi, "en");
+    const translatedDescription = await translateText(form.value.description.vi, "en");
+
+    const updatedData = {
+      imageUrl,
+      title: { vi: form.value.title.vi, en: translatedTitle },
+      description: { vi: form.value.description.vi, en: translatedDescription },
+    };
+
+    await updateDoc(doc(db, "services", editingId.value), updatedData);
+    await Swal.fire("Cập nhật thành công", "Dịch vụ đã được cập nhật!", "success");
+
+    resetForm();
+    fetchServices();
+  } catch (err) {
+    await Swal.fire("Lỗi", "Không thể upload ảnh hoặc cập nhật dịch vụ", "error");
   }
+};
 
-  const translatedTitle = await translateText(form.value.title.vi, "en");
-  const translatedDescription = await translateText(
-    form.value.description.vi,
-    "en"
-  );
+const confirmDelete = async (id) => {
+  const result = await Swal.fire({
+    title: "Bạn có chắc muốn xoá?",
+    text: "Hành động này không thể hoàn tác!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Xoá",
+    cancelButtonText: "Huỷ",
+  });
 
-  const updatedData = {
-    imageUrl,
-    title: { vi: form.value.title.vi, en: translatedTitle },
-    description: { vi: form.value.description.vi, en: translatedDescription },
-  };
-
-  await updateDoc(doc(db, "services", editingId.value), updatedData);
-
-  resetForm();
-  fetchServices();
+  if (result.isConfirmed) {
+    await deleteService(id);
+  }
 };
 
 const deleteService = async (id) => {
   const item = services.value.find((s) => s.id === id);
   if (item?.imageUrl) {
-    const imageRef = storageRef(storage, item.imageUrl);
     try {
+      const imageRef = storageRef(storage, item.imageUrl);
       await deleteObject(imageRef);
     } catch (e) {
       console.warn("Không tìm thấy ảnh để xoá:", e.message);
@@ -173,6 +199,7 @@ const deleteService = async (id) => {
   }
 
   await deleteDoc(doc(db, "services", id));
+  await Swal.fire("Đã xoá", "Dịch vụ đã được xoá.", "success");
   fetchServices();
 };
 
@@ -186,6 +213,15 @@ const resetForm = () => {
   isEditing.value = false;
   editingId.value = null;
 };
+
+const paginatedServices = computed(() => {
+  const start = (currentPage.value - 1) * perPage;
+  return services.value.slice(start, start + perPage);
+});
+
+const totalPages = computed(() => {
+  return Math.ceil(services.value.length / perPage);
+});
 
 onMounted(fetchServices);
 </script>
@@ -316,5 +352,34 @@ h2 {
 
 .service-card button:nth-child(4):hover {
   background-color: #d32f2f;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 15px;
+  color: #333;
 }
 </style>
