@@ -384,4 +384,25 @@ function observeVisibleSections() {
     opacity: 1;
   }
 }
+
+@media (min-width: 1440px) {
+  .section-title {
+    font-size: 2.5rem;
+  }
+
+  .section-description {
+    font-size: 1.2rem;
+    max-height: calc(1.8em * 5);
+  }
+
+  .section-image {
+    width: 500px;
+  }
+
+  .arrow-button {
+    font-size: 2rem;
+    width: 54px;
+    height: 54px;
+  }
+}
 </style>
